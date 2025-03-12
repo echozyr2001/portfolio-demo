@@ -1,6 +1,6 @@
 import { ArrowDown } from "lucide-react";
 
-export default function Hero() {
+export function Hero() {
   return (
     <div className="py-32 md:py-48 lg:py-60">
       <div className="container">

@@ -43,6 +43,13 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --breakpoint-sm: 375px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1200px;
+
+  --container-padding: 1rem;
+  --container-padding-md: 2rem;
 }
 
 :root {
@@ -126,5 +133,19 @@
 
   .nav-item {
     @apply px-4 py-1.5 rounded-full text-white/70 text-sm font-semibold hover:bg-white/10 hover:text-white transition duration-300;
+  }
+
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+  }
+
+  @media (min-width: var(--breakpoint-md)) {
+    .container {
+      padding-left: var(--container-padding-md);
+      padding-right: var(--container-padding-md);
+    }
   }
 }

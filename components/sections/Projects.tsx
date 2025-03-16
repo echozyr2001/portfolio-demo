@@ -1,8 +1,8 @@
 import darkSaasLandingPage from "@/assets/images/dark-saas-landing-page.png";
 import lightSaasLandingPage from "@/assets/images/light-saas-landing-page.png";
 import aiStartupLandingPage from "@/assets/images/ai-startup-landing-page.png";
-import grainImage from "@/assets/images/grain.svg";
 import { SectionHeader } from "@/components/SectionHeader";
+import { Card } from "@/components/Card";
 import Image from "next/image";
 import { ArrowUpRight, CheckCircle } from "lucide-react";
 
@@ -57,16 +57,10 @@ export function Projects() {
 
         <div className="flex flex-col mt-10 gap-20 md:mt-20">
           {portfolioProjects.map((project) => (
-            // after 来表示背后的内容，可以用来实现一些特殊的效果，这里用来制作 outline
-            // 设置 after:pointer-events-none 防止点击事件被阻挡
-            <div
+            <Card
               key={project.title}
-              className="bg-gray-800 rounded-3xl relative z-0 overflow-hidden after:z-10 after:content-[''] after:absolute after:inset-0 after:outline-2 after:-outline-offset-2 after:rounded-3xl after:outline-white/20 px-8 pt-8 after:pointer-events-none md:px-10 md:pt-12 lg:pt-16 lg:px-20"
+              className="px-8 pt-8 pb-0 md:px-10 md:pt-12 lg:pt-16 lg:px-20"
             >
-              <div
-                className="absolute inset-0 -z-10 opacity-5"
-                style={{ backgroundImage: `url(${grainImage.src})` }}
-              />
               <div className="lg:grid-cols-2 lg:grid lg:gap-16">
                 <div className="lg:pb-16">
                   <div className="bg-gradient-to-r from-emerald-300 to-sky-400 inline-flex gap-2 font-black uppercase tracking-widest text-sm text-transparent bg-clip-text">
@@ -108,7 +102,7 @@ export function Projects() {
                   />
                 </div>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       </div>

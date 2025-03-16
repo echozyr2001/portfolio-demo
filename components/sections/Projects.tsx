@@ -1,7 +1,8 @@
 import darkSaasLandingPage from "@/assets/images/dark-saas-landing-page.png";
 import lightSaasLandingPage from "@/assets/images/light-saas-landing-page.png";
 import aiStartupLandingPage from "@/assets/images/ai-startup-landing-page.png";
-import grainImage from "@/assets/images/grain1.svg";
+import grainImage from "@/assets/images/grain.svg";
+import { SectionHeader } from "@/components/SectionHeader";
 import Image from "next/image";
 import { ArrowUpRight, CheckCircle } from "lucide-react";
 
@@ -48,19 +49,11 @@ export function Projects() {
   return (
     <div className="pb-16 lg:py-24">
       <div className="container">
-        {/* 渐变文字，外层使用 div
-        包裹，目的是让渐变能从文字的开头到结尾，而不是容器的开头到结尾 */}
-        <div className="flex justify-center">
-          <p className="uppercase font-semibold tracking-widest bg-gradient-to-r from-emerald-300 to-sky-400 text-center text-transparent bg-clip-text">
-            Real-World Results
-          </p>
-        </div>
-        <h2 className="font-serif text-3xl md:text-5xl text-center mt-6">
-          Featured Projects
-        </h2>
-        <p className="text-center text-white/60 mt-4 md:text-lg lg:text-xl max-w-md mx-auto">
-          See how I transformed concepts into engaging digital experiences.
-        </p>
+        <SectionHeader
+          title="Featured Projects"
+          eyebrow="Real-World Results"
+          description="See how I transformed concepts into engaging digital experiences."
+        />
 
         <div className="flex flex-col mt-10 gap-20 md:mt-20">
           {portfolioProjects.map((project) => (

@@ -1,5 +1,5 @@
 import { ArrowDown } from "lucide-react";
-import grainImage from "@/assets/images/grain1.svg";
+import grainImage from "@/assets/images/grain.svg";
 
 export function Hero() {
   return (

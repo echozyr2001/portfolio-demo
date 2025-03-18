@@ -1,13 +1,8 @@
 import { ArrowDown } from "lucide-react";
-import grainImage from "@/assets/images/grain.svg";
 
 export function Hero() {
   return (
     <div className="py-32 md:py-48 lg:py-60 relative z-0">
-      <div
-        className="absolute inset-0 -z-30 opacity-5"
-        style={{ backgroundImage: `url(${grainImage.src})` }}
-      />
       <div className="container">
         <div className="flex items-center flex-col">
           <div className="bg-gray-950 border border-gray-800 px-4 py-1.5 inline-flex items-center gap-4 rounded-lg">

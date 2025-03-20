@@ -1,7 +1,6 @@
 import { SectionHeader } from "@/components/SectionHeader";
 import { Card } from "@/components/Card";
-import Image from "next/image";
-import { Code, Figma, Globe } from "lucide-react";
+import { Code, Globe } from "lucide-react";
 
 export function About() {
   const skills = [
@@ -9,12 +8,6 @@ export function About() {
       name: "Frontend Development",
       icon: <Code className="size-6" />,
       description: "Expert in React, Next.js, and modern CSS",
-    },
-    {
-      name: "UI/UX Collaboration",
-      icon: <Figma className="size-6" />,
-      description:
-        "Work closely with designers to implement pixel-perfect designs",
     },
     {
       name: "International Experience",
@@ -37,12 +30,12 @@ export function About() {
           <Card className="px-8 py-8 md:px-10 lg:px-20">
             <div className="flex flex-col gap-8 lg:gap-16">
               <p className="text-white/60 md:text-lg">
-                I'm a frontend developer with 5+ years of experience building
-                modern web applications. My journey began with HTML, CSS, and
-                vanilla JavaScript, and has evolved to embrace modern frameworks
-                and tools like React, Next.js, and TypeScript. I'm passionate
-                about creating accessible, performant, and beautiful web
-                experiences.
+                I&apos;m a frontend developer with 5+ years of experience
+                building modern web applications. My journey began with HTML,
+                CSS, and vanilla JavaScript, and has evolved to embrace modern
+                frameworks and tools like React, Next.js, and TypeScript.
+                I&apos;m passionate about creating accessible, performant, and
+                beautiful web experiences.
               </p>
 
               <div>

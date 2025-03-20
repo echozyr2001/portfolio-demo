@@ -45,9 +45,10 @@ export function Contact() {
               <div>
                 <h3 className="font-serif text-2xl mb-6">Get In Touch</h3>
                 <p className="text-white/60 md:text-lg">
-                  I'm currently available for freelance work and full-time
+                  I&lsquo;m currently available for freelance work and full-time
                   positions. If you have a project that needs a developer who
-                  cares about both code quality and user experience, let's talk!
+                  cares about both code quality and user experience, let&lsquo;s
+                  talk!
                 </p>
               </div>
 

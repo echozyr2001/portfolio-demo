@@ -47,7 +47,7 @@ const portfolioProjects = [
 
 export function Projects() {
   return (
-    <div className="pb-16 lg:py-24">
+    <div id="projects" className="pb-16 lg:py-24">
       <div className="container">
         <SectionHeader
           title="Featured Projects"
@@ -102,6 +102,9 @@ export function Projects() {
                     src={project.image}
                     alt={project.title}
                     className="mt-8 -mb-4 md:-mb-0 lg:mt-0 lg:absolute lg:h-full lg:w-auto lg:max-w-none"
+                    priority={i === 0} // Prioritize loading the first image
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    quality={85}
                   />
                 </div>
               </div>

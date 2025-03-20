@@ -19,7 +19,10 @@ export function Tape() {
   return (
     <div className="py-16 lg:py-24 overflow-x-clip ">
       <div className="bg-gradient-to-r from-emerald-300 to-sky-400 overflow-x-clip -rotate-3 -mx-1">
-        {/* 这里 flex 与 flex-none 的使用没有搞明白 */}
+        {/* 
+          flex-none prevents the element from growing or shrinking,
+          keeping its original size for the animation to work properly
+        */}
         <div className="flex [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div className="flex flex-none gap-4 pr-4 py-3 animate-move-left [animation-duration:30s]">
             {[...new Array(2)].fill(0).map((_, i) => (

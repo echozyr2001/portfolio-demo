@@ -1,6 +1,8 @@
 import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { Projects } from "@/components/sections/Projects";
+import { About } from "@/components/sections/About";
+import { Contact } from "@/components/sections/Contact";
 import { Tape } from "@/components/sections/Tape";
 import grainImage from "@/assets/images/grain.svg";
 
@@ -15,6 +17,8 @@ export default function Home() {
       <Hero />
       <Projects />
       <Tape />
+      <About />
+      <Contact />
     </div>
   );
 }

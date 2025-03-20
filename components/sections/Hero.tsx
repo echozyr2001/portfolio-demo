@@ -18,7 +18,7 @@ export function Hero() {
             Building Exceptional User Experiences
           </h1>
           <p className="mt-4 text-center text-white/60 md:text-lg">
-            I sepecialize in transforming desigins into functional,
+            I specialize in transforming designs into functional,
             high-performing web applications. Let&apos;s discuss your next
             project.
           </p>

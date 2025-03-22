@@ -52,7 +52,6 @@
   --container-padding-md: 2rem;
 
   --animate-move-left: move-left 1s infinite linear; 
-
   @keyframes move-left {
     0% {
       transform: translateX(0);
@@ -60,7 +59,7 @@
     100% {
       transform: translateX(-50%);
     }
-  }
+  }   
 }
 
 :root {

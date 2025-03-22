@@ -5,6 +5,7 @@ import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import { Tape } from "@/components/sections/Tape";
 import { Navbar } from "@/components/sections/Navbar";
+import { TechStack } from "@/components/sections/TechStack";
 import grainImage from "@/assets/images/grain.svg";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <Navbar />
       <Header />
       <Hero />
+      <TechStack />
       <Projects />
       <Tape />
       <About />

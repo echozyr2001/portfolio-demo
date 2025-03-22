@@ -47,14 +47,21 @@ export function Navbar() {
       {/* <header className="flex justify-center items-center fixed top-3 w-full"> */}
       <header className="hidden md:flex fixed w-full z-50 justify-center items-center top-3">
         <nav
-          style={{ width: navWidth }}
-          className={`flex items-center px-6 py-1 transition-all duration-500 ease-in-out
-            ${
-              scrollProgress > 0
-                ? "lex gap-1 p-0.5 border border-white/15 rounded-full bg-white/10 backdrop-blur-lg"
-                : "lex gap-1 p-0.5 border border-white/15 rounded-full bg-white/10"
-            }
-          `}
+          style={{
+            width: navWidth,
+            transition:
+              "width 0.3s ease-out, background-color 0.3s ease-out, backdrop-filter 0.3s ease-out, border-color 0.3s ease-out",
+            backdropFilter: `blur(${Math.min(scrollProgress * 10, 12)}px)`,
+            borderColor: `rgba(255, 255, 255, ${Math.min(
+              scrollProgress * 0.5,
+              0.15
+            )})`,
+            backgroundColor: `rgba(255, 255, 255, ${Math.min(
+              scrollProgress * 0.3,
+              0.1
+            )})`,
+          }}
+          className="flex items-center px-6 py-1 gap-1 p-0.5 border rounded-full bg-white/10"
         >
           <div className="flex-1">
             <Link href="/" className="text-xl font-semibold tracking-tight">

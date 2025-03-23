@@ -46,7 +46,7 @@ export function TechStack() {
           flex-none = “别让我自己伸缩，我要保持原始宽度”，这是保证滚动动画稳定运行的“关键配置”之一。
         */}
         <div className="flex [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <div className="flex flex-none gap-4 pr-4 py-3 animate-move-lefts [animation-duration:30s]">
+          <div className="flex flex-none gap-4 pr-4 py-3 animate-move-left [animation-duration:30s]">
             {[...new Array(2)].fill(0).map((_, index) => (
               <Fragment key={index}>
                 {techStack.map((tech, index) => {

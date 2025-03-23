@@ -1,3 +1,5 @@
+import { ReactLenis } from "lenis/react";
+
 import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { Projects } from "@/components/sections/Projects";
@@ -10,19 +12,21 @@ import grainImage from "@/assets/images/grain.svg";
 
 export default function Home() {
   return (
-    <div className="relative">
-      <div
-        className="absolute inset-0 -z-30 bg-fixed opacity-5"
-        style={{ backgroundImage: `url(${grainImage.src})` }}
-      />
-      <Navbar />
-      {/* <Header /> */}
-      <Hero />
-      <TechStack />
-      <Projects />
-      <Tape />
-      <About />
-      <Contact />
-    </div>
+    <ReactLenis root>
+      <div className="relative">
+        <div
+          className="absolute inset-0 -z-30 bg-fixed opacity-5"
+          style={{ backgroundImage: `url(${grainImage.src})` }}
+        />
+        <Navbar />
+        {/* <Header /> */}
+        <Hero />
+        <TechStack />
+        <Projects />
+        <Tape />
+        <About />
+        <Contact />
+      </div>
+    </ReactLenis>
   );
 }

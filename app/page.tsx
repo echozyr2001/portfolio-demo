@@ -1,6 +1,6 @@
 import { ReactLenis } from "lenis/react";
 
-import { Header } from "@/components/sections/Header";
+// import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { Projects } from "@/components/sections/Projects";
 import { About } from "@/components/sections/About";

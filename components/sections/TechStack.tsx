@@ -29,8 +29,8 @@ const techStack = [
 
 export function TechStack() {
   return (
-    <div className="py-16 lg:py-24 overflow-x-clip ">
-      <div className="overflow-x-clip">
+    <div className="py-16 lg:py-24">
+      <div className="overflow-x-clip border-y border-gray-700">
         {/* 
           flex-none prevents the element from growing or shrinking,
           keeping its original size for the animation to work properly

@@ -39,7 +39,6 @@ export function Navbar() {
   return (
     <>
       {/* 桌面端 */}
-      {/* <header className="flex justify-center items-center fixed top-3 w-full"> */}
       <header className="hidden md:flex fixed w-full z-50 justify-center items-center top-3">
         <nav
           style={{
@@ -65,24 +64,24 @@ export function Navbar() {
           </div>
 
           <div className="flex-1 flex justify-center">
-            <ul className="flex items-center gap-6">
+            <ul className="flex items-center gap-6 text-sm">
               {navItems.map((item, index) => (
-                <li key={index}>
-                  <Link
-                    href={item.href}
-                    className={`relative flex items-center gap-1 text-sm transition-colors duration-300 
-                    ${
-                      pathname === item.href
-                        ? "text-foreground font-bold"
-                        : "text-muted-foreground hover:text-foreground"
-                    }
-                  `}
-                  >
-                    {pathname === item.href && (
-                      <span className="absolute -left-3 w-1.5 h-1.5 rounded-full bg-green-500" />
-                    )}
-                    {item.name}
-                  </Link>
+                <li key={index} className="group relative">
+                  <a className="px-2 py-1 block relative" href={item.href}>
+                    {/* {pathname === item.href && (
+                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transform origin-left transition-all duration-300" />
+                    )} */}
+
+                    <span className="relative inline-flex overflow-hidden">
+                      <div className="translate-y-0 transform-gpu transition-transform duration-500 ease-out group-hover:-translate-y-[110%] group-hover:skew-y-6">
+                        {item.name}
+                      </div>
+
+                      <div className="absolute translate-y-[110%] skew-y-6 transform-gpu font-medium transition-transform duration-500 ease-out group-hover:translate-y-0 group-hover:skew-y-0">
+                        {item.name}
+                      </div>
+                    </span>
+                  </a>
                 </li>
               ))}
             </ul>

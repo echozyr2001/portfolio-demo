@@ -24,19 +24,14 @@ export function Navbar() {
   }, []);
 
   const navItems = [
-    { name: "Home", href: "/", icon: <Home size={20} /> },
-    // { name: "Projects", href: "/404", icon: <Grid size={20} /> },
+    { name: "Home", href: "#home", icon: <Home size={20} /> },
     {
-      name: "Docs",
-      href: "/docs/introduction",
+      name: "Projects",
+      href: "#projects",
       icon: <LucideListFilterPlus size={20} />,
     },
-    {
-      name: "Hackathon",
-      href: "/hackathon",
-      icon: <Activity size={20} />,
-    },
-    // { name: "Contact", href: "/contact", icon: <Send size={24} /> },
+    { name: "About", href: "#about", icon: <Activity size={20} /> },
+    { name: "Contact", href: "#contact", icon: <Activity size={20} /> },
   ];
 
   const navWidth = `${Math.max(50, 90 - scrollProgress * 40)}%`;
@@ -65,14 +60,14 @@ export function Navbar() {
         >
           <div className="flex-1">
             <Link href="/" className="text-xl font-semibold tracking-tight">
-              CFCO
+              BI
             </Link>
           </div>
 
           <div className="flex-1 flex justify-center">
             <ul className="flex items-center gap-6">
-              {navItems.map((item) => (
-                <li key={item.name}>
+              {navItems.map((item, index) => (
+                <li key={index}>
                   <Link
                     href={item.href}
                     className={`relative flex items-center gap-1 text-sm transition-colors duration-300 

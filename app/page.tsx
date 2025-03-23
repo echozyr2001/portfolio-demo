@@ -16,7 +16,7 @@ export default function Home() {
         style={{ backgroundImage: `url(${grainImage.src})` }}
       />
       <Navbar />
-      <Header />
+      {/* <Header /> */}
       <Hero />
       <TechStack />
       <Projects />

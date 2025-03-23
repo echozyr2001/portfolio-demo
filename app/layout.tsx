@@ -24,6 +24,7 @@ const calistoga = Calistoga({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://bibibai.top"),
   title: "Bibibai | Full Stack Developer",
   description:
     "Professional portfolio showcasing full stack development projects with expertise in modern web technologies and performance optimization",

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Home, LucideListFilterPlus, Activity } from "lucide-react";
+import { MagneticBackgroundButton } from "../ui/MagneticBackgroundButton";
 
 export function Navbar() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -67,10 +68,10 @@ export function Navbar() {
             <ul className="flex items-center gap-6 text-sm">
               {navItems.map((item, index) => (
                 <li key={index} className="group relative">
-                  <a className="px-2 py-1 block relative" href={item.href}>
-                    {/* {pathname === item.href && (
+                  {/* <a className="px-2 py-1 block relative" href={item.href}>
+                    {pathname === item.href && (
                       <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transform origin-left transition-all duration-300" />
-                    )} */}
+                    )}
 
                     <span className="relative inline-flex overflow-hidden">
                       <div className="translate-y-0 transform-gpu transition-transform duration-500 ease-out group-hover:-translate-y-[110%] group-hover:skew-y-6">
@@ -81,7 +82,18 @@ export function Navbar() {
                         {item.name}
                       </div>
                     </span>
-                  </a>
+                  </a> */}
+                  <MagneticBackgroundButton>
+                    <span className="relative inline-flex overflow-hidden">
+                      <div className="translate-y-0 transform-gpu transition-transform duration-500 ease-out group-hover:-translate-y-[110%] group-hover:skew-y-6">
+                        {item.name}
+                      </div>
+
+                      <div className="absolute translate-y-[110%] skew-y-6 transform-gpu font-medium transition-transform duration-500 ease-out group-hover:translate-y-0 group-hover:skew-y-0">
+                        {item.name}
+                      </div>
+                    </span>
+                  </MagneticBackgroundButton>
                 </li>
               ))}
             </ul>

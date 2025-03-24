@@ -9,6 +9,12 @@ import { Tape } from "@/components/sections/Tape";
 import { Navbar } from "@/components/sections/Navbar";
 import { TechStack } from "@/components/sections/TechStack";
 import grainImage from "@/assets/images/grain.svg";
+import ModernBookCover, {
+  BookDescription,
+  BookHeader,
+  BookTitle,
+} from "@/components/ui/MagneticBook";
+import { BookIcon } from "lucide-react";
 
 export default function Home() {
   return (
@@ -21,6 +27,17 @@ export default function Home() {
         <Navbar />
         {/* <Header /> */}
         <Hero />
+        <div className="container flex items-center justify-center">
+          <ModernBookCover size="sm" color="neutral">
+            <BookHeader>
+              <BookIcon size={20} />
+            </BookHeader>
+            <BookTitle>Cuicui</BookTitle>
+            <BookDescription>
+              Learn CSS, by the creator of the language.
+            </BookDescription>
+          </ModernBookCover>
+        </div>
         <TechStack />
         <Projects />
         <Tape />

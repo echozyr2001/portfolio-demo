@@ -1,17 +1,17 @@
 import Image from "next/image";
 import { Fragment } from "react";
 
-import TypeScriptIcon from "@/assets/images/icons/logos-typescript.svg";
-import ReactIcon from "@/assets/images/icons/logos-react.svg";
-import NextjsIcon from "@/assets/images/icons/logos-nextjs.svg";
-import JavaScriptIcon from "@/assets/images/icons/logos-javascript.svg";
-import TailwindIcon from "@/assets/images/icons/logos-tailwindcss.svg";
-import PostgresqlIcon from "@/assets/images/icons/logos-postgresql.svg";
-import MongodbIcon from "@/assets/images/icons/logos-mongodb.svg";
-import DockerIcon from "@/assets/images/icons/logos-docker.svg";
-import GitIcon from "@/assets/images/icons/logos-git.svg";
-import RustIcon from "@/assets/images/icons/logos-rust.svg";
-import GoIcon from "@/assets/images/icons/logos-go.svg";
+import TypeScriptIcon from "@/assets/icons/logos-typescript.svg";
+import ReactIcon from "@/assets/icons/logos-react.svg";
+import NextjsIcon from "@/assets/icons/logos-nextjs.svg";
+import JavaScriptIcon from "@/assets/icons/logos-javascript.svg";
+import TailwindIcon from "@/assets/icons/logos-tailwindcss.svg";
+import PostgresqlIcon from "@/assets/icons/logos-postgresql.svg";
+import MongodbIcon from "@/assets/icons/logos-mongodb.svg";
+import DockerIcon from "@/assets/icons/logos-docker.svg";
+import GitIcon from "@/assets/icons/logos-git.svg";
+import RustIcon from "@/assets/icons/logos-rust.svg";
+import GoIcon from "@/assets/icons/logos-go.svg";
 
 const techStack = [
   { name: "Rust", icon: RustIcon },

@@ -16,6 +16,7 @@ import grainImage from "@/assets/images/grain.svg";
 // } from "@/components/ui/MagneticBook";
 // import { BookIcon } from "lucide-react";
 import { Threed } from "@/components/3D";
+import BookDemo from "@/components/Book-demo";
 
 export default function Home() {
   return (
@@ -39,6 +40,7 @@ export default function Home() {
             </BookDescription>
           </ModernBookCover> */}
           <Threed />
+          <BookDemo />
         </div>
         <TechStack />
         <Projects />

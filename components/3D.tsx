@@ -3,6 +3,7 @@
 import * as THREE from "three";
 import React, { useRef, useState } from "react";
 import { Canvas, useFrame, ThreeElements } from "@react-three/fiber";
+import { OrthographicCamera } from "@react-three/drei";
 
 function Box(props: ThreeElements["mesh"]) {
   const meshRef = useRef<THREE.Mesh>(null!);
@@ -27,6 +28,7 @@ function Box(props: ThreeElements["mesh"]) {
 export function Threed() {
   return (
     <Canvas>
+      <OrthographicCamera makeDefault position={[0, 0, 10]} zoom={50} />
       <ambientLight intensity={Math.PI / 2} />
       <spotLight
         position={[10, 10, 10]}

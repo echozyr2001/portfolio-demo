@@ -5,66 +5,64 @@ import { ModernBookCover } from "./Modern-book-cover";
 export default function BookDemo() {
   const books = [
     {
-      title: "Cuicui",
-      description: "Learn CSS, by the creator of the language.",
-      color: "#3f3f46",
+      title: "MISSION UNKNOWN",
+      description: "An adventure into the unknown",
+      color: "#f5d76e",
+      coverImage: "/placeholder.svg?height=400&width=250",
     },
     {
-      title: "Design",
-      description: "A practical guide to creating design systems.",
-      color: "#047857",
+      title: "CYBER PUNK",
+      description: "A journey through the digital wasteland",
+      color: "#ff5e62",
+      coverImage: "/placeholder.svg?height=400&width=250",
     },
     {
-      title: "React",
-      description: "Advanced techniques for React developers.",
-      color: "#7e22ce",
+      title: "DARK FOREST",
+      description: "Mysteries of the cosmic jungle",
+      color: "#2ecc71",
+      coverImage: "/placeholder.svg?height=400&width=250",
     },
     {
-      title: "JavaScript",
-      description: "The definitive guide to modern JavaScript.",
-      color: "#ca8a04",
+      title: "QUANTUM BREAK",
+      description: "When time becomes your enemy",
+      color: "#3498db",
+      coverImage: "/placeholder.svg?height=400&width=250",
     },
     {
-      title: "UX Design",
-      description: "Principles and practices for great user experiences.",
-      color: "#be185d",
+      title: "NEON DREAMS",
+      description: "A tale of light and shadow",
+      color: "#9b59b6",
+      coverImage: "/placeholder.svg?height=400&width=250",
     },
     {
-      title: "TypeScript",
-      description: "Build robust applications with TypeScript.",
-      color: "#0369a1",
+      title: "STELLAR WAR",
+      description: "The battle for the galaxy begins",
+      color: "#e74c3c",
+      coverImage: "/placeholder.svg?height=400&width=250",
     },
     {
-      title: "Node.js",
-      description: "Server-side JavaScript for modern applications.",
-      color: "#15803d",
+      title: "OCEAN DEEP",
+      description: "Secrets beneath the waves",
+      color: "#1abc9c",
+      coverImage: "/placeholder.svg?height=400&width=250",
     },
     {
-      title: "GraphQL",
-      description: "A new API standard for efficient data loading.",
-      color: "#db2777",
-    },
-    {
-      title: "Next.js",
-      description: "The React framework for production.",
-      color: "#1e293b",
-    },
-    {
-      title: "Tailwind",
-      description: "A utility-first CSS framework for rapid UI development.",
-      color: "#0ea5e9",
+      title: "MIND GAMES",
+      description: "A psychological thriller",
+      color: "#34495e",
+      coverImage: "/placeholder.svg?height=400&width=250",
     },
   ];
 
   return (
-    <div className="w-full p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">
+    <div className="w-full p-4 bg-gray-900">
+      <h1 className="text-2xl font-bold mb-4 text-center text-white">
         Interactive 3D Bookshelf
       </h1>
-      <p className="text-center mb-6">
+      <p className="text-center mb-6 text-gray-300">
         Click on a book to pull it out from the shelf.
       </p>
-      <ModernBookCover books={books} className="rounded-xl shadow-lg" />
+      <ModernBookCover books={books} className="rounded-xl shadow-2xl" />
     </div>
   );
 }

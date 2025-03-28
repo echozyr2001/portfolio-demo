@@ -43,10 +43,10 @@ export function TechStack() {
             内容宽度可能被父容器压缩（比如视口比较小）；
             动画运行时，translateX 移动的距离和内容宽度不匹配 → 出现跳动、断层；
             尤其是使用了 translateX(-50%) 时，只有内容宽度精确为两倍视口宽度时，动画才是循环无缝的。
-          flex-none = “别让我自己伸缩，我要保持原始宽度”，这是保证滚动动画稳定运行的“关键配置”之一。
+          flex-none = "别让我自己伸缩，我要保持原始宽度"，这是保证滚动动画稳定运行的"关键配置"之一。
         */}
         <div className="flex [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <div className="flex flex-none gap-4 pr-4 py-3 animate-move-left [animation-duration:30s]">
+          <div className="flex flex-none gap-4 pr-4 py-3 animate-move-left [animation-duration:30s] hover:[animation-play-state:paused]">
             {[...new Array(2)].fill(0).map((_, index) => (
               <Fragment key={index}>
                 {techStack.map((tech, index) => {

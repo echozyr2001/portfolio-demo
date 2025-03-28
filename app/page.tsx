@@ -1,6 +1,5 @@
 import { ReactLenis } from "lenis/react";
 
-// import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { Projects } from "@/components/sections/Projects";
 import { About } from "@/components/sections/About";
@@ -9,14 +8,8 @@ import { Tape } from "@/components/sections/Tape";
 import { Navbar } from "@/components/sections/Navbar";
 import { TechStack } from "@/components/sections/TechStack";
 import grainImage from "@/assets/images/grain.svg";
-// import ModernBookCover, {
-//   BookDescription,
-//   BookHeader,
-//   BookTitle,
-// } from "@/components/ui/MagneticBook";
-// import { BookIcon } from "lucide-react";
-import { Threed } from "@/components/3D";
-import BookDemo from "@/components/Book-demo";
+// import { Threed } from "@/components/3D";
+// import BookDemo from "@/components/Book-demo";
 
 export default function Home() {
   return (
@@ -27,21 +20,11 @@ export default function Home() {
           style={{ backgroundImage: `url(${grainImage.src})` }}
         />
         <Navbar />
-        {/* <Header /> */}
         <Hero />
-        <div className="container flex items-center justify-center">
-          {/* <ModernBookCover size="sm" color="neutral">
-            <BookHeader>
-              <BookIcon size={20} />
-            </BookHeader>
-            <BookTitle>Cuicui</BookTitle>
-            <BookDescription>
-              Learn CSS, by the creator of the language.
-            </BookDescription>
-          </ModernBookCover> */}
+        {/* <div className="container flex items-center justify-center">
           <Threed />
           <BookDemo />
-        </div>
+        </div> */}
         <TechStack />
         <Projects />
         <Tape />

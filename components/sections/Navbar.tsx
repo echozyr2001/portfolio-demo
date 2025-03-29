@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Home, LucideListFilterPlus, Activity } from "lucide-react";
+import { Home, LucideListFilterPlus, Activity, Sun } from "lucide-react";
 import { MagneticBackgroundButton } from "../ui/MagneticBackgroundButton";
 
 export function Navbar() {
@@ -100,17 +100,18 @@ export function Navbar() {
           </div>
 
           <div className="flex-1 flex justify-end">
-            {/* <button
+            <button
               // onClick={toggleTheme}
               className="p-2 rounded-md transition-all duration-300 hover:bg-accent hover:text-accent-foreground"
             >
-              {theme === "dark" ? (
+              {/* {theme === "dark" ? (
                 <Sun className="h-5 w-5" />
               ) : (
                 <Moon className="h-5 w-5" />
-              )}
+              )} */}
+              <Sun className="h-5 w-5" />
               <span className="sr-only">Toggle theme</span>
-            </button> */}
+            </button>
             {/* <WalletButton /> */}
             {/* <appkit-button balance="hide" /> */}
             {/* <UserButton /> */}

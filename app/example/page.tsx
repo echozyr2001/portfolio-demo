@@ -1,49 +1,160 @@
 import Image from "next/image";
-import { ArrowRight, Mail, Globe } from "lucide-react";
+import { ArrowRight, Mail, Globe, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import grainImage from "@/assets/images/grain.svg";
+
+// Color constants for consistent usage
+const COLORS = {
+  background: "#D9D5D2",
+  text: "#2C2A25",
+  accent: "#A2ABB1",
+  dark: "#333333",
+  light: "#ECEAE8",
+};
+
+// Reusable Logo component
+const Logo = () => (
+  <svg
+    width="48"
+    height="24"
+    viewBox="0 0 48 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="12" cy="12" r="12" fill={COLORS.text} />
+    <path
+      d="M24 0C30.6274 0 36 5.37258 36 12C36 18.6274 30.6274 24 24 24V0Z"
+      fill={COLORS.text}
+    />
+    <path
+      d="M36 0C42.6274 0 48 5.37258 48 12C48 18.6274 42.6274 24 36 24V0Z"
+      fill={COLORS.text}
+    />
+  </svg>
+);
+
+// Contact icon component
+const ContactIcon = () => (
+  <svg
+    width="48"
+    height="48"
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M36 20C36 14.4772 31.5228 10 26 10C20.4772 10 16 14.4772 16 20C16 25.5228 20.4772 30 26 30"
+      stroke={COLORS.text}
+      strokeWidth="2"
+    />
+    <path
+      d="M22 30C22 35.5228 17.5228 40 12 40C6.47715 40 2 35.5228 2 30C2 24.4772 6.47715 20 12 20"
+      stroke={COLORS.text}
+      strokeWidth="2"
+    />
+    <path d="M16 24H36" stroke={COLORS.text} strokeWidth="2" />
+    <path d="M32 20L36 24L32 28" stroke={COLORS.text} strokeWidth="2" />
+  </svg>
+);
+
+// Reusable component for section transitions
+const SectionTransition = ({
+  fromColor = COLORS.background,
+  toColor = COLORS.dark,
+}: {
+  fromColor?: string;
+  toColor?: string;
+}) => (
+  <div className="h-32 relative" style={{ backgroundColor: toColor }}>
+    <div
+      className="absolute bottom-0 left-0 right-0 h-32 rounded-b-[100px]"
+      style={{ backgroundColor: fromColor }}
+    />
+  </div>
+);
+
+// Exhibition type definition
+type Exhibition = {
+  id: string;
+  title: string;
+  location: string;
+};
+
+// Social platform type
+type SocialPlatform = "IG" | "FB" | "TW" | "YT";
 
 export default function Home() {
+  // Navigation items
+  const navItems = ["Home", "About", "Portfolio", "Exhibitions", "Contact"];
+
+  // Social media platforms
+  const socialPlatforms: SocialPlatform[] = ["IG", "FB", "TW", "YT"];
+
+  // Exhibition data
+  const exhibitions: Exhibition[] = [
+    {
+      id: "01",
+      title: "Cinematic Visions Unveiled",
+      location: "Madrid Gallery, Spain, 21 Nov 2023",
+    },
+    {
+      id: "02",
+      title: "Frames in Motion",
+      location: "Manchester Museum, UK, 20 Nov 2023",
+    },
+    {
+      id: "03",
+      title: "Journey Through Time",
+      location: "Milan Gallery, Italy, 19 Nov 2023",
+    },
+    {
+      id: "04",
+      title: "Experimental Narratives",
+      location: "Paris Museum, France, 18 Nov 2023",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#D9D5D2] flex flex-col">
-      {/* 导航栏 */}
-      <header className="w-full py-6 px-8 flex justify-between items-center bg-[#D9D5D2]">
+    <div className="min-h-screen bg-[#D9D5D2] flex flex-col relative">
+      {/* Grain texture overlay - fixed to work across all sections */}
+      <div
+        className="fixed inset-0 bg-fixed opacity-10 pointer-events-none z-30"
+        style={{ backgroundImage: `url(${grainImage.src})` }}
+        aria-hidden="true"
+      />
+
+      {/* Header */}
+      <header className="w-full py-6 px-8 flex justify-between items-center bg-[#D9D5D2] relative z-10">
         <div className="flex items-center">
-          <svg
-            width="48"
-            height="24"
-            viewBox="0 0 48 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="12" cy="12" r="12" fill="#2C2A25" />
-            <path
-              d="M24 0C30.6274 0 36 5.37258 36 12C36 18.6274 30.6274 24 24 24V0Z"
-              fill="#2C2A25"
-            />
-            <path
-              d="M36 0C42.6274 0 48 5.37258 48 12C48 18.6274 42.6274 24 36 24V0Z"
-              fill="#2C2A25"
-            />
-          </svg>
+          <Logo />
         </div>
+
+        {/* Mobile menu button */}
+        <div className="md:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-[#2C2A25]"
+            aria-label="Menu"
+          >
+            <Menu className="h-6 w-6" />
+          </Button>
+        </div>
+
+        {/* Desktop navigation */}
         <nav className="hidden md:flex space-x-8">
-          <a href="#" className="text-[#2C2A25] hover:text-gray-600">
-            Home
-          </a>
-          <a href="#about" className="text-[#2C2A25] hover:text-gray-600">
-            About
-          </a>
-          <a href="#portfolio" className="text-[#2C2A25] hover:text-gray-600">
-            Portfolio
-          </a>
-          <a href="#exhibitions" className="text-[#2C2A25] hover:text-gray-600">
-            Exhibitions
-          </a>
-          <a href="#contact" className="text-[#2C2A25] hover:text-gray-600">
-            Contact
-          </a>
+          {navItems.map((item) => (
+            <a
+              key={item}
+              href={item === "Home" ? "#" : `#${item.toLowerCase()}`}
+              className="text-[#2C2A25] hover:text-gray-600"
+            >
+              {item}
+            </a>
+          ))}
         </nav>
-        <div className="flex items-center">
+
+        <div className="hidden md:flex items-center">
           <span className="text-sm mr-2 text-[#2C2A25]">
             Sam Cano, 22 Nov 23
           </span>
@@ -53,8 +164,8 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="flex-1">
-        {/* 英雄区域 */}
+      <main className="flex-1 relative z-1">
+        {/* Hero Section */}
         <section className="w-full px-4 py-16 md:py-24 md:px-8 bg-[#D9D5D2]">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="flex flex-col justify-center">
@@ -68,40 +179,28 @@ export default function Home() {
                 Discover the artistry of moments captured in motion.
               </p>
 
+              {/* Social links */}
               <div className="flex space-x-4 mb-12">
-                <a
-                  href="#"
-                  className="w-10 h-10 rounded-full bg-[#ECEAE8] flex items-center justify-center"
-                >
-                  <span className="text-xs text-[#2C2A25]">IG</span>
-                </a>
-                <a
-                  href="#"
-                  className="w-10 h-10 rounded-full bg-[#ECEAE8] flex items-center justify-center"
-                >
-                  <span className="text-xs text-[#2C2A25]">FB</span>
-                </a>
-                <a
-                  href="#"
-                  className="w-10 h-10 rounded-full bg-[#ECEAE8] flex items-center justify-center"
-                >
-                  <span className="text-xs text-[#2C2A25]">TW</span>
-                </a>
-                <a
-                  href="#"
-                  className="w-10 h-10 rounded-full bg-[#ECEAE8] flex items-center justify-center"
-                >
-                  <span className="text-xs text-[#2C2A25]">YT</span>
-                </a>
+                {socialPlatforms.map((social) => (
+                  <a
+                    key={social}
+                    href="#"
+                    className="w-10 h-10 rounded-full bg-[#ECEAE8] flex items-center justify-center transition-transform hover:scale-110"
+                    aria-label={social}
+                  >
+                    <span className="text-xs text-[#2C2A25]">{social}</span>
+                  </a>
+                ))}
               </div>
 
+              {/* Stats - fixed grammar in text */}
               <div className="grid grid-cols-2 gap-8">
                 <div>
                   <h3 className="text-3xl font-bold mb-2 text-[#2C2A25]">
                     +250k
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Views that reaching a wide audience and giving inspiration
+                    Views reaching a wide audience and giving inspiration
                   </p>
                 </div>
                 <div>
@@ -123,6 +222,7 @@ export default function Home() {
                   width={400}
                   height={500}
                   className="object-cover h-full w-full"
+                  priority
                 />
               </div>
               <div className="absolute top-4 right-4 bg-[#2C2A25] rounded-full p-2">
@@ -132,28 +232,31 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 过渡区域 - 添加大圆角 */}
-        <div className="section-transitio bg-[#333333] h-32 relative">
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-[#D9D5D2] rounded-b-[100px]"></div>
-        </div>
+        {/* First transition */}
+        <SectionTransition
+          fromColor={COLORS.background}
+          toColor={COLORS.dark}
+        />
 
-        {/* 关于区域 - 更改为深灰色 */}
+        {/* About Section */}
         <section
           id="about"
           className="w-full bg-[#333333] text-white py-16 md:py-24 px-4 md:px-8"
         >
           <div className="max-w-7xl mx-auto">
             <div className="overflow-hidden mb-16">
-              <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap">
-                about · about · about · about
-              </h2>
+              <div>
+                <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap">
+                  about · about · about · about
+                </h2>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="relative h-[500px] flex items-center justify-center">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-[400px] h-[400px] relative">
-                    {/* 放射状的白色手形状 */}
+                    {/* Radial shapes */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div
                         className="w-full h-full bg-contain bg-center bg-no-repeat"
@@ -164,7 +267,7 @@ export default function Home() {
                       ></div>
                     </div>
 
-                    {/* 中心的人物 */}
+                    {/* Center figure */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <Image
                         src="/placeholder.svg?height=300&width=200"
@@ -177,19 +280,30 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* 装饰性十字准线 */}
-                <div className="absolute top-4 left-4 w-8 h-8 border border-white rounded-full flex items-center justify-center">
-                  <div className="w-4 h-4 border-t border-l border-white"></div>
-                </div>
-                <div className="absolute top-4 right-4 w-8 h-8 border border-white rounded-full flex items-center justify-center">
-                  <div className="w-4 h-4 border-t border-r border-white"></div>
-                </div>
-                <div className="absolute bottom-4 left-4 w-8 h-8 border border-white rounded-full flex items-center justify-center">
-                  <div className="w-4 h-4 border-b border-l border-white"></div>
-                </div>
-                <div className="absolute bottom-4 right-4 w-8 h-8 border border-white rounded-full flex items-center justify-center">
-                  <div className="w-4 h-4 border-b border-r border-white"></div>
-                </div>
+                {/* Decorative crosshairs */}
+                {[
+                  "top-4 left-4 border-t border-l",
+                  "top-4 right-4 border-t border-r",
+                  "bottom-4 left-4 border-b border-l",
+                  "bottom-4 right-4 border-b border-r",
+                ].map((position, index) => (
+                  <div
+                    key={index}
+                    className={`absolute ${position
+                      .split(" ")
+                      .slice(0, 2)
+                      .join(
+                        " "
+                      )} w-8 h-8 border border-white rounded-full flex items-center justify-center`}
+                  >
+                    <div
+                      className={`w-4 h-4 ${position
+                        .split(" ")
+                        .slice(2)
+                        .join(" ")} border-white`}
+                    ></div>
+                  </div>
+                ))}
               </div>
 
               <div>
@@ -218,12 +332,13 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 过渡区域 - 添加大圆角 */}
-        <div className="section-transition bg-[#D9D5D2] h-32 relative">
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-[#333333] rounded-b-[100px]"></div>
-        </div>
+        {/* Second transition */}
+        <SectionTransition
+          fromColor={COLORS.dark}
+          toColor={COLORS.background}
+        />
 
-        {/* 作品集区域 */}
+        {/* Portfolio Section */}
         <section
           id="portfolio"
           className="w-full py-16 md:py-24 px-4 md:px-8 bg-[#D9D5D2]"
@@ -274,137 +389,59 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 展览区域 */}
+        {/* Exhibitions Section */}
         <section
           id="exhibitions"
           className="w-full py-16 md:py-24 px-4 md:px-8 bg-[#D9D5D2]"
         >
           <div className="max-w-7xl mx-auto">
             <div className="overflow-hidden mb-16">
-              <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap text-[#2C2A25]">
-                exhibitions · exhibitions
-              </h2>
+              <div>
+                <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap text-[#2C2A25]">
+                  exhibitions · exhibitions
+                </h2>
+              </div>
             </div>
 
             <div className="space-y-8">
-              <div className="border-t border-gray-200 py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-                <div className="md:col-span-1 text-xl font-bold text-[#2C2A25]">
-                  01
+              {exhibitions.map((exhibition) => (
+                <div
+                  key={exhibition.id}
+                  className="border-t border-gray-200 py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-center"
+                >
+                  <div className="md:col-span-1 text-xl font-bold text-[#2C2A25]">
+                    {exhibition.id}
+                  </div>
+                  <div className="md:col-span-4">
+                    <h3 className="text-2xl font-bold text-[#2C2A25]">
+                      {exhibition.title}
+                    </h3>
+                  </div>
+                  <div className="md:col-span-4 text-gray-600">
+                    {exhibition.location}
+                  </div>
+                  <div className="md:col-span-3 flex justify-end">
+                    <Button
+                      variant="outline"
+                      className="rounded-full border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white"
+                    >
+                      Buy Ticket
+                    </Button>
+                  </div>
                 </div>
-                <div className="md:col-span-4">
-                  <h3 className="text-2xl font-bold text-[#2C2A25]">
-                    Cinematic Visions Unveiled
-                  </h3>
-                </div>
-                <div className="md:col-span-4 text-gray-600">
-                  Madrid Gallery, Spain, 21 Nov 2023
-                </div>
-                <div className="md:col-span-3 flex justify-end">
-                  <Button
-                    variant="outline"
-                    className="rounded-full border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white"
-                  >
-                    Buy Ticket
-                  </Button>
-                </div>
-              </div>
-
-              <div className="border-t border-gray-200 py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-                <div className="md:col-span-1 text-xl font-bold text-[#2C2A25]">
-                  02
-                </div>
-                <div className="md:col-span-4">
-                  <h3 className="text-2xl font-bold text-[#2C2A25]">
-                    Frames in Motion
-                  </h3>
-                </div>
-                <div className="md:col-span-4 text-gray-600">
-                  Manchester Museum, UK, 20 Nov 2023
-                </div>
-                <div className="md:col-span-3 flex justify-end">
-                  <Button
-                    variant="outline"
-                    className="rounded-full border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white"
-                  >
-                    Buy Ticket
-                  </Button>
-                </div>
-              </div>
-
-              <div className="border-t border-gray-200 py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-                <div className="md:col-span-1 text-xl font-bold text-[#2C2A25]">
-                  03
-                </div>
-                <div className="md:col-span-4">
-                  <h3 className="text-2xl font-bold text-[#2C2A25]">
-                    Journey Through Time
-                  </h3>
-                </div>
-                <div className="md:col-span-4 text-gray-600">
-                  Milan Gallery, Italy, 19 Nov 2023
-                </div>
-                <div className="md:col-span-3 flex justify-end">
-                  <Button
-                    variant="outline"
-                    className="rounded-full border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white"
-                  >
-                    Buy Ticket
-                  </Button>
-                </div>
-              </div>
-
-              <div className="border-t border-gray-200 py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-                <div className="md:col-span-1 text-xl font-bold text-[#2C2A25]">
-                  04
-                </div>
-                <div className="md:col-span-4">
-                  <h3 className="text-2xl font-bold text-[#2C2A25]">
-                    Experimental Narratives
-                  </h3>
-                </div>
-                <div className="md:col-span-4 text-gray-600">
-                  Paris Museum, France, 18 Nov 2023
-                </div>
-                <div className="md:col-span-3 flex justify-end">
-                  <Button
-                    variant="outline"
-                    className="rounded-full border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white"
-                  >
-                    Buy Ticket
-                  </Button>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* 联系区域 */}
+        {/* Contact Section */}
         <section
           id="contact"
           className="w-full py-16 md:py-24 px-4 md:px-8 bg-[#D9D5D2]"
         >
-          <div className="max-w-6xl mx-auto bg-[#ECEAE8] rounded-[40px] shadow-sm p-10 text-center">
+          <div className="max-w-6xl mx-auto bg-[#ECEAE8] rounded-[40px] shadow-sm p-8 md:p-10 text-center">
             <div className="inline-block mx-auto mb-6">
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 48 48"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M36 20C36 14.4772 31.5228 10 26 10C20.4772 10 16 14.4772 16 20C16 25.5228 20.4772 30 26 30"
-                  stroke="#2C2A25"
-                  strokeWidth="2"
-                />
-                <path
-                  d="M22 30C22 35.5228 17.5228 40 12 40C6.47715 40 2 35.5228 2 30C2 24.4772 6.47715 20 12 20"
-                  stroke="#2C2A25"
-                  strokeWidth="2"
-                />
-                <path d="M16 24H36" stroke="#2C2A25" strokeWidth="2" />
-                <path d="M32 20L36 24L32 28" stroke="#2C2A25" strokeWidth="2" />
-              </svg>
+              <ContactIcon />
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold max-w-2xl mx-auto mb-8 text-[#2C2A25]">
               Tell me about your <span className="text-[#A2ABB1]">next</span>{" "}
@@ -426,65 +463,31 @@ export default function Home() {
         </section>
       </main>
 
-      {/* 页脚 */}
-      <footer className="w-full py-8 px-8 bg-[#D9D5D2]">
+      {/* Footer */}
+      <footer className="w-full py-8 px-8 bg-[#D9D5D2] relative z-1">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center mb-4 md:mb-0">
-            <svg
-              width="48"
-              height="24"
-              viewBox="0 0 48 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="12" cy="12" r="12" fill="#2C2A25" />
-              <path
-                d="M24 0C30.6274 0 36 5.37258 36 12C36 18.6274 30.6274 24 24 24V0Z"
-                fill="#2C2A25"
-              />
-              <path
-                d="M36 0C42.6274 0 48 5.37258 48 12C48 18.6274 42.6274 24 36 24V0Z"
-                fill="#2C2A25"
-              />
-            </svg>
+            <Logo />
           </div>
 
-          <nav className="flex space-x-8 mb-4 md:mb-0">
-            <a href="#" className="text-[#2C2A25] hover:text-gray-600 text-sm">
-              Home
-            </a>
-            <a
-              href="#about"
-              className="text-[#2C2A25] hover:text-gray-600 text-sm"
-            >
-              About
-            </a>
-            <a
-              href="#portfolio"
-              className="text-[#2C2A25] hover:text-gray-600 text-sm"
-            >
-              Portfolio
-            </a>
-            <a
-              href="#exhibitions"
-              className="text-[#2C2A25] hover:text-gray-600 text-sm"
-            >
-              Exhibitions
-            </a>
-            <a
-              href="#contact"
-              className="text-[#2C2A25] hover:text-gray-600 text-sm"
-            >
-              Contact
-            </a>
+          <nav className="flex flex-wrap justify-center space-x-4 md:space-x-8 mb-4 md:mb-0">
+            {navItems.map((item) => (
+              <a
+                key={item}
+                href={item === "Home" ? "#" : `#${item.toLowerCase()}`}
+                className="text-[#2C2A25] hover:text-gray-600 text-sm"
+              >
+                {item}
+              </a>
+            ))}
           </nav>
 
           <div className="text-sm text-gray-500">
-            © 2024 All rights reserved.
+            © {new Date().getFullYear()} All rights reserved.
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto mt-8">
+        <div className="max-w-7xl mx-auto mt-8 overflow-hidden">
           <h2 className="text-6xl md:text-8xl font-bold opacity-20 text-[#2C2A25]">
             vidéaste
           </h2>

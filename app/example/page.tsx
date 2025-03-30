@@ -169,7 +169,7 @@ export default function Home() {
         <section className="w-full px-4 py-16 md:py-24 md:px-8 bg-[#D9D5D2]">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="flex flex-col justify-center">
-              <h1 className="text-6xl md:text-8xl font-bold leading-none mb-6 text-[#2C2A25]">
+              <h1 className="text-7xl md:text-[10rem] font-black leading-[0.9] mb-6 text-[#2C2A25] tracking-tighter">
                 visual
                 <br />
                 poetry
@@ -224,9 +224,6 @@ export default function Home() {
                   className="object-cover h-full w-full"
                   priority
                 />
-              </div>
-              <div className="absolute top-4 right-4 bg-[#2C2A25] rounded-full p-2">
-                <Globe className="h-5 w-5 text-white" />
               </div>
             </div>
           </div>

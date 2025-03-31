@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, Mail, Globe, Menu } from "lucide-react";
+import { ArrowRight, Mail, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import grainImage from "@/assets/images/grain.svg";
 
@@ -57,22 +57,6 @@ const ContactIcon = () => (
   </svg>
 );
 
-// Reusable component for section transitions
-const SectionTransition = ({
-  fromColor = COLORS.background,
-  toColor = COLORS.dark,
-}: {
-  fromColor?: string;
-  toColor?: string;
-}) => (
-  <div className="h-32 relative" style={{ backgroundColor: toColor }}>
-    <div
-      className="absolute bottom-0 left-0 right-0 h-32 rounded-b-[100px]"
-      style={{ backgroundColor: fromColor }}
-    />
-  </div>
-);
-
 // Exhibition type definition
 type Exhibition = {
   id: string;
@@ -118,13 +102,13 @@ export default function Home() {
     <div className="min-h-screen bg-[#D9D5D2] flex flex-col relative">
       {/* Grain texture overlay - fixed to work across all sections */}
       <div
-        className="fixed inset-0 bg-fixed opacity-10 pointer-events-none z-30"
+        className="fixed inset-0 bg-fixed opacity-10 pointer-events-none z-60"
         style={{ backgroundImage: `url(${grainImage.src})` }}
         aria-hidden="true"
       />
 
       {/* Header */}
-      <header className="w-full py-6 px-8 flex justify-between items-center bg-[#D9D5D2] relative z-10">
+      <header className="w-full py-6 px-8 flex justify-between items-center bg-[#D9D5D2] relative z-50">
         <div className="flex items-center">
           <Logo />
         </div>
@@ -164,9 +148,9 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="flex-1 relative z-1">
+      <main className="flex-1 relative">
         {/* Hero Section */}
-        <section className="w-full px-4 py-16 md:py-24 md:px-8 bg-[#D9D5D2]">
+        <section className="w-full px-4 py-16 md:py-24 md:px-8 bg-[#D9D5D2] relative z-40 rounded-b-[100px] mb-[-80px]">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="flex flex-col justify-center">
               <h1 className="text-7xl md:text-[10rem] font-black leading-[0.9] mb-6 text-[#2C2A25] tracking-tighter">
@@ -229,16 +213,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* First transition */}
-        <SectionTransition
-          fromColor={COLORS.background}
-          toColor={COLORS.dark}
-        />
-
         {/* About Section */}
         <section
           id="about"
-          className="w-full bg-[#333333] text-white py-16 md:py-24 px-4 md:px-8"
+          className="w-full bg-[#333333] text-white py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 relative z-30 rounded-b-[100px] mb-[-80px]"
         >
           <div className="max-w-7xl mx-auto">
             <div className="overflow-hidden mb-16">
@@ -329,16 +307,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Second transition */}
-        <SectionTransition
-          fromColor={COLORS.dark}
-          toColor={COLORS.background}
-        />
-
         {/* Portfolio Section */}
         <section
           id="portfolio"
-          className="w-full py-16 md:py-24 px-4 md:px-8 bg-[#D9D5D2]"
+          className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#D9D5D2] relative z-20 rounded-b-[100px] mb-[-80px]"
         >
           <div className="max-w-7xl mx-auto">
             <h2 className="text-6xl md:text-8xl font-bold mb-16 text-[#2C2A25]">
@@ -389,7 +361,7 @@ export default function Home() {
         {/* Exhibitions Section */}
         <section
           id="exhibitions"
-          className="w-full py-16 md:py-24 px-4 md:px-8 bg-[#D9D5D2]"
+          className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#D9D5D2] relative z-10 rounded-b-[100px] mb-[-80px]"
         >
           <div className="max-w-7xl mx-auto">
             <div className="overflow-hidden mb-16">
@@ -434,7 +406,7 @@ export default function Home() {
         {/* Contact Section */}
         <section
           id="contact"
-          className="w-full py-16 md:py-24 px-4 md:px-8 bg-[#D9D5D2]"
+          className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#D9D5D2] relative z-0"
         >
           <div className="max-w-6xl mx-auto bg-[#ECEAE8] rounded-[40px] shadow-sm p-8 md:p-10 text-center">
             <div className="inline-block mx-auto mb-6">
@@ -461,7 +433,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full py-8 px-8 bg-[#D9D5D2] relative z-1">
+      <footer className="w-full py-8 px-8 bg-[#D9D5D2] relative">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center mb-4 md:mb-0">
             <Logo />

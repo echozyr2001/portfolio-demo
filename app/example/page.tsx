@@ -99,16 +99,16 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#D9D5D2] flex flex-col relative">
+    <div className="min-h-screen bg-[#F6F4F1] flex flex-col relative">
       {/* Grain texture overlay - fixed to work across all sections */}
-      <div
+      {/* <div
         className="fixed inset-0 bg-fixed opacity-10 pointer-events-none z-60"
         style={{ backgroundImage: `url(${grainImage.src})` }}
         aria-hidden="true"
-      />
+      /> */}
 
       {/* Header */}
-      <header className="w-full py-6 px-8 flex justify-between items-center bg-[#D9D5D2] relative z-50">
+      <header className="w-full py-6 px-8 flex justify-between items-center bg-[#F6F4F1] relative z-50">
         <div className="flex items-center">
           <Logo />
         </div>
@@ -150,7 +150,7 @@ export default function Home() {
 
       <main className="flex-1 relative">
         {/* Hero Section */}
-        <section className="w-full px-4 py-16 md:py-24 md:px-8 bg-[#D9D5D2] relative z-40 rounded-b-[100px] mb-[-100px]">
+        <section className="w-full px-4 py-16 md:py-24 md:px-8 bg-[#F6F4F1] relative z-40 rounded-b-[100px] mb-[-100px]">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="flex flex-col justify-center">
               <h1 className="text-7xl md:text-[10rem] font-black leading-[0.9] mb-6 text-[#2C2A25] tracking-tighter">
@@ -310,7 +310,7 @@ export default function Home() {
         {/* Portfolio Section */}
         <section
           id="portfolio"
-          className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#D9D5D2] relative z-20 rounded-b-[100px] mb-[-100px]"
+          className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#FBF9F9] relative z-20 rounded-b-[100px] mb-[-100px]"
         >
           <div className="max-w-7xl mx-auto">
             <h2 className="text-6xl md:text-8xl font-bold mb-16 text-[#2C2A25]">
@@ -361,7 +361,7 @@ export default function Home() {
         {/* Exhibitions Section */}
         <section
           id="exhibitions"
-          className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#D9D5D2] relative z-10 rounded-b-[100px] mb-[-100px]"
+          className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#FBF9F9] relative z-10 rounded-b-[100px] mb-[-100px]"
         >
           <div className="max-w-7xl mx-auto">
             <div className="overflow-hidden mb-16">

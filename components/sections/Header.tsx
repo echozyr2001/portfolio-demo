@@ -69,14 +69,14 @@ export function Header() {
           borderColor: `rgba(255, 255, 255, ${borderOpacity.get()})`,
           backgroundColor: `rgba(255, 255, 255, ${bgOpacity.get()})`,
         }}
-        className="flex items-center px-6 py-1 gap-1 p-0.5 border rounded-full bg-white/10 relative"
+        className="flex items-center px-6 py-1 gap-1 p-0.5 border rounded-full bg-white/10 relative min-w-[600px]"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
         {/* Logo - 使用绝对定位固定在左侧 */}
         <motion.div
-          className="absolute left-6 w-8 h-8 items-center justify-center flex"
+          className="absolute left-6 w-12 h-8 items-center justify-center flex"
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
@@ -88,7 +88,7 @@ export function Header() {
 
         {/* 导航菜单 - 始终居中，不受左侧元素影响 */}
         <div className="w-full flex justify-center">
-          <ul className="flex items-center gap-6 text-sm">
+          <ul className="flex items-center gap-6 text-sm mx-10">
             {navItems.map((item, index) => (
               <motion.li
                 key={index}
@@ -141,7 +141,7 @@ export function Header() {
 
         {/* 右侧区域 - 使用绝对定位固定在右侧 */}
         <motion.div
-          className="absolute right-6 w-8 h-8 items-center justify-center flex"
+          className="absolute right-6 w-12 h-8 items-center justify-center flex"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}

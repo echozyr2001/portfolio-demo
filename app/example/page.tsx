@@ -102,6 +102,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#D9D5D2] flex flex-col">
+      {/* Header */}
+      <Header />
       <div className="w-full max-w-[1400px] mx-auto bg-[#F6F4F1] overflow-hidden">
         {/* Grain texture overlay - fixed to work across all sections */}
         {/* <div
@@ -110,8 +112,6 @@ export default function Home() {
           aria-hidden="true"
         /> */}
 
-        {/* Header */}
-        <Header />
         {/* <header className="w-full py-6 px-8 flex fixed justify-between items-center z-50">
           <div className="flex items-center">
             <Logo />

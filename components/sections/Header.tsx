@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { MagneticBackgroundButton } from "../ui/MagneticBackgroundButton";
+import { useState } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
+import Link from "next/link";
 
 const Logo = () => (
   <svg
@@ -24,88 +25,136 @@ const Logo = () => (
 );
 
 export function Header() {
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const { scrollY } = useScroll();
+  const [isHovered, setIsHovered] = useState<number | null>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      requestAnimationFrame(() => {
-        const scrollPosition = window.scrollY;
-        const maxScroll = 200;
-        const progress = Math.min(scrollPosition / maxScroll, 1);
-        setScrollProgress(progress);
-      });
-    };
+  // 使用 useTransform 创建平滑的动画值
+  const navWidth = useTransform(scrollY, [0, 700], ["90%", "50%"]);
+  const backdropBlur = useTransform(scrollY, [0, 700], [0, 12]);
+  const borderOpacity = useTransform(scrollY, [0, 700], [0, 0.15]);
+  const bgOpacity = useTransform(scrollY, [0, 700], [0, 0.1]);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const navItems = [
+    { name: "Home", href: "#home" },
+    { name: "About", href: "#about" },
+    { name: "Portfolio", href: "#portfolio" },
+    { name: "Exhibitions", href: "#exhibitions" },
+    { name: "Contact", href: "#contact" },
+  ];
 
-  const navItems = ["Home", "About", "Portfolio", "Exhibitions", "Contact"];
+  // 导航项目的动画变体
+  const itemVariants = {
+    initial: { y: 0, skewY: 0 },
+    hover: { y: "-110%", skewY: 6 },
+  };
 
-  const navWidth = `${Math.max(50, 90 - scrollProgress * 40)}%`;
+  const secondaryItemVariants = {
+    initial: { y: "110%", skewY: 6 },
+    hover: { y: 0, skewY: 0 },
+  };
 
   return (
+    // 修改 Header 组件，解决元素碰撞问题
+
+    // 将 flex 布局改为更稳定的布局方式，使用绝对定位和固定宽度
+    // 将 nav 元素改为 relative 定位，内部元素使用绝对定位
+
+    // 修改 header 类名，移除 bg-white
     <header className="hidden md:flex fixed w-full z-50 justify-center items-center top-3 text-[#2C2A25]">
-      <nav
+      {/* 修改 nav 元素的类名和内部结构 */}
+      <motion.nav
         style={{
           width: navWidth,
-          transition:
-            "width 0.3s ease-out, background-color 0.3s ease-out, backdrop-filter 0.3s ease-out, border-color 0.3s ease-out",
-          backdropFilter: `blur(${Math.min(scrollProgress * 10, 12)}px)`,
-          borderColor: `rgba(255, 255, 255, ${Math.min(
-            scrollProgress * 0.5,
-            0.15
-          )})`,
-          backgroundColor: `rgba(255, 255, 255, ${Math.min(
-            scrollProgress * 0.3,
-            0.1
-          )})`,
+          backdropFilter: `blur(${backdropBlur.get()}px)`,
+          borderColor: `rgba(255, 255, 255, ${borderOpacity.get()})`,
+          backgroundColor: `rgba(255, 255, 255, ${bgOpacity.get()})`,
         }}
-        className="flex items-center px-6 py-1 gap-1 p-0.5 border rounded-full bg-white/10"
+        className="flex items-center px-6 py-1 gap-1 p-0.5 border rounded-full bg-white/10 relative"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
       >
-        <div className="flex-1/3">
-          {/* <Link href="/" className="text-xl font-semibold tracking-tight">
-            BI
-          </Link> */}
-          <Logo />
-        </div>
+        {/* Logo - 使用绝对定位固定在左侧 */}
+        <motion.div
+          className="absolute left-6 w-8 h-8 items-center justify-center flex"
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
+          <Link href="/">
+            <Logo />
+            {/* IB */}
+          </Link>
+        </motion.div>
 
-        <div className="flex-1/3 flex justify-center">
+        {/* 导航菜单 - 始终居中，不受左侧元素影响 */}
+        <div className="w-full flex justify-center">
           <ul className="flex items-center gap-6 text-sm">
             {navItems.map((item, index) => (
-              <li key={index} className="group relative">
-                {/* <a className="px-2 py-1 block relative" href={item.href}>
-                    {pathname === item.href && (
-                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transform origin-left transition-all duration-300" />
-                    )}
+              <motion.li
+                key={index}
+                className="group relative"
+                onHoverStart={() => setIsHovered(index)}
+                onHoverEnd={() => setIsHovered(null)}
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <Link href={item.href} className="px-2 py-1 block relative">
+                  <span className="relative inline-flex overflow-hidden">
+                    <motion.div
+                      className="transform-gpu font-normal"
+                      variants={itemVariants}
+                      initial="initial"
+                      animate={isHovered === index ? "hover" : "initial"}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      {item.name}
+                    </motion.div>
 
-                    <span className="relative inline-flex overflow-hidden">
-                      <div className="translate-y-0 transform-gpu transition-transform duration-500 ease-out group-hover:-translate-y-[110%] group-hover:skew-y-6">
-                        {item.name}
-                      </div>
-
-                      <div className="absolute translate-y-[110%] skew-y-6 transform-gpu font-medium transition-transform duration-500 ease-out group-hover:translate-y-0 group-hover:skew-y-0">
-                        {item.name}
-                      </div>
-                    </span>
-                  </a> */}
-                <MagneticBackgroundButton>
-                  <span className="relative inline-flex overflow-hidden text-[#2C2A25]">
-                    <div className="translate-y-0 transform-gpu transition-transform duration-500 ease-out group-hover:-translate-y-[110%] group-hover:skew-y-6">
-                      {item}
-                    </div>
-
-                    <div className="absolute translate-y-[110%] skew-y-6 transform-gpu font-medium transition-transform duration-500 ease-out group-hover:translate-y-0 group-hover:skew-y-0">
-                      {item}
-                    </div>
+                    <motion.div
+                      className="absolute transform-gpu font-medium"
+                      variants={secondaryItemVariants}
+                      initial="initial"
+                      animate={isHovered === index ? "hover" : "initial"}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      {item.name}
+                    </motion.div>
                   </span>
-                </MagneticBackgroundButton>
-              </li>
+
+                  {/* 添加下划线动画 */}
+                  <AnimatePresence>
+                    {isHovered === index && (
+                      <motion.span
+                        className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-[#A2ABB1] to-[#8A9AA3] rounded-full"
+                        initial={{ scaleX: 0, originX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        exit={{ scaleX: 0, originX: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    )}
+                  </AnimatePresence>
+                </Link>
+              </motion.li>
             ))}
           </ul>
         </div>
-        <div className="flex-1/3"></div>
-      </nav>
+
+        {/* 右侧区域 - 使用绝对定位固定在右侧 */}
+        <motion.div
+          className="absolute right-6 w-8 h-8 items-center justify-center flex"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
+          <motion.div
+            className="w-8 h-8 rounded-full bg-[#A2ABB1] flex items-center justify-center"
+            whileHover={{ scale: 1.1, backgroundColor: "#8A9AA3" }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          >
+            <span className="text-white text-xs">SC</span>
+          </motion.div>
+        </motion.div>
+      </motion.nav>
     </header>
   );
 }

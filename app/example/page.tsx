@@ -1,7 +1,9 @@
+"use client";
 import Image from "next/image";
 import { ArrowRight, Mail, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import grainImage from "@/assets/images/grain.svg";
+import { Header } from "@/components/sections/Header";
 
 // Color constants for consistent usage
 const COLORS = {
@@ -99,7 +101,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#EAEAEA] flex flex-col">
+    <div className="min-h-screen bg-[#D9D5D2] flex flex-col">
       <div className="w-full max-w-[1400px] mx-auto bg-[#F6F4F1] overflow-hidden">
         {/* Grain texture overlay - fixed to work across all sections */}
         {/* <div
@@ -109,12 +111,12 @@ export default function Home() {
         /> */}
 
         {/* Header */}
-        <header className="w-full py-6 px-8 flex justify-between items-center relative z-50">
+        <Header />
+        {/* <header className="w-full py-6 px-8 flex fixed justify-between items-center z-50">
           <div className="flex items-center">
             <Logo />
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden">
             <Button
               variant="ghost"
@@ -126,7 +128,6 @@ export default function Home() {
             </Button>
           </div>
 
-          {/* Desktop navigation */}
           <nav className="hidden md:flex space-x-8">
             {navItems.map((item) => (
               <a
@@ -147,7 +148,7 @@ export default function Home() {
               <span className="text-white text-xs">SC</span>
             </div>
           </div>
-        </header>
+        </header> */}
 
         <main className="flex-1 relative">
           {/* Hero Section */}

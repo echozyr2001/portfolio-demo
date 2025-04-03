@@ -30,9 +30,15 @@ export function Header() {
 
   // 使用 useTransform 创建平滑的动画值
   const navWidth = useTransform(scrollY, [0, 700], ["90%", "30%"]);
-  const backdropBlur = useTransform(scrollY, [0, 700], [0, 12]);
-  const borderOpacity = useTransform(scrollY, [0, 700], [0, 0.15]);
-  const bgOpacity = useTransform(scrollY, [0, 700], [0, 0.1]);
+  const backdropBlurStyle = useTransform(scrollY, [0, 500], [0, 12], {
+    mixer: () => (v) => `blur(${v}px)`,
+  });
+  const borderColorStyle = useTransform(scrollY, [0, 500], [0, 0.15], {
+    mixer: () => (v) => `rgba(255, 255, 255, ${v})`,
+  });
+  const backgroundColorStyle = useTransform(scrollY, [0, 500], [0, 0.1], {
+    mixer: () => (v) => `rgba(255, 255, 255, ${v})`,
+  });
 
   const navItems = [
     { name: "Home", href: "#home" },
@@ -65,9 +71,9 @@ export function Header() {
       <motion.nav
         style={{
           width: navWidth,
-          backdropFilter: `blur(${backdropBlur.get()}px)`,
-          borderColor: `rgba(255, 255, 255, ${borderOpacity.get()})`,
-          backgroundColor: `rgba(255, 255, 255, ${bgOpacity.get()})`,
+          backdropFilter: backdropBlurStyle,
+          borderColor: borderColorStyle,
+          backgroundColor: backgroundColorStyle,
         }}
         className="flex items-center px-6 py-1 gap-1 p-0.5 border rounded-full bg-white/10 relative min-w-[600px] max-w-[1400px]"
         initial={{ y: -20, opacity: 0 }}

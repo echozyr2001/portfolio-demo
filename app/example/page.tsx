@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
-import { ArrowRight, Mail, Menu } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import grainImage from "@/assets/images/grain.svg";
+// import grainImage from "@/assets/images/grain.svg";
 import { Header } from "@/components/sections/Header";
 
 // Color constants for consistent usage
@@ -290,7 +290,7 @@ export default function Home() {
                   </h3>
                   <p className="text-lg mb-6">
                     With over a decade of experience capturing moments that
-                    matter, I've developed a unique perspective that blends
+                    matter, I&apos;ve developed a unique perspective that blends
                     technical precision with artistic vision.
                   </p>
                   <p className="text-lg mb-8">

@@ -29,7 +29,7 @@ export function Header() {
   const [isHovered, setIsHovered] = useState<number | null>(null);
 
   // 使用 useTransform 创建平滑的动画值
-  const navWidth = useTransform(scrollY, [0, 700], ["90%", "50%"]);
+  const navWidth = useTransform(scrollY, [0, 700], ["90%", "30%"]);
   const backdropBlur = useTransform(scrollY, [0, 700], [0, 12]);
   const borderOpacity = useTransform(scrollY, [0, 700], [0, 0.15]);
   const bgOpacity = useTransform(scrollY, [0, 700], [0, 0.1]);
@@ -69,7 +69,7 @@ export function Header() {
           borderColor: `rgba(255, 255, 255, ${borderOpacity.get()})`,
           backgroundColor: `rgba(255, 255, 255, ${bgOpacity.get()})`,
         }}
-        className="flex items-center px-6 py-1 gap-1 p-0.5 border rounded-full bg-white/10 relative min-w-[600px]"
+        className="flex items-center px-6 py-1 gap-1 p-0.5 border rounded-full bg-white/10 relative min-w-[600px] max-w-[1400px]"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}

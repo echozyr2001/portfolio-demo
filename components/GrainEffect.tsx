@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import grainImage from "@/assets/images/grain.svg";
+import grainImage from "@/public/grain.svg";
 
 interface GrainEffectProps {
   opacity?: number;
@@ -48,7 +48,7 @@ export const GrainEffect: React.FC<GrainEffectProps> = ({
         zIndex,
         opacity,
         mixBlendMode: blendMode as any,
-        backgroundImage: `url(${grainImage.src})`,
+        backgroundImage: `url(${grainImage.src})`, // url(/grain.svg)
         backgroundSize: "700px 700px", // Match original SVG dimensions
         backgroundAttachment: "fixed", // Keep the grain fixed when scrolling
       }}

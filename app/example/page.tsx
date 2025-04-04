@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ArrowRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/sections/Header";
-import { GrainEffect } from "@/components/ui/GrainEffect";
+import { GrainEffect } from "@/components/GrainEffect";
 
 // Color constants for consistent usage
 const COLORS = {

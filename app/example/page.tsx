@@ -1,9 +1,10 @@
 "use client";
+
 import Image from "next/image";
 import { ArrowRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-// import grainImage from "@/assets/images/grain.svg";
 import { Header } from "@/components/sections/Header";
+import { GrainEffect } from "@/components/ui/GrainEffect";
 
 // Color constants for consistent usage
 const COLORS = {
@@ -105,12 +106,8 @@ export default function Home() {
       {/* Header */}
       <Header />
       <div className="w-full max-w-[1400px] mx-auto bg-[#F6F4F1] overflow-hidden">
-        {/* Grain texture overlay - fixed to work across all sections */}
-        {/* <div
-          className="fixed inset-0 bg-fixed opacity-10 pointer-events-none z-60"
-          style={{ backgroundImage: `url(${grainImage.src})` }}
-          aria-hidden="true"
-        /> */}
+        {/* Grain texture overlay - using the original grain.svg for texture */}
+        <GrainEffect opacity={0.5} blendMode="soft-light" zIndex={60} />
 
         {/* <header className="w-full py-6 px-8 flex fixed justify-between items-center z-50">
           <div className="flex items-center">

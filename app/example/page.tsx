@@ -269,6 +269,37 @@ export default function Home() {
               <h2 className="text-6xl md:text-8xl font-bold mb-16 text-[#2C2A25]">
                 Skills
               </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-[#2C2A25] text-lg">
+              <div>
+                <h3 className="font-bold mb-2">Frontend</h3>
+                <p>React, Next.js, TypeScript, Tailwind CSS</p>
+              </div>
+              <div>
+                <h3 className="font-bold mb-2">Backend</h3>
+                <p>Node.js, Express, MongoDB</p>
+              </div>
+              <div>
+                <h3 className="font-bold mb-2">Tools</h3>
+                <p>Git, Docker, Figma, Vercel</p>
+              </div>
+            </div>
+          </section>
+
+          {/* Projects Section */}
+          <section
+            id="projects"
+            className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#FBF9F9] relative z-10 rounded-b-[100px] mb-[-100px]"
+          >
+            <div className="max-w-7xl mx-auto">
+              <div className="overflow-hidden mb-16">
+                <div>
+                  <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap text-[#2C2A25]">
+                    projects · projects
+                  </h2>
+                </div>
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="col-span-2 bg-[#ECEAE8] rounded-3xl p-8 h-[400px] relative">
@@ -308,24 +339,7 @@ export default function Home() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
-            </div>
-          </section>
-
-          {/* Projects Section */}
-          <section
-            id="projects"
-            className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#FBF9F9] relative z-10 rounded-b-[100px] mb-[-100px]"
-          >
-            <div className="max-w-7xl mx-auto">
-              <div className="overflow-hidden mb-16">
-                <div>
-                  <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap text-[#2C2A25]">
-                    projects · projects
-                  </h2>
-                </div>
-              </div>
-
-              <div className="space-y-8">
+              {/* <div className="space-y-8">
                 {projects.map((project) => (
                   <div
                     key={project.id}
@@ -352,7 +366,7 @@ export default function Home() {
                     </div>
                   </div>
                 ))}
-              </div>
+              </div> */}
             </div>
           </section>
 
@@ -411,7 +425,7 @@ export default function Home() {
 
           <div className="max-w-7xl mx-auto mt-8 overflow-hidden">
             <h2 className="text-6xl md:text-8xl font-bold opacity-20 text-[#2C2A25]">
-              full-stack · frontend · UI-curious
+              Full-stack · UI-curious
             </h2>
           </div>
         </footer>

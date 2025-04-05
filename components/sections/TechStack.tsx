@@ -43,36 +43,9 @@ export function TechStack() {
   const containerRef = useRef<HTMLDivElement>(null);
   const controls = useAnimationControls();
 
-  useEffect(() => {
-    // Start the animation when the component mounts
-    const startScrollAnimation = async (duration: number) => {
-      if (!containerRef.current) return;
-
-      const containerWidth = containerRef.current.scrollWidth / 2;
-
-      // Reset position first
-      await controls.set({ x: 0 });
-
-      // Start the infinite scroll animation
-      controls.start({
-        x: -containerWidth,
-        transition: {
-          duration: duration,
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "loop",
-        },
-      });
-    };
-
-    // Initial animation
-    startScrollAnimation(60);
-
-    // Cleanup
-    return () => {
-      controls.stop();
-    };
-  }, [controls]);
+  // Define consistent animation speeds
+  const normalSpeed = 30; // Faster speed when not hovering (30 seconds)
+  const hoverSpeed = 120; // Slower speed when hovering (120 seconds - 4x slower)
 
   // Function to start or restart the animation with a specific duration
   const startScrollAnimation = async (duration: number) => {
@@ -92,15 +65,24 @@ export function TechStack() {
     });
   };
 
-  const handleMouseLeave = () => {
-    // Return to normal speed (60s) when not hovering
-    startScrollAnimation(20);
+  useEffect(() => {
+    // Start with the normal (faster) speed on initial load
+    startScrollAnimation(normalSpeed);
+
+    // Cleanup
+    return () => {
+      controls.stop();
+    };
+  }, [controls, normalSpeed]);
+
+  // Handle hover to slow down the animation
+  const handleMouseEnter = () => {
+    startScrollAnimation(hoverSpeed);
   };
 
-  // Handle hover to slow down or speed up the animation
-  const handleMouseEnter = () => {
-    // Slow down to 180s on hover
-    startScrollAnimation(80);
+  // Handle mouse leave to speed up the animation
+  const handleMouseLeave = () => {
+    startScrollAnimation(normalSpeed);
   };
 
   return (

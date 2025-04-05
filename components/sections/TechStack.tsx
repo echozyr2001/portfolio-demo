@@ -1,17 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { Fragment, useRef, useEffect } from "react";
+import { Fragment, useRef, useEffect, useCallback } from "react";
 import { motion, useAnimationControls } from "motion/react";
 
 // Color constants to match the example page
-const COLORS = {
-  background: "#D9D5D2",
-  text: "#2C2A25",
-  accent: "#A2ABB1",
-  dark: "#333333",
-  light: "#ECEAE8",
-};
+// const COLORS = {
+//   background: "#D9D5D2",
+//   text: "#2C2A25",
+//   accent: "#A2ABB1",
+//   dark: "#333333",
+//   light: "#ECEAE8",
+// };
 
 import TypeScriptIcon from "@/assets/icons/logos-typescript.svg";
 import ReactIcon from "@/assets/icons/logos-react.svg";
@@ -48,22 +48,26 @@ export function TechStack() {
   const hoverSpeed = 120; // Slower speed when hovering (120 seconds - 4x slower)
 
   // Function to start or restart the animation with a specific duration
-  const startScrollAnimation = async (duration: number) => {
-    if (!containerRef.current) return;
+  // Memoize with useCallback to prevent recreation on each render
+  const startScrollAnimation = useCallback(
+    async (duration: number) => {
+      if (!containerRef.current) return;
 
-    const containerWidth = containerRef.current.scrollWidth / 2;
+      const containerWidth = containerRef.current.scrollWidth / 2;
 
-    // Start the infinite scroll animation
-    controls.start({
-      x: -containerWidth,
-      transition: {
-        duration: duration,
-        ease: "linear",
-        repeat: Infinity,
-        repeatType: "loop",
-      },
-    });
-  };
+      // Start the infinite scroll animation
+      controls.start({
+        x: -containerWidth,
+        transition: {
+          duration: duration,
+          ease: "linear",
+          repeat: Infinity,
+          repeatType: "loop",
+        },
+      });
+    },
+    [controls]
+  );
 
   useEffect(() => {
     // Start with the normal (faster) speed on initial load
@@ -73,7 +77,7 @@ export function TechStack() {
     return () => {
       controls.stop();
     };
-  }, [controls, normalSpeed]);
+  }, [controls, normalSpeed, startScrollAnimation]);
 
   // Handle hover to slow down the animation
   const handleMouseEnter = () => {

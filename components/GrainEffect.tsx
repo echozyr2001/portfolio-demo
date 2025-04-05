@@ -47,7 +47,7 @@ export const GrainEffect: React.FC<GrainEffectProps> = ({
       style={{
         zIndex,
         opacity,
-        mixBlendMode: blendMode as any,
+        mixBlendMode: blendMode as React.CSSProperties["mixBlendMode"],
         backgroundImage: `url(${grainImage.src})`, // url(/grain.svg)
         backgroundSize: "700px 700px", // Match original SVG dimensions
         backgroundAttachment: "fixed", // Keep the grain fixed when scrolling

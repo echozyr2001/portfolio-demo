@@ -348,16 +348,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mt-12 flex justify-center">
-                <Button
-                  variant="default"
-                  className="rounded-full bg-[#A2ABB1] text-white px-8 h-12"
-                >
-                  <span>View All Projects</span>
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-              {/* <div className="space-y-8">
+              <div className="space-y-8">
                 {projects.map((project) => (
                   <div
                     key={project.id}
@@ -384,7 +375,17 @@ export default function Home() {
                     </div>
                   </div>
                 ))}
-              </div> */}
+              </div>
+
+              <div className="mt-12 flex justify-center">
+                <Button
+                  variant="default"
+                  className="rounded-full bg-[#A2ABB1] text-white px-8 h-12"
+                >
+                  <span>View All Projects</span>
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </section>
 

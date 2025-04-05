@@ -1,6 +1,15 @@
 import Image from "next/image";
 import { Fragment } from "react";
 
+// Color constants to match the example page
+const COLORS = {
+  background: "#D9D5D2",
+  text: "#2C2A25",
+  accent: "#A2ABB1",
+  dark: "#333333",
+  light: "#ECEAE8",
+};
+
 import TypeScriptIcon from "@/assets/icons/logos-typescript.svg";
 import ReactIcon from "@/assets/icons/logos-react.svg";
 import NextjsIcon from "@/assets/icons/logos-nextjs.svg";
@@ -30,7 +39,7 @@ const techStack = [
 export function TechStack() {
   return (
     <div className="py-16 lg:py-24">
-      <div className="overflow-x-clip border-y border-gray-700">
+      <div className="overflow-x-clip border-y border-[#A2ABB1]/30 relative">
         {/* 
           flex-none prevents the element from growing or shrinking,
           keeping its original size for the animation to work properly
@@ -45,15 +54,19 @@ export function TechStack() {
             尤其是使用了 translateX(-50%) 时，只有内容宽度精确为两倍视口宽度时，动画才是循环无缝的。
           flex-none = "别让我自己伸缩，我要保持原始宽度"，这是保证滚动动画稳定运行的"关键配置"之一。
         */}
+        {/* Add gradient overlays for smoother fade effect */}
+        <div className="absolute inset-y-0 left-0 w-[100px] bg-gradient-to-r from-[#FBF9F9] to-transparent z-10"></div>
+        <div className="absolute inset-y-0 right-0 w-[100px] bg-gradient-to-l from-[#FBF9F9] to-transparent z-10"></div>
+
         <div className="flex [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <div className="flex flex-none gap-4 pr-4 py-3 animate-move-left [animation-duration:30s] hover:[animation-play-state:paused]">
+          <div className="flex flex-none gap-4 pr-4 py-6 animate-move-left [animation-duration:30s] hover:[animation-play-state:paused] hover:cursor-pointer">
             {[...new Array(2)].fill(0).map((_, index) => (
               <Fragment key={index}>
                 {techStack.map((tech, index) => {
                   return (
                     <div
                       key={index}
-                      className="inline-flex gap-2 items-center bg-white/10 rounded-full px-4 py-2 border border-white/15"
+                      className="inline-flex gap-2 items-center bg-[#A2ABB1]/10 rounded-full px-4 py-2 border border-[#A2ABB1]/20 transition-all duration-300 hover:bg-[#A2ABB1]/30 hover:scale-105 hover:shadow-md hover:border-[#A2ABB1]/40"
                     >
                       <Image
                         src={tech.icon}
@@ -62,7 +75,7 @@ export function TechStack() {
                         height={24}
                         className="object-contain"
                       />
-                      <span className="text-white uppercase font-extrabold text-sm">
+                      <span className="text-[#2C2A25] uppercase font-extrabold text-sm">
                         {tech.name}
                       </span>
                     </div>

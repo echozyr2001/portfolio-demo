@@ -5,6 +5,7 @@ import { ArrowRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/sections/Header";
 import { GrainEffect } from "@/components/GrainEffect";
+import { TechStack } from "@/components/sections/TechStack";
 
 // Color constants for consistent usage
 const COLORS = {
@@ -272,19 +273,36 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-[#2C2A25] text-lg">
-              <div>
-                <h3 className="font-bold mb-2">Frontend</h3>
-                <p>React, Next.js, TypeScript, Tailwind CSS</p>
+              <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0 w-10 h-10 bg-[#A2ABB1] text-white rounded-full flex items-center justify-center text-xl font-bold">
+                  💻
+                </div>
+                <div>
+                  <h3 className="font-bold mb-1">Frontend</h3>
+                  <p>React, Next.js, TypeScript, Tailwind CSS</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-bold mb-2">Backend</h3>
-                <p>Node.js, Express, MongoDB</p>
+              <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0 w-10 h-10 bg-[#A2ABB1] text-white rounded-full flex items-center justify-center text-xl font-bold">
+                  🛠️
+                </div>
+                <div>
+                  <h3 className="font-bold mb-1">Backend</h3>
+                  <p>Node.js, Express, MongoDB</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-bold mb-2">Tools</h3>
-                <p>Git, Docker, Figma, Vercel</p>
+              <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0 w-10 h-10 bg-[#A2ABB1] text-white rounded-full flex items-center justify-center text-xl font-bold">
+                  ⚙️
+                </div>
+                <div>
+                  <h3 className="font-bold mb-1">Tools</h3>
+                  <p>Git, Docker, Figma, Vercel</p>
+                </div>
               </div>
             </div>
+
+            <TechStack />
           </section>
 
           {/* Projects Section */}

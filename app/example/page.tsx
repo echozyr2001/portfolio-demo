@@ -60,46 +60,35 @@ const ContactIcon = () => (
   </svg>
 );
 
-// Exhibition type definition
-type Exhibition = {
+type Project = {
   id: string;
   title: string;
-  location: string;
+  description: string;
+  tech: string[];
+  link?: string;
 };
+
+const projects: Project[] = [
+  {
+    id: "01",
+    title: "Personal Portfolio",
+    description:
+      "Built with Next.js and Tailwind CSS to showcase my work and skills.",
+    tech: ["Next.js", "TypeScript", "Tailwind"],
+    link: "https://yourdomain.com",
+  },
+  // ...
+];
 
 // Social platform type
 type SocialPlatform = "IG" | "FB" | "TW" | "YT";
 
 export default function Home() {
   // Navigation items
-  const navItems = ["Home", "About", "Portfolio", "Exhibitions", "Contact"];
+  const navItems = ["Home", "About", "Skills", "Projects", "Contact"];
 
   // Social media platforms
   const socialPlatforms: SocialPlatform[] = ["IG", "FB", "TW", "YT"];
-
-  // Exhibition data
-  const exhibitions: Exhibition[] = [
-    {
-      id: "01",
-      title: "Cinematic Visions Unveiled",
-      location: "Madrid Gallery, Spain, 21 Nov 2023",
-    },
-    {
-      id: "02",
-      title: "Frames in Motion",
-      location: "Manchester Museum, UK, 20 Nov 2023",
-    },
-    {
-      id: "03",
-      title: "Journey Through Time",
-      location: "Milan Gallery, Italy, 19 Nov 2023",
-    },
-    {
-      id: "04",
-      title: "Experimental Narratives",
-      location: "Paris Museum, France, 18 Nov 2023",
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-[#D9D5D2] flex flex-col">
@@ -109,57 +98,19 @@ export default function Home() {
         {/* Grain texture overlay - using the original grain.svg for texture */}
         <GrainEffect opacity={0.5} blendMode="soft-light" zIndex={60} />
 
-        {/* <header className="w-full py-6 px-8 flex fixed justify-between items-center z-50">
-          <div className="flex items-center">
-            <Logo />
-          </div>
-
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-[#2C2A25]"
-              aria-label="Menu"
-            >
-              <Menu className="h-6 w-6" />
-            </Button>
-          </div>
-
-          <nav className="hidden md:flex space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item}
-                href={item === "Home" ? "#" : `#${item.toLowerCase()}`}
-                className="text-[#2C2A25] hover:text-gray-600"
-              >
-                {item}
-              </a>
-            ))}
-          </nav>
-
-          <div className="hidden md:flex items-center">
-            <span className="text-sm mr-2 text-[#2C2A25]">
-              Sam Cano, 22 Nov 23
-            </span>
-            <div className="w-8 h-8 rounded-full bg-[#A2ABB1] flex items-center justify-center">
-              <span className="text-white text-xs">SC</span>
-            </div>
-          </div>
-        </header> */}
-
         <main className="flex-1 relative">
           {/* Hero Section */}
           <section className="w-full px-4 py-16 md:py-24 md:px-8 bg-[#F6F4F1] relative z-40 rounded-b-[100px] mb-[-100px]">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex flex-col justify-center">
                 <h1 className="text-7xl md:text-[10rem] font-black leading-[0.9] mb-6 text-[#2C2A25] tracking-tighter">
-                  visual
-                  <br />
-                  poetry
+                  build
+                  <br />& design
                 </h1>
                 <p className="text-lg max-w-md mb-8 text-[#2C2A25]">
-                  Welcome to a visual journey that transcends time and space.
-                  Discover the artistry of moments captured in motion.
+                  I&apos;m a software engineer who crafts digital experiences
+                  with clean code and intuitive design. Passionate about turning
+                  ideas into beautiful and functional products.
                 </p>
 
                 {/* Social links */}
@@ -283,17 +234,19 @@ export default function Home() {
 
                 <div>
                   <h3 className="text-3xl font-bold mb-6">
-                    The Art of Visual Storytelling
+                    A Developer with a Designer&apos;s Curiosity
                   </h3>
                   <p className="text-lg mb-6">
-                    With over a decade of experience capturing moments that
-                    matter, I&apos;ve developed a unique perspective that blends
-                    technical precision with artistic vision.
+                    I&apos;m a full-stack developer with a background in
+                    Computer Science and several years of experience building
+                    scalable web applications. I enjoy designing clean,
+                    user-friendly interfaces while also caring about performance
+                    and maintainability.
                   </p>
                   <p className="text-lg mb-8">
-                    My work explores the intersection of light, emotion, and
-                    narrative, creating visual poetry that resonates with
-                    viewers on a profound level.
+                    Recently, I&apos;ve been diving into UI/UX design, learning
+                    tools like Figma and Framer, aiming to blend code and design
+                    into cohesive user experiences.
                   </p>
                   <Button
                     variant="outline"
@@ -307,14 +260,14 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Portfolio Section */}
+          {/* Skills Section */}
           <section
-            id="portfolio"
+            id="skills"
             className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#FBF9F9] relative z-20 rounded-b-[100px] mb-[-100px]"
           >
             <div className="max-w-7xl mx-auto">
               <h2 className="text-6xl md:text-8xl font-bold mb-16 text-[#2C2A25]">
-                portfolio
+                Skills
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -358,36 +311,36 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Exhibitions Section */}
+          {/* Projects Section */}
           <section
-            id="exhibitions"
+            id="projects"
             className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#FBF9F9] relative z-10 rounded-b-[100px] mb-[-100px]"
           >
             <div className="max-w-7xl mx-auto">
               <div className="overflow-hidden mb-16">
                 <div>
                   <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap text-[#2C2A25]">
-                    exhibitions · exhibitions
+                    projects · projects
                   </h2>
                 </div>
               </div>
 
               <div className="space-y-8">
-                {exhibitions.map((exhibition) => (
+                {projects.map((project) => (
                   <div
-                    key={exhibition.id}
+                    key={project.id}
                     className="border-t border-gray-200 py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-center"
                   >
                     <div className="md:col-span-1 text-xl font-bold text-[#2C2A25]">
-                      {exhibition.id}
+                      {project.id}
                     </div>
                     <div className="md:col-span-4">
                       <h3 className="text-2xl font-bold text-[#2C2A25]">
-                        {exhibition.title}
+                        {project.title}
                       </h3>
                     </div>
                     <div className="md:col-span-4 text-gray-600">
-                      {exhibition.location}
+                      {project.description}
                     </div>
                     <div className="md:col-span-3 flex justify-end">
                       <Button
@@ -458,7 +411,7 @@ export default function Home() {
 
           <div className="max-w-7xl mx-auto mt-8 overflow-hidden">
             <h2 className="text-6xl md:text-8xl font-bold opacity-20 text-[#2C2A25]">
-              vidéaste
+              full-stack · frontend · UI-curious
             </h2>
           </div>
         </footer>

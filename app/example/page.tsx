@@ -396,7 +396,7 @@ export default function Home() {
             id="contact"
             className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#D9D5D2] relative z-0"
           >
-            <div className="max-w-6xl mx-auto bg-[#ECEAE8] rounded-[40px] shadow-sm p-8 md:p-10 text-center hover-lift">
+            <div className="max-w-6xl mx-auto bg-[#ECEAE8] rounded-[40px] shadow-sm p-8 md:p-10 text-center">
               <div className="inline-block mx-auto mb-6">
                 <ContactIcon />
               </div>

@@ -151,15 +151,17 @@ export default function Home() {
               </div>
 
               <div className="relative">
-                <div className="bg-[#A2ABB1] rounded-3xl overflow-hidden h-[500px] relative">
-                  <Image
-                    src="/placeholder.svg?height=500&width=400"
-                    alt="Photographer with camera"
-                    width={400}
-                    height={500}
-                    className="object-cover h-full w-full"
-                    priority
-                  />
+                <div className="bg-[#A2ABB1] rounded-3xl relative overflow-visible">
+                  <div className="relative min-h-[500px] items-center justify-center flex">
+                    <Image
+                      src="/bibibai.png?height=500&width=400"
+                      alt="Software engineer and designer"
+                      width={400}
+                      height={500}
+                      className="object-contain w-full"
+                      priority
+                    />
+                  </div>
                 </div>
               </div>
             </div>

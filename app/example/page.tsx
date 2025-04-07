@@ -96,8 +96,14 @@ export default function Home() {
       {/* Header */}
       <Header />
       <div className="w-full max-w-[1400px] mx-auto bg-[#F6F4F1] overflow-hidden">
-        {/* Grain texture overlay - using the original grain.svg for texture */}
-        <GrainEffect opacity={0.5} blendMode="soft-light" zIndex={60} />
+        {/* Grain texture overlay - using transparent SVG for better results */}
+        <GrainEffect
+          opacity={0.3}
+          blendMode="overlay"
+          zIndex={60}
+          preserveLuminosity={true}
+          grainIntensity={0.3}
+        />
 
         <main className="flex-1 relative">
           {/* Hero Section */}

@@ -98,10 +98,10 @@ export default function Home() {
       <div className="w-full max-w-[1400px] mx-auto bg-[#F6F4F1] overflow-hidden">
         {/* Grain texture overlay - using transparent SVG for better results */}
         <GrainEffect
-          opacity={0.3}
-          blendMode="overlay"
+          opacity={0.7}
+          blendMode="difference"
           zIndex={60}
-          grainIntensity={0.5}
+          grainIntensity={0.2}
         />
 
         <main className="flex-1 relative">

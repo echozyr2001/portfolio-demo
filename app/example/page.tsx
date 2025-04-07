@@ -101,8 +101,7 @@ export default function Home() {
           opacity={0.3}
           blendMode="overlay"
           zIndex={60}
-          preserveLuminosity={true}
-          grainIntensity={0.3}
+          grainIntensity={0.5}
         />
 
         <main className="flex-1 relative">

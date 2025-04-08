@@ -261,7 +261,7 @@ export default function Home() {
                     className="rounded-full bg-transparent text-white border-white hover:bg-white hover:text-[#333333] px-6 h-12"
                   >
                     <span>Learn More</span>
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
@@ -387,10 +387,10 @@ export default function Home() {
               <div className="mt-12 flex justify-center">
                 <Button
                   variant="default"
-                  className="rounded-full bg-[#A2ABB1] text-white px-8 h-12"
+                  className="rounded-full bg-[#A2ABB1] text-white px-8 h-12 hover:bg-[#8A9AA3] transition-colors duration-300"
                 >
                   <span>View All Projects</span>
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="h-4 w-4" />
                 </Button>
               </div>
             </div>
@@ -411,7 +411,7 @@ export default function Home() {
               </h2>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button className="rounded-full bg-[#A2ABB1] text-white px-6 h-10 sm:h-12 border border-black/5 hover:bg-[#8A9AA3] transition-colors duration-300">
-                  <Mail className="mr-2 h-4 w-4" />
+                  <Mail className="h-4 w-4" />
                   <span>Email Me</span>
                 </Button>
                 <Button

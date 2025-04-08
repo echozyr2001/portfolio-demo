@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import grainImage from "@/public/grain-transparent.svg";
 
 interface GrainEffectProps {
@@ -27,25 +25,6 @@ export const GrainEffect: React.FC<GrainEffectProps> = ({
   zIndex = 100,
   grainIntensity = 0.3,
 }) => {
-  // Client-side only code to avoid hydration mismatch
-  const [isClient, setIsClient] = useState(false);
-
-  // Set isClient to true once component mounts (client-side only)
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  // Only render the full component on the client side
-  if (!isClient) {
-    return (
-      <div
-        className="pointer-events-none fixed inset-0"
-        style={{ opacity: 0 }}
-        aria-hidden="true"
-      />
-    );
-  }
-
   // For transparent grain SVG, we use optimized blend modes that won't darken
   const bestBlendModes = {
     light: "screen",

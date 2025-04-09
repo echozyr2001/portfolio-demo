@@ -13,23 +13,24 @@ import { ContactSection } from "./components/ContactSection";
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#D9D5D2] flex flex-col">
+      {/* Grain texture overlay - using transparent SVG for better results */}
+      <GrainEffect
+        opacity={0.7}
+        blendMode="difference"
+        zIndex={60}
+        grainIntensity={0.2}
+      />
+
       {/* Header */}
       <Header />
+
       <motion.div
         className="w-full max-w-[1400px] mx-auto bg-[#F6F4F1] overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}
       >
-        {/* Grain texture overlay - using transparent SVG for better results */}
-        <GrainEffect
-          opacity={0.7}
-          blendMode="difference"
-          zIndex={60}
-          grainIntensity={0.2}
-        />
-
-        <main className="flex-1 relative">
+        <motion.main className="flex-1 relative">
           {/* Hero Section */}
           <HeroSection />
 
@@ -44,7 +45,7 @@ export default function Home() {
 
           {/* Contact Section */}
           <ContactSection />
-        </main>
+        </motion.main>
 
         {/* Footer */}
         <Footer />

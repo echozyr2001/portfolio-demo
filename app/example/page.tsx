@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "motion/react";
 import { ArrowRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/sections/Header";
@@ -96,7 +97,12 @@ export default function Home() {
     <div className="min-h-screen bg-[#D9D5D2] flex flex-col">
       {/* Header */}
       <Header />
-      <div className="w-full max-w-[1400px] mx-auto bg-[#F6F4F1] overflow-hidden">
+      <motion.div
+        className="w-full max-w-[1400px] mx-auto bg-[#F6F4F1] overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
         {/* Grain texture overlay - using transparent SVG for better results */}
         <GrainEffect
           opacity={0.7}
@@ -496,7 +502,7 @@ export default function Home() {
             </h2>
           </div>
         </footer>
-      </div>
+      </motion.div>
     </div>
   );
 }

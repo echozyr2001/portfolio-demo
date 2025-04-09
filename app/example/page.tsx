@@ -176,7 +176,7 @@ export default function Home() {
 
                     {/* Circular badge in bottom left */}
                     <div
-                      className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-black text-white flex items-center justify-center"
+                      className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-[#363433] text-white flex items-center justify-center"
                       style={{ transform: "translate(-30%, 20%)" }}
                     >
                       <div className="w-full h-full relative">

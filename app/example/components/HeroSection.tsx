@@ -66,9 +66,10 @@ export function HeroSection() {
               />
 
               {/* Circular badge in bottom left */}
-              <div
-                className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-[#363433] text-white flex items-center justify-center"
+              <a
+                className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-[#363433] text-white flex items-center justify-center p-6 cursor-pointer group"
                 style={{ transform: "translate(-30%, 20%)" }}
+                href="#contact"
               >
                 <div className="w-full h-full relative">
                   <SpinningText
@@ -87,6 +88,7 @@ export function HeroSection() {
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
+                      className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
                     >
                       <path
                         d="M7 17L17 7M17 7H7M17 7V17"
@@ -103,7 +105,7 @@ export function HeroSection() {
                     <div className="w-20 h-20 rounded-full border border-white/30"></div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>

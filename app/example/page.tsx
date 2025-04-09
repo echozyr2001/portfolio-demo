@@ -158,7 +158,7 @@ export default function Home() {
 
               <div className="relative">
                 <div className="bg-[#A2ABB1] rounded-3xl relative overflow-visible">
-                  <div className="relative min-h-[500px] items-center justify-center flex">
+                  <div className="relative min-h-[500px] items-center justify-center flex overflow-visible">
                     <Image
                       src="/bibibai.png?height=500&width=400"
                       alt="Software engineer and designer"
@@ -169,12 +169,15 @@ export default function Home() {
                     />
 
                     {/* Circular badge in bottom left */}
-                    <div className="absolute bottom-4 left-4 w-28 h-28 rounded-full bg-black text-white flex items-center justify-center">
+                    <div
+                      className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-black text-white flex items-center justify-center"
+                      style={{ transform: "translate(-30%, 20%)" }}
+                    >
                       <div className="w-full h-full relative">
                         <SpinningText
                           duration={15}
-                          className="w-full h-full text-xs"
-                          radius={5}
+                          className="w-full h-full text-sm"
+                          radius={6.5}
                         >
                           LETS TALK • LETS TALK • LETS TALK • LETS TALK •
                         </SpinningText>
@@ -182,8 +185,8 @@ export default function Home() {
                         {/* Center arrow */}
                         <div className="absolute inset-0 flex items-center justify-center">
                           <svg
-                            width="16"
-                            height="16"
+                            width="24"
+                            height="24"
                             viewBox="0 0 24 24"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +203,7 @@ export default function Home() {
 
                         {/* Inner circle */}
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-14 h-14 rounded-full border border-white/30"></div>
+                          <div className="w-20 h-20 rounded-full border border-white/30"></div>
                         </div>
                       </div>
                     </div>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/sections/Header";
 import { GrainEffect } from "@/components/GrainEffect";
 import { TechStack } from "@/components/sections/TechStack";
+import { SpinningText } from "@/src/components/magicui/spinning-text";
 
 // Color constants for consistent usage
 const COLORS = {
@@ -166,6 +167,43 @@ export default function Home() {
                       className="object-contain w-full"
                       priority
                     />
+
+                    {/* Circular badge in bottom left */}
+                    <div className="absolute bottom-4 left-4 w-28 h-28 rounded-full bg-black text-white flex items-center justify-center">
+                      <div className="w-full h-full relative">
+                        <SpinningText
+                          duration={15}
+                          className="w-full h-full text-xs"
+                          radius={5}
+                        >
+                          LETS TALK • LETS TALK • LETS TALK • LETS TALK •
+                        </SpinningText>
+
+                        {/* Center arrow */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M7 17L17 7M17 7H7M17 7V17"
+                              stroke="white"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+
+                        {/* Inner circle */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-14 h-14 rounded-full border border-white/30"></div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

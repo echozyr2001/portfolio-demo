@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { SpinningText } from "@/src/components/magicui/spinning-text";
+import { SpinningText } from "@/components/ui/spinning-text";
 import { SocialPlatform } from "../types";
 
 export function HeroSection() {

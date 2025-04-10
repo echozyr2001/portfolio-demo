@@ -9,6 +9,7 @@ import { AboutSection } from "./components/AboutSection";
 import { SkillsSection } from "./components/SkillsSection";
 import { ProjectsSection } from "./components/ProjectsSection";
 import { ContactSection } from "./components/ContactSection";
+import { ScrollToTop } from "./components/ScrollToTop";
 
 export default function Home() {
   return (
@@ -50,6 +51,8 @@ export default function Home() {
         {/* Footer */}
         <Footer />
       </motion.div>
+      {/* Scroll to top button */}
+      <ScrollToTop />
     </div>
   );
 }

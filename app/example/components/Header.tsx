@@ -111,7 +111,7 @@ export function Header() {
                       variants={itemVariants}
                       initial="initial"
                       animate={isHovered === index ? "hover" : "initial"}
-                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                     >
                       {item.name}
                     </motion.div>
@@ -121,7 +121,7 @@ export function Header() {
                       variants={secondaryItemVariants}
                       initial="initial"
                       animate={isHovered === index ? "hover" : "initial"}
-                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
                     >
                       {item.name}
                     </motion.div>

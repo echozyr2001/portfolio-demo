@@ -19,16 +19,23 @@ export function ContactSection() {
           project
         </h2>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button className="rounded-full bg-[#A2ABB1] text-white px-6 h-10 sm:h-12 border border-black/5 hover:bg-[#8A9AA3] transition-colors duration-300">
-            <Mail className="h-4 w-4" />
-            <span>Email Me</span>
+          <Button
+            asChild
+            className="rounded-full bg-[#A2ABB1] text-white px-6 h-10 sm:h-12 border border-black/5 hover:bg-[#8A9AA3] transition-colors duration-300"
+          >
+            <a href="mailto:echo.zyr.2001@gmail.com">
+              <Mail className="h-4 w-4" />
+              <span>Email Me</span>
+            </a>
           </Button>
+          {/* WhatsApp button temporarily commented out
           <Button
             variant="outline"
             className="rounded-full h-10 sm:h-12 border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white transition-colors duration-300"
           >
             WhatsApp
           </Button>
+          */}
         </div>
       </div>
     </section>

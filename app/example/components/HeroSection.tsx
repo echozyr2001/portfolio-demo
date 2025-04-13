@@ -4,6 +4,50 @@ import Image from "next/image";
 import { SpinningText } from "@/components/ui/spinning-text";
 import { SocialPlatform } from "../types";
 
+// Sticker configuration
+interface Sticker {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  className: string;
+}
+
+const stickers: Sticker[] = [
+  {
+    src: "/stickers/sticker1.png",
+    alt: "Sticker 1",
+    width: 80,
+    height: 80,
+    className:
+      "absolute top-[-20px] right-[30px] rotate-[-10deg] z-30 transition-transform hover:scale-110",
+  },
+  {
+    src: "/stickers/sticker2.png",
+    alt: "Sticker 2",
+    width: 70,
+    height: 70,
+    className:
+      "absolute top-[100px] left-[-30px] rotate-[15deg] z-30 transition-transform hover:scale-110",
+  },
+  {
+    src: "/stickers/sticker3.png",
+    alt: "Sticker 3",
+    width: 60,
+    height: 60,
+    className:
+      "absolute bottom-[120px] right-[-20px] rotate-[-5deg] z-30 transition-transform hover:scale-110",
+  },
+  {
+    src: "/stickers/sticker4.png",
+    alt: "Sticker 4",
+    width: 75,
+    height: 75,
+    className:
+      "absolute top-[200px] right-[10px] rotate-[-12deg] z-30 transition-transform hover:scale-110",
+  },
+];
+
 export function HeroSection() {
   // Social media platforms
   const socialPlatforms: SocialPlatform[] = ["IG", "FB", "TW", "YT"];
@@ -150,6 +194,18 @@ export function HeroSection() {
             {/* Main image container */}
             <div className="relative overflow-visible mt-8 md:mt-0">
               <div className="relative min-h-[500px] flex items-center justify-center">
+                {/* Stickers */}
+                {stickers.map((sticker, index) => (
+                  <Image
+                    key={index}
+                    src={sticker.src}
+                    alt={sticker.alt}
+                    width={sticker.width}
+                    height={sticker.height}
+                    className={sticker.className}
+                  />
+                ))}
+
                 {/* Main background */}
                 <div className="absolute inset-0 bg-[#F2E9DE] rounded-3xl"></div>
 

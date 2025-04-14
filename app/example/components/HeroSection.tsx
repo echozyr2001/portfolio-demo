@@ -71,9 +71,9 @@ export function HeroSection() {
     <section className="w-full px-4 py-16 md:py-24 md:px-8 bg-[#F6F4F1] relative z-40 rounded-b-[100px] mb-[-100px] overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Main content grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
+        <div className="grid grid-cols-1 md:grid-cols-10 gap-8 relative">
           {/* Left side - Large rounded card */}
-          <div className="relative z-10 pt-10 flex flex-col justify-between">
+          <div className="relative z-10 pt-10 flex flex-col justify-between md:col-span-6">
             <h1 className="text-6xl md:text-8xl font-black leading-[0.9] mb-6 text-[#2C2A25] tracking-tighter">
               Build
               <br />& Design
@@ -191,7 +191,7 @@ export function HeroSection() {
           </div>
 
           {/* Right side - Image with floating elements */}
-          <div className="relative">
+          <div className="relative md:col-span-4">
             {/* Main image container */}
             <div className="relative overflow-visible mt-8 md:mt-0">
               <div className="relative min-h-[500px] flex items-center justify-center">

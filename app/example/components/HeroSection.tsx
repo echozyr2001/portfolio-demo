@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { SpinningText } from "@/components/ui/spinning-text";
-import { SocialPlatform } from "../types";
 
 // Sticker configuration
 interface Sticker {
@@ -84,12 +83,28 @@ export function HeroSection() {
               into beautiful and functional products.
             </p>
 
-            {/* Get started button */}
+            {/* View my work button */}
             <a
-              href="#contact"
-              className="inline-block bg-white text-[#2C2A25] font-semibold py-3 px-8 rounded-full mb-10 hover:shadow-lg transition-all"
+              href="#projects"
+              className="bg-[#FFEB3B] text-[#2C2A25] px-6 py-3 rounded-full font-semibold flex items-center shadow-lg hover:shadow-xl transition-all mb-10"
             >
-              Get started
+              View my work
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="ml-2"
+              >
+                <path
+                  d="M5 12H19M19 12L12 5M19 12L12 19"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </a>
 
             {/* Stats */}
@@ -257,32 +272,6 @@ export function HeroSection() {
                   />
                 </div>
 
-                {/* View my work button */}
-                <div className="absolute bottom-8 left-8 z-20">
-                  <a
-                    href="#projects"
-                    className="bg-[#FFEB3B] text-[#2C2A25] px-6 py-3 rounded-full font-semibold flex items-center shadow-lg hover:shadow-xl transition-all"
-                  >
-                    View my work
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="ml-2"
-                    >
-                      <path
-                        d="M5 12H19M19 12L12 5M19 12L12 19"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </a>
-                </div>
-
                 {/* Social platform buttons */}
                 <div className="absolute bottom-8 right-8 z-20 flex space-x-2">
                   {socialPlatformsData.map((platform) => (
@@ -303,6 +292,48 @@ export function HeroSection() {
                     </a>
                   ))}
                 </div>
+
+                {/* Circular badge in bottom left */}
+                <a
+                  className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-[#363433] text-white flex items-center justify-center p-6 cursor-pointer group"
+                  style={{ transform: "translate(-30%, 20%)" }}
+                  href="#contact"
+                >
+                  <div className="w-full h-full relative">
+                    <SpinningText
+                      duration={15}
+                      className="w-full h-full text-sm"
+                      radius={6.5}
+                    >
+                      LETS TALK • LETS TALK • LETS TALK • LETS TALK •
+                    </SpinningText>
+
+                    {/* Center arrow */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                      >
+                        <path
+                          d="M7 17L17 7M17 7H7M17 7V17"
+                          stroke="white"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+
+                    {/* Inner circle */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-20 h-20 rounded-full border border-white/30"></div>
+                    </div>
+                  </div>
+                </a>
               </div>
             </div>
           </div>

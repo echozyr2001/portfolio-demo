@@ -8,9 +8,6 @@ export type Project = {
   link?: string;
 };
 
-// Social platform type
-export type SocialPlatform = "IG" | "FB" | "TW" | "YT";
-
 // Color constants for consistent usage
 export const COLORS = {
   background: "#D9D5D2",

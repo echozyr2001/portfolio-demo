@@ -49,8 +49,23 @@ const stickers: Sticker[] = [
 ];
 
 export function HeroSection() {
-  // Social media platforms
-  const socialPlatforms: SocialPlatform[] = ["IG", "FB", "TW", "YT"];
+  // 右下角社交平台数据
+  const socialPlatformsData = [
+    {
+      name: "GitHub",
+      href: "#",
+      svgPath:
+        "M12 2C6.477 2 2 6.477 2 12C2 16.418 4.865 20.166 8.84 21.49C9.34 21.581 9.52 21.272 9.52 21.006C9.52 20.765 9.512 20.046 9.508 19.192C6.726 19.79 6.139 17.777 6.139 17.777C5.684 16.598 5.029 16.29 5.029 16.29C4.121 15.633 5.098 15.646 5.098 15.646C6.101 15.719 6.629 16.72 6.629 16.72C7.521 18.276 8.97 17.825 9.54 17.569C9.629 16.89 9.889 16.44 10.175 16.187C7.954 15.931 5.62 15.07 5.62 11.265C5.62 10.179 6.01 9.293 6.649 8.603C6.549 8.35 6.201 7.399 6.749 6.052C6.749 6.052 7.587 5.785 9.497 7.047C10.29 6.825 11.15 6.714 12 6.71C12.85 6.714 13.71 6.825 14.505 7.047C16.413 5.785 17.25 6.052 17.25 6.052C17.799 7.399 17.451 8.35 17.351 8.603C17.991 9.293 18.379 10.179 18.379 11.265C18.379 15.082 16.041 15.927 13.813 16.178C14.172 16.493 14.492 17.116 14.492 18.065C14.492 19.414 14.479 20.675 14.479 21.006C14.479 21.275 14.657 21.587 15.167 21.489C19.138 20.162 22 16.417 22 12C22 6.477 17.523 2 12 2Z",
+      hoverClass: "hover:bg-[#24292e]",
+    },
+    {
+      name: "LinkedIn",
+      href: "#",
+      svgPath:
+        "M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z",
+      hoverClass: "hover:bg-[#0077b5]",
+    },
+  ];
 
   return (
     <section className="w-full px-4 py-16 md:py-24 md:px-8 bg-[#F6F4F1] relative z-40 rounded-b-[100px] mb-[-100px] overflow-hidden">
@@ -76,20 +91,6 @@ export function HeroSection() {
             >
               Get started
             </a>
-
-            {/* Social links */}
-            <div className="flex space-x-4 mb-12">
-              {socialPlatforms.map((social) => (
-                <a
-                  key={social}
-                  href="#"
-                  className="w-10 h-10 rounded-full bg-white/70 flex items-center justify-center transition-transform hover:scale-110"
-                  aria-label={social}
-                >
-                  <span className="text-xs text-[#2C2A25]">{social}</span>
-                </a>
-              ))}
-            </div>
 
             {/* Stats */}
             <div className="grid grid-cols-2 gap-8">
@@ -284,34 +285,23 @@ export function HeroSection() {
 
                 {/* Social platform buttons */}
                 <div className="absolute bottom-8 right-8 z-20 flex space-x-2">
-                  {/* GitHub */}
-                  <a
-                    href="#"
-                    className="w-12 h-12 bg-[#333333] rounded-full flex items-center justify-center hover:bg-[#24292e] transition-colors"
-                  >
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="white"
+                  {socialPlatformsData.map((platform) => (
+                    <a
+                      key={platform.name}
+                      href={platform.href}
+                      className={`w-12 h-12 bg-[#333333] rounded-full flex items-center justify-center transition-colors ${platform.hoverClass}`}
+                      aria-label={platform.name}
                     >
-                      <path d="M12 2C6.477 2 2 6.477 2 12C2 16.418 4.865 20.166 8.84 21.49C9.34 21.581 9.52 21.272 9.52 21.006C9.52 20.765 9.512 20.046 9.508 19.192C6.726 19.79 6.139 17.777 6.139 17.777C5.684 16.598 5.029 16.29 5.029 16.29C4.121 15.633 5.098 15.646 5.098 15.646C6.101 15.719 6.629 16.72 6.629 16.72C7.521 18.276 8.97 17.825 9.54 17.569C9.629 16.89 9.889 16.44 10.175 16.187C7.954 15.931 5.62 15.07 5.62 11.265C5.62 10.179 6.01 9.293 6.649 8.603C6.549 8.35 6.201 7.399 6.749 6.052C6.749 6.052 7.587 5.785 9.497 7.047C10.29 6.825 11.15 6.714 12 6.71C12.85 6.714 13.71 6.825 14.505 7.047C16.413 5.785 17.25 6.052 17.25 6.052C17.799 7.399 17.451 8.35 17.351 8.603C17.991 9.293 18.379 10.179 18.379 11.265C18.379 15.082 16.041 15.927 13.813 16.178C14.172 16.493 14.492 17.116 14.492 18.065C14.492 19.414 14.479 20.675 14.479 21.006C14.479 21.275 14.657 21.587 15.167 21.489C19.138 20.162 22 16.417 22 12C22 6.477 17.523 2 12 2Z" />
-                    </svg>
-                  </a>
-                  {/* LinkedIn */}
-                  <a
-                    href="#"
-                    className="w-12 h-12 bg-[#333333] rounded-full flex items-center justify-center hover:bg-[#0077b5] transition-colors"
-                  >
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="white"
-                    >
-                      <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" />
-                    </svg>
-                  </a>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="white"
+                      >
+                        <path d={platform.svgPath} />
+                      </svg>
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>

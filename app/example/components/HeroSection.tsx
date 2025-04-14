@@ -73,11 +73,23 @@ export function HeroSection() {
         <div className="grid grid-cols-1 md:grid-cols-10 gap-8 relative">
           {/* Left side - Large rounded card */}
           <div className="relative z-10 pt-10 flex flex-col justify-between md:col-span-6">
-            <h1 className="text-6xl md:text-8xl font-black leading-[0.9] mb-6 text-[#2C2A25] tracking-tighter">
-              Build
-              <br />& Design
-            </h1>
-            <p className="text-lg max-w-md mb-8 text-[#2C2A25]">
+            <div className="relative mb-8">
+              <h1 className="relative">
+                <span className="relative block text-7xl md:text-9xl font-black text-[#2C2A25] tracking-tighter leading-[0.9]">
+                  Build
+                  <span className="absolute -left-1 -top-1 text-7xl md:text-9xl font-black text-[#A2D2E2]/20 tracking-tighter leading-[0.9] select-none">
+                    Build
+                  </span>
+                </span>
+                <span className="relative block text-7xl md:text-9xl font-black text-[#2C2A25] tracking-tighter leading-[0.9]">
+                  & Design
+                  <span className="absolute -left-1 -top-1 text-7xl md:text-9xl font-black text-[#FFEB3B]/20 tracking-tighter leading-[0.9] select-none">
+                    & Design
+                  </span>
+                </span>
+              </h1>
+            </div>
+            <p className="text-lg max-w-5/6 mb-8 text-[#2C2A25]">
               I&apos;m a software engineer who crafts digital experiences with
               clean code and intuitive design. Passionate about turning ideas
               into beautiful and functional products.

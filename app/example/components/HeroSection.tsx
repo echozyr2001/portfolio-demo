@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "motion/react";
 import { SpinningText } from "@/components/ui/spinning-text";
 
 // Sticker configuration
@@ -72,23 +73,63 @@ export function HeroSection() {
         {/* Main content grid */}
         <div className="grid grid-cols-1 md:grid-cols-10 gap-8 relative">
           {/* Left side - Large rounded card */}
-          <div className="relative z-10 pt-10 flex flex-col justify-between md:col-span-6">
-            <div className="relative mb-8">
+          <div className="relative z-10 pt-10 flex flex-col justify-center md:col-span-6">
+            <motion.div
+              className="relative mb-8"
+              initial="initial"
+              animate="animate"
+              whileHover="groupHover"
+            >
               <h1 className="relative">
-                <span className="relative block text-7xl md:text-9xl font-black text-[#2C2A25] tracking-tighter leading-[0.9]">
+                <motion.span
+                  className="block text-7xl md:text-9xl font-black text-[#2C2A25] tracking-tighter leading-[0.9]"
+                  variants={{
+                    initial: {
+                      opacity: 0,
+                      y: 20,
+                      textShadow: "-2px -2px 0 rgba(162, 210, 226, 0.3)",
+                    },
+                    animate: {
+                      opacity: 1,
+                      y: 0,
+                      textShadow: "-2px -2px 0 rgba(162, 210, 226, 0.3)",
+                    },
+                    groupHover: {
+                      textShadow: "0 0 15px rgba(162, 210, 226, 0.6)",
+                    },
+                  }}
+                  transition={{
+                    duration: 0.6,
+                  }}
+                >
                   Build
-                  <span className="absolute -left-1 -top-1 text-7xl md:text-9xl font-black text-[#A2D2E2]/20 tracking-tighter leading-[0.9] select-none">
-                    Build
-                  </span>
-                </span>
-                <span className="relative block text-7xl md:text-9xl font-black text-[#2C2A25] tracking-tighter leading-[0.9]">
+                </motion.span>
+                <motion.span
+                  className="block text-7xl md:text-9xl font-black text-[#2C2A25] tracking-tighter leading-[0.9]"
+                  variants={{
+                    initial: {
+                      opacity: 0,
+                      y: 20,
+                      textShadow: "-2px -2px 0 rgba(255, 235, 59, 0.3)",
+                    },
+                    animate: {
+                      opacity: 1,
+                      y: 0,
+                      textShadow: "-2px -2px 0 rgba(255, 235, 59, 0.3)",
+                      transition: { delay: 0.2 },
+                    },
+                    groupHover: {
+                      textShadow: "0 0 15px rgba(255, 235, 59, 0.6)",
+                    },
+                  }}
+                  transition={{
+                    duration: 0.6,
+                  }}
+                >
                   & Design
-                  <span className="absolute -left-1 -top-1 text-7xl md:text-9xl font-black text-[#FFEB3B]/20 tracking-tighter leading-[0.9] select-none">
-                    & Design
-                  </span>
-                </span>
+                </motion.span>
               </h1>
-            </div>
+            </motion.div>
             <p className="text-lg max-w-5/6 mb-8 text-[#2C2A25]">
               I&apos;m a software engineer who crafts digital experiences with
               clean code and intuitive design. Passionate about turning ideas

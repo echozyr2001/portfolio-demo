@@ -137,11 +137,19 @@ export function HeroSection() {
             </p>
 
             {/* View my work button */}
-            <a
+            <motion.a
               href="#projects"
-              className="bg-[#FFEB3B] text-[#2C2A25] px-6 py-3 rounded-full font-semibold flex items-center shadow-lg hover:shadow-xl transition-all mb-10"
+              className="bg-[#FFEB3B] text-[#2C2A25] px-6 py-3 rounded-full font-semibold flex items-center justify-center shadow-lg mb-10 w-[200px] mx-auto sm:mx-0"
+              // initial={{ opacity: 0, y: 20 }}
+              // animate={{ opacity: 1, y: 0 }}
+              // transition={{ duration: 0.1 }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow:
+                  "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              }}
             >
-              View my work
+              <span>View my work</span>
               <svg
                 width="24"
                 height="24"
@@ -158,7 +166,7 @@ export function HeroSection() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </a>
+            </motion.a>
 
             {/* Stats */}
             <div className="grid grid-cols-2 gap-8">

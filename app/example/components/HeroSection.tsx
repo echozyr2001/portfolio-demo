@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "motion/react";
 import { SpinningText } from "@/components/ui/spinning-text";
+import { ArrowIcon } from "./ArrowIcon";
 
 // Sticker configuration
 interface Sticker {
@@ -149,22 +150,7 @@ export function HeroSection() {
                 }}
               >
                 <span className="whitespace-nowrap">View my work</span>
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ml-2"
-                >
-                  <path
-                    d="M5 12H19M19 12L12 5M19 12L12 19"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <ArrowIcon type="horizontal" className="ml-2" strokeWidth={2} />
               </motion.a>
 
               {/* Contact Me button - only visible on mobile */}
@@ -178,22 +164,7 @@ export function HeroSection() {
                 }}
               >
                 <span className="whitespace-nowrap">Let's Talk</span>
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ml-2"
-                >
-                  <path
-                    d="M7 17L17 7M17 7H7M17 7V17"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <ArrowIcon type="diagonal" className="ml-2" strokeWidth={2} />
               </motion.a>
             </div>
 
@@ -242,22 +213,12 @@ export function HeroSection() {
                   <h3 className="text-3xl font-bold text-[#2C2A25]">Updates</h3>
                 </div>
                 <div className="absolute bottom-6 right-6">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <ArrowIcon
+                    type="diagonal"
+                    color="#2C2A25"
                     className="transform transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-                  >
-                    <path
-                      d="M7 17L17 7M17 7H7M17 7V17"
-                      stroke="#2C2A25"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                    strokeWidth={2}
+                  />
                 </div>
               </div>
 
@@ -274,22 +235,12 @@ export function HeroSection() {
                   <h3 className="text-3xl font-bold text-[#2C2A25]">Quest</h3>
                 </div>
                 <div className="absolute bottom-6 right-6">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <ArrowIcon
+                    type="diagonal"
+                    color="#2C2A25"
                     className="transform transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-                  >
-                    <path
-                      d="M7 17L17 7M17 7H7M17 7V17"
-                      stroke="#2C2A25"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                    strokeWidth={2}
+                  />
                 </div>
               </div>
             </div>
@@ -408,22 +359,13 @@ export function HeroSection() {
 
                     {/* Center arrow */}
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                      <ArrowIcon
+                        type="diagonal"
+                        size={20}
+                        color="white"
                         className="sm:w-6 sm:h-6 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-                      >
-                        <path
-                          d="M7 17L17 7M17 7H7M17 7V17"
-                          stroke="white"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                        strokeWidth={2}
+                      />
                     </div>
 
                     {/* Inner circle */}

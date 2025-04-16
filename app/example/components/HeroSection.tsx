@@ -20,7 +20,7 @@ const stickers: Sticker[] = [
     width: 80,
     height: 80,
     className:
-      "absolute top-[-20px] right-[30px] rotate-[-10deg] z-30 transition-transform hover:scale-110",
+      "absolute top-[-10px] sm:top-[-20px] right-[20px] sm:right-[30px] w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] rotate-[-10deg] z-30 transition-transform hover:scale-110",
   },
   {
     src: "/stickers/sticker2.png",
@@ -28,7 +28,7 @@ const stickers: Sticker[] = [
     width: 70,
     height: 70,
     className:
-      "absolute top-[100px] left-[-30px] rotate-[15deg] z-30 transition-transform hover:scale-110",
+      "absolute top-[80px] sm:top-[100px] left-[-20px] sm:left-[-30px] w-[50px] h-[50px] sm:w-[70px] sm:h-[70px] rotate-[15deg] z-30 transition-transform hover:scale-110",
   },
   {
     src: "/stickers/sticker3.png",
@@ -36,7 +36,7 @@ const stickers: Sticker[] = [
     width: 60,
     height: 60,
     className:
-      "absolute bottom-[120px] right-[-20px] rotate-[-5deg] z-30 transition-transform hover:scale-110",
+      "absolute bottom-[100px] sm:bottom-[120px] right-[-10px] sm:right-[-20px] w-[45px] h-[45px] sm:w-[60px] sm:h-[60px] rotate-[-5deg] z-30 transition-transform hover:scale-110",
   },
   {
     src: "/stickers/sticker4.png",
@@ -44,7 +44,7 @@ const stickers: Sticker[] = [
     width: 75,
     height: 75,
     className:
-      "absolute top-[200px] right-[10px] rotate-[-12deg] z-30 transition-transform hover:scale-110",
+      "absolute top-[160px] sm:top-[200px] right-[5px] sm:right-[10px] w-[55px] h-[55px] sm:w-[75px] sm:h-[75px] rotate-[-12deg] z-30 transition-transform hover:scale-110",
   },
 ];
 
@@ -136,37 +136,66 @@ export function HeroSection() {
               into beautiful and functional products.
             </p>
 
-            {/* View my work button */}
-            <motion.a
-              href="#projects"
-              className="bg-[#FFEB3B] text-[#2C2A25] px-6 py-3 rounded-full font-semibold flex items-center justify-center shadow-lg mb-10 w-[200px] mx-auto sm:mx-0"
-              // initial={{ opacity: 0, y: 20 }}
-              // animate={{ opacity: 1, y: 0 }}
-              // transition={{ duration: 0.1 }}
-              whileHover={{
-                scale: 1.05,
-                boxShadow:
-                  "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-              }}
-            >
-              <span>View my work</span>
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="ml-2"
+            {/* Buttons container */}
+            <div className="flex flex-wrap gap-4 mb-10 justify-center sm:justify-start">
+              {/* View my work button */}
+              <motion.a
+                href="#projects"
+                className="bg-[#FFEB3B] text-[#2C2A25] px-6 py-3 rounded-full font-semibold flex items-center justify-center shadow-lg w-[180px] whitespace-nowrap"
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow:
+                    "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                }}
               >
-                <path
-                  d="M5 12H19M19 12L12 5M19 12L12 19"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </motion.a>
+                <span className="whitespace-nowrap">View my work</span>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="ml-2"
+                >
+                  <path
+                    d="M5 12H19M19 12L12 5M19 12L12 19"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </motion.a>
+
+              {/* Contact Me button - only visible on mobile */}
+              <motion.a
+                href="#contact"
+                className="flex md:hidden bg-[#363433] text-white px-6 py-3 rounded-full font-semibold items-center justify-center shadow-lg w-[180px] whitespace-nowrap"
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow:
+                    "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                }}
+              >
+                <span className="whitespace-nowrap">Let's Talk</span>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="ml-2"
+                >
+                  <path
+                    d="M7 17L17 7M17 7H7M17 7V17"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </motion.a>
+            </div>
 
             {/* Stats */}
             <div className="grid grid-cols-2 gap-8">
@@ -268,9 +297,9 @@ export function HeroSection() {
 
           {/* Right side - Image with floating elements */}
           <div className="relative md:col-span-4">
-            {/* Main image container */}
-            <div className="relative overflow-visible mt-8 md:mt-0">
-              <div className="relative min-h-[500px] flex items-center justify-center">
+            {/* Desktop view - Main image container */}
+            <div className="hidden md:block relative overflow-visible mt-8 md:mt-0">
+              <div className="relative min-h-[400px] md:min-h-[500px] flex items-center justify-center">
                 {/* Stickers */}
                 {stickers.map((sticker, index) => (
                   <Image
@@ -294,16 +323,16 @@ export function HeroSection() {
                 </div>
 
                 {/* Fullstack dev tag */}
-                <div className="absolute left-[-20px] top-1/2 transform -translate-y-1/2 z-20">
-                  <div className="bg-[#333333] text-white px-4 py-3 rounded-xl shadow-lg rotate-[-12deg]">
+                <div className="absolute left-[-15px] sm:left-[-20px] top-1/2 transform -translate-y-1/2 z-20">
+                  <div className="bg-[#333333] text-white px-3 py-2 sm:px-4 sm:py-3 rounded-xl shadow-lg rotate-[-12deg] scale-90 sm:scale-100">
                     <div className="flex items-center">
                       <svg
-                        width="24"
-                        height="24"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="mr-2"
+                        className="mr-1 sm:mr-2 sm:w-6 sm:h-6"
                       >
                         <path
                           d="M8 3L4 7L8 11M16 3L20 7L16 11M7 17H17M12 3V13"
@@ -314,8 +343,12 @@ export function HeroSection() {
                         />
                       </svg>
                       <div>
-                        <div className="text-xs font-medium">FULLSTACK</div>
-                        <div className="text-xs font-medium">DEVELOPER</div>
+                        <div className="text-[10px] sm:text-xs font-medium">
+                          FULLSTACK
+                        </div>
+                        <div className="text-[10px] sm:text-xs font-medium">
+                          DEVELOPER
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -328,25 +361,26 @@ export function HeroSection() {
                     alt="Software engineer and designer"
                     width={400}
                     height={500}
-                    className="object-contain"
+                    className="object-contain w-[300px] h-[375px] sm:w-[400px] sm:h-[500px]"
                     priority
                   />
                 </div>
 
                 {/* Social platform buttons */}
-                <div className="absolute bottom-8 right-8 z-20 flex space-x-2">
+                <div className="absolute bottom-6 sm:bottom-8 right-4 sm:right-8 z-20 flex space-x-1 sm:space-x-2">
                   {socialPlatformsData.map((platform) => (
                     <a
                       key={platform.name}
                       href={platform.href}
-                      className={`w-12 h-12 bg-[#333333] rounded-full flex items-center justify-center transition-colors ${platform.hoverClass}`}
+                      className={`w-10 h-10 sm:w-12 sm:h-12 bg-[#333333] rounded-full flex items-center justify-center transition-colors ${platform.hoverClass}`}
                       aria-label={platform.name}
                     >
                       <svg
-                        width="24"
-                        height="24"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
                         fill="white"
+                        className="sm:w-6 sm:h-6"
                       >
                         <path d={platform.svgPath} />
                       </svg>
@@ -356,15 +390,18 @@ export function HeroSection() {
 
                 {/* Circular badge in bottom left */}
                 <a
-                  className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-[#363433] text-white flex items-center justify-center p-6 cursor-pointer group"
-                  style={{ transform: "translate(-30%, 20%)" }}
+                  className="absolute bottom-0 left-0 w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-[#363433] text-white flex items-center justify-center p-4 sm:p-6 cursor-pointer group"
+                  style={{
+                    transform:
+                      "translate(-25%, 15%) scale(0.85) sm:translate(-30%, 20%) sm:scale(1)",
+                  }}
                   href="#contact"
                 >
                   <div className="w-full h-full relative">
                     <SpinningText
                       duration={15}
-                      className="w-full h-full text-sm"
-                      radius={6.5}
+                      className="w-full h-full text-xs sm:text-sm"
+                      radius={5.5}
                     >
                       LETS TALK • LETS TALK • LETS TALK • LETS TALK •
                     </SpinningText>
@@ -372,12 +409,12 @@ export function HeroSection() {
                     {/* Center arrow */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <svg
-                        width="24"
-                        height="24"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                        className="sm:w-6 sm:h-6 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
                       >
                         <path
                           d="M7 17L17 7M17 7H7M17 7V17"
@@ -391,7 +428,7 @@ export function HeroSection() {
 
                     {/* Inner circle */}
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-20 h-20 rounded-full border border-white/30"></div>
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-white/30"></div>
                     </div>
                   </div>
                 </a>

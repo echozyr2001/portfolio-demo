@@ -218,7 +218,7 @@ export function Header() {
                   </ul>
 
                   {/* 移动端用户头像 */}
-                  <motion.div
+                  {/* <motion.div
                     className="mt-auto mb-10 flex justify-center"
                     variants={menuItemVariants}
                   >
@@ -233,7 +233,7 @@ export function Header() {
                     >
                       <span className="text-white text-sm">SC</span>
                     </motion.div>
-                  </motion.div>
+                  </motion.div> */}
                 </motion.div>
               )}
             </AnimatePresence>

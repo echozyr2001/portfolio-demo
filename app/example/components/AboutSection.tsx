@@ -44,33 +44,31 @@ export function AboutSection() {
                     className="object-contain"
                   />
                 </div>
+
+                {/* Decorative crosshairs */}
+                {[
+                  { position: "-top-4 -left-4", border: "border-t border-l" },
+                  { position: "-top-4 -right-4", border: "border-t border-r" },
+                  {
+                    position: "-bottom-4 -left-4",
+                    border: "border-b border-l",
+                  },
+                  {
+                    position: "-bottom-4 -right-4",
+                    border: "border-b border-r",
+                  },
+                ].map((item, index) => (
+                  <div
+                    key={index}
+                    className={`absolute ${item.position} w-8 h-8 border border-white rounded-full flex items-center justify-center`}
+                  >
+                    <div
+                      className={`w-4 h-4 ${item.border} border-white`}
+                    ></div>
+                  </div>
+                ))}
               </div>
             </div>
-
-            {/* Decorative crosshairs */}
-            {[
-              "top-4 left-4 border-t border-l",
-              "top-4 right-4 border-t border-r",
-              "bottom-4 left-4 border-b border-l",
-              "bottom-4 right-4 border-b border-r",
-            ].map((position, index) => (
-              <div
-                key={index}
-                className={`absolute ${position
-                  .split(" ")
-                  .slice(0, 2)
-                  .join(
-                    " "
-                  )} w-8 h-8 border border-white rounded-full flex items-center justify-center`}
-              >
-                <div
-                  className={`w-4 h-4 ${position
-                    .split(" ")
-                    .slice(2)
-                    .join(" ")} border-white`}
-                ></div>
-              </div>
-            ))}
           </div>
 
           <div>

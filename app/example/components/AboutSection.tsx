@@ -6,25 +6,37 @@ import { ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { COLORS } from "../types";
 
-// Timeline data with descriptions
+// Timeline data with descriptions including month and year
 const timelineData = [
   {
-    year: 2018,
+    startMonth: "Aug",
+    startYear: 2018,
+    endMonth: "Dec",
+    endYear: 2019,
     title: "Career Start",
     description: "Began journey as a frontend developer",
   },
   {
-    year: 2020,
+    startMonth: "Jan",
+    startYear: 2020,
+    endMonth: "Oct",
+    endYear: 2021,
     title: "Full Stack",
     description: "Expanded skills to backend development",
   },
   {
-    year: 2022,
+    startMonth: "Nov",
+    startYear: 2021,
+    endMonth: "Dec",
+    endYear: 2023,
     title: "Leadership",
     description: "Led development team on key projects",
   },
   {
-    year: 2024,
+    startMonth: "Jan",
+    startYear: 2024,
+    endMonth: "Present",
+    endYear: null,
     title: "Innovation",
     description: "Focusing on cutting-edge technologies",
   },
@@ -76,42 +88,33 @@ export function AboutSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          {/* Linear Timeline */}
-          <div className="relative h-auto py-8" ref={timelineRef}>
-            <div className="relative">
-              {/* Timeline line */}
-              <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-white/20"></div>
-
-              {/* Timeline points */}
-              <div className="space-y-12">
-                {timelineData.map((item, i) => (
-                  <div
-                    key={item.year}
-                    className="relative pl-12"
-                    onMouseEnter={() => setActiveYear(item.year)}
-                    onMouseLeave={() => setActiveYear(null)}
-                  >
-                    {/* Year point */}
-                    <div className="absolute left-0 flex items-center justify-center">
-                      <div
-                        className={`w-8 h-8 bg-white/10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                          activeYear === item.year ? "bg-[#A2ABB1]" : ""
-                        } hover:bg-[#A2ABB1]/70`}
-                      >
-                        <span className="text-sm font-medium">{item.year}</span>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="bg-white/5 p-4 rounded-lg border border-white/10 transition-all duration-300 hover:border-[#A2ABB1]/30">
+          {/* Experience Timeline List */}
+          <div className="py-8" ref={timelineRef}>
+            <div className="space-y-10">
+              {timelineData.map((item, i) => (
+                <div
+                  key={`${item.startYear}-${item.startMonth}`}
+                  className="group"
+                  onMouseEnter={() => setActiveYear(item.startYear)}
+                  onMouseLeave={() => setActiveYear(null)}
+                >
+                  {/* Content - with consistent width */}
+                  <div className="w-full bg-white/5 p-5 rounded-lg border border-white/10 transition-all duration-300 group-hover:border-[#A2ABB1]/30">
+                    <div className="flex justify-between items-center">
                       <h4 className="text-lg font-bold text-[#A2ABB1]">
                         {item.title}
                       </h4>
-                      <p className="text-white/80 mt-2">{item.description}</p>
+                      <span className="flex-shrink-0 text-white/60 font-medium transition-all duration-300 group-hover:text-[#A2ABB1]">
+                        {item.startMonth} {item.startYear} —{" "}
+                        {item.endMonth === "Present"
+                          ? "Present"
+                          : `${item.endMonth} ${item.endYear}`}
+                      </span>
                     </div>
+                    <p className="text-white/80 mt-2">{item.description}</p>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
 

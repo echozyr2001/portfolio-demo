@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import Image from "next/image";
+import { useEffect, useRef } from "react";
+// import Image from "next/image";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { COLORS } from "../types";
+// import { COLORS } from "../types";
 
 // Timeline data with descriptions including month and year
 const timelineData = [
@@ -43,7 +43,6 @@ const timelineData = [
 ];
 
 export function AboutSection() {
-  const [activeYear, setActiveYear] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
 
@@ -91,12 +90,10 @@ export function AboutSection() {
           {/* Experience Timeline List */}
           <div className="py-8" ref={timelineRef}>
             <div className="space-y-10">
-              {timelineData.map((item, i) => (
+              {timelineData.map((item) => (
                 <div
                   key={`${item.startYear}-${item.startMonth}`}
                   className="group"
-                  onMouseEnter={() => setActiveYear(item.startYear)}
-                  onMouseLeave={() => setActiveYear(null)}
                 >
                   {/* Content - with consistent width */}
                   <div className="w-full bg-white/5 p-5 rounded-lg border border-white/10 transition-all duration-300 group-hover:border-[#A2ABB1]/30">
@@ -164,7 +161,7 @@ export function AboutSection() {
                 My Philosophy
               </h4>
               <p className="italic text-xl text-[#ECEAE8] font-light">
-                "Code is solidified design, design is fluid code"
+                &quot;Code is solidified design, design is fluid code&quot;
               </p>
               <p className="mt-3 text-white/80 leading-relaxed">
                 Striving for the perfect blend of technology and aesthetics to

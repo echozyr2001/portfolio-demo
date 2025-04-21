@@ -81,10 +81,17 @@ export function Header() {
       {/* 移动端Header */}
       {isMounted && (
         <header className="md:hidden fixed w-full z-50 top-0 text-[#2C2A25]">
-          <div className="flex justify-between items-center p-4 bg-white/10 backdrop-blur-md border-b border-white/15">
+          <motion.nav
+            className="flex justify-between items-center px-4 py-2 border rounded-b-3xl"
+            style={{
+              backdropFilter: backdropBlurStyle,
+              borderColor: borderColorStyle,
+              backgroundColor: backgroundColorStyle,
+            }}
+          >
             <Logo />
             <Drawer>
-              <DrawerTrigger className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+              <DrawerTrigger className="p-2 rounded-full transition-colors">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -125,7 +132,7 @@ export function Header() {
                 </nav>
               </DrawerContent>
             </Drawer>
-          </div>
+          </motion.nav>
         </header>
       )}
 

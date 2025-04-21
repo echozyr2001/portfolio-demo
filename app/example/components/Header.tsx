@@ -3,6 +3,17 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import Link from "next/link";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
 
 const Logo = () => (
   <svg
@@ -27,7 +38,6 @@ const Logo = () => (
 export function Header() {
   const { scrollY } = useScroll();
   const [isHovered, setIsHovered] = useState<number | null>(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   // 在客户端挂载后设置isMounted为true，避免SSR水合不匹配
@@ -66,178 +76,56 @@ export function Header() {
     hover: { y: 0, skewY: 0 },
   };
 
-  // 汉堡菜单按钮动画变体
-  const hamburgerVariants = {
-    open: {
-      rotate: 45,
-      y: 7,
-    },
-    closed: {
-      rotate: 0,
-      y: 0,
-    },
-  };
-
-  const hamburgerBottomVariants = {
-    open: {
-      rotate: -45,
-      y: -5,
-    },
-    closed: {
-      rotate: 0,
-      y: 0,
-    },
-  };
-
-  // 移动菜单动画变体
-  const mobileMenuVariants = {
-    open: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 24,
-        staggerChildren: 0.07,
-        delayChildren: 0.1,
-      },
-    },
-    closed: {
-      opacity: 0,
-      y: -20,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 24,
-        staggerChildren: 0.05,
-        staggerDirection: -1,
-      },
-    },
-  };
-
-  const menuItemVariants = {
-    open: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 24,
-      },
-    },
-    closed: {
-      opacity: 0,
-      y: -10,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 24,
-      },
-    },
-  };
-
   return (
     <>
       {/* 移动端Header */}
       {isMounted && (
         <header className="md:hidden fixed w-full z-50 top-0 text-[#2C2A25]">
-          <motion.nav
-            className="flex items-center justify-between px-4 py-3 bg-white/10 backdrop-blur-sm border-b border-white/10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
-            {/* Logo */}
-            <motion.div
-              className="w-12 h-8 items-center justify-center flex"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <Link href="/">
-                <Logo />
-              </Link>
-            </motion.div>
-
-            {/* 汉堡菜单按钮 */}
-            <motion.button
-              className="w-8 h-8 flex flex-col justify-center items-center gap-1.5 z-60"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              whileTap={{ scale: 0.95 }}
-            >
-              <motion.span
-                className="w-6 h-0.5 bg-[#2C2A25] block"
-                variants={hamburgerVariants}
-                animate={isMobileMenuOpen ? "open" : "closed"}
-                transition={{ duration: 0.3 }}
-              />
-              <motion.span
-                className="w-6 h-0.5 bg-[#2C2A25] block"
-                animate={{ opacity: isMobileMenuOpen ? 0 : 1 }}
-                transition={{ duration: 0.3 }}
-              />
-              <motion.span
-                className="w-6 h-0.5 bg-[#2C2A25] block"
-                variants={hamburgerBottomVariants}
-                animate={isMobileMenuOpen ? "open" : "closed"}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.button>
-
-            {/* 移动端导航菜单 */}
-            <AnimatePresence>
-              {isMobileMenuOpen && (
-                <motion.div
-                  className="fixed inset-0 bg-white/95 backdrop-blur-md pt-20 px-6 flex flex-col z-40"
-                  initial="closed"
-                  animate="open"
-                  exit="closed"
-                  variants={mobileMenuVariants}
+          <div className="flex justify-between items-center p-4 bg-white/10 backdrop-blur-md border-b border-white/15">
+            <Logo />
+            <Drawer>
+              <DrawerTrigger className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="!size-6"
                 >
-                  <ul className="flex flex-col gap-6 text-lg">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3.75 9h16.5m-16.5 6.75h16.5"
+                  ></path>
+                </svg>
+              </DrawerTrigger>
+              <DrawerContent className="p-4">
+                <DrawerHeader>
+                  <DrawerTitle className="sr-only">导航菜单</DrawerTitle>
+                </DrawerHeader>
+                <nav className="flex-1 pt-4">
+                  <ul className="space-y-4">
                     {navItems.map((item, index) => (
-                      <motion.li
-                        key={index}
-                        variants={menuItemVariants}
-                        whileTap={{ scale: 0.98 }}
-                      >
+                      <li key={index}>
                         <Link
                           href={item.href}
-                          className="px-2 py-3 block relative font-medium"
-                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="block px-4 py-2 text-lg text-[#2C2A25] hover:bg-gray-100 rounded-lg transition-colors"
+                          onClick={() =>
+                            document.dispatchEvent(
+                              new KeyboardEvent("keydown", { key: "Escape" })
+                            )
+                          }
                         >
                           {item.name}
-                          <motion.span
-                            className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#A2ABB1] to-[#8A9AA3] rounded-full"
-                            initial={{ scaleX: 0, originX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                          />
                         </Link>
-                      </motion.li>
+                      </li>
                     ))}
                   </ul>
-
-                  {/* 移动端用户头像 */}
-                  {/* <motion.div
-                    className="mt-auto mb-10 flex justify-center"
-                    variants={menuItemVariants}
-                  >
-                    <motion.div
-                      className="w-10 h-10 rounded-full bg-[#A2ABB1] flex items-center justify-center"
-                      whileHover={{ scale: 1.1, backgroundColor: "#8A9AA3" }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 10,
-                      }}
-                    >
-                      <span className="text-white text-sm">SC</span>
-                    </motion.div>
-                  </motion.div> */}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.nav>
+                </nav>
+              </DrawerContent>
+            </Drawer>
+          </div>
         </header>
       )}
 

@@ -5,15 +5,11 @@ import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
 
 const Logo = () => (
   <svg
@@ -107,12 +103,12 @@ export function Header() {
                   ></path>
                 </svg>
               </DrawerTrigger>
-              <DrawerContent className="p-4">
+              <DrawerContent className="px-4">
                 <DrawerHeader>
-                  <DrawerTitle className="sr-only">导航菜单</DrawerTitle>
+                  <DrawerTitle className="sr-only"></DrawerTitle>
                 </DrawerHeader>
-                <nav className="flex-1 pt-4">
-                  <ul className="space-y-4">
+                <nav className="flex-1 mb-12">
+                  <ul className="space-y-2">
                     {navItems.map((item, index) => (
                       <li key={index}>
                         <Link

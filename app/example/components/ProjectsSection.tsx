@@ -15,6 +15,14 @@ export function ProjectsSection() {
       tech: ["Next.js", "TypeScript", "Tailwind"],
       link: "https://yourdomain.com",
     },
+    {
+      id: "02",
+      title: "Personal Portfolio",
+      description:
+        "Built with Next.js and Tailwind CSS to showcase my work and skills.",
+      tech: ["Next.js", "TypeScript", "Tailwind"],
+      link: "https://yourdomain.com",
+    },
     // ...
   ];
 
@@ -23,7 +31,7 @@ export function ProjectsSection() {
       id="projects"
       className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#FBF9F9] relative z-10 rounded-b-[100px] mb-[-100px]"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto gap-8 flex flex-col">
         <div className="overflow-hidden mb-16">
           <div>
             <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap text-[#2C2A25]">

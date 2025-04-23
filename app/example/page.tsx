@@ -19,7 +19,7 @@ export default function Home() {
         opacity={0.7}
         blendMode="difference"
         zIndex={60}
-        grainIntensity={0.2}
+        grainIntensity={0.1}
       />
 
       {/* Header */}

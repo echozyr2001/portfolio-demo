@@ -29,7 +29,7 @@ export function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#FBF9F9] relative z-10 rounded-b-[100px] mb-[-100px]"
+      className="w-full py-16 pt-16 md:py-24 md:pt-20 px-4 md:px-8 bg-[#FBF9F9] relative z-10 rounded-b-[100px] mb-[-100px]" // Reduced top padding: pt-32 md:pt-36 -> pt-16 md:pt-20
     >
       <div className="max-w-7xl mx-auto gap-8 flex flex-col">
         <div className="overflow-hidden mb-16">

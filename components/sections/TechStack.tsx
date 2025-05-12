@@ -90,7 +90,7 @@ export function TechStack() {
   };
 
   return (
-    <div className="py-16 lg:py-24">
+    <div className="py-4 lg:py-8">
       <div className="overflow-x-clip border-y border-[#A2ABB1]/30 relative">
         {/* Add gradient overlays for smoother fade effect */}
         <div className="absolute inset-y-0 left-0 w-[100px] bg-gradient-to-r from-[#FBF9F9] to-transparent z-10"></div>

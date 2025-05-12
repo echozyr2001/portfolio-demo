@@ -6,7 +6,7 @@ export function SkillsSection() {
   return (
     <section
       id="skills"
-      className="w-full py-16 pt-32 md:py-24 md:pt-36 px-4 md:px-8 bg-[#FBF9F9] relative z-20 rounded-b-[100px] mb-[-100px]"
+      className="w-full py-8 pt-32 md:py-16 md:pt-36 px-4 md:px-8 bg-[#FBF9F9] relative z-20 rounded-b-[100px] mb-[-100px]"
     >
       <div className="max-w-7xl mx-auto">
         <h2 className="text-6xl md:text-8xl font-bold mb-16 text-[#2C2A25]">

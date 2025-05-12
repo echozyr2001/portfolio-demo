@@ -212,7 +212,7 @@ export function Header() {
             </ul>
           </div>
 
-          {/* 右侧区域 - 使用绝对定位固定在右侧 */}
+          {/* 右侧区域 - 使用绝对定位固定在右侧
           <motion.div
             className="absolute right-6 w-12 h-8 items-center justify-center flex"
             initial={{ opacity: 0 }}
@@ -224,9 +224,17 @@ export function Header() {
               whileHover={{ scale: 1.1, backgroundColor: "#8A9AA3" }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <span className="text-white text-xs">SC</span>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="16" height="16" rx="3" fill="white" />
+              </svg>
             </motion.div>
-          </motion.div>
+          </motion.div> */}
         </motion.nav>
       </header>
     </>

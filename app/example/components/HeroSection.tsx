@@ -168,30 +168,10 @@ export function HeroSection() {
               </motion.a>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-3xl font-bold mb-2 text-[#2C2A25]">
-                  +250k
-                </h3>
-                <p className="text-sm text-[#2C2A25]/70">
-                  Views reaching a wide audience and giving inspiration
-                </p>
-              </div>
-              <div>
-                <h3 className="text-3xl font-bold mb-2 text-[#2C2A25]">
-                  +800k
-                </h3>
-                <p className="text-sm text-[#2C2A25]/70">
-                  Hours watched, engaging storytelling that captivates viewers
-                </p>
-              </div>
-            </div>
-
-            {/* Bottom cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-              {/* Receive Updates card */}
-              <div className="bg-[#A2D2E2] rounded-3xl p-6 relative overflow-hidden shadow-lg group">
+            {/* Bottom cards - REMOVED Stats and Bottom Cards sections */}
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8"> */}
+            {/* Receive Updates card - REMOVED */}
+            {/* <div className="bg-[#A2D2E2] rounded-3xl p-6 relative overflow-hidden shadow-lg group">
                 <div className="absolute top-6 left-6 bg-white rounded-full w-12 h-12 flex items-center justify-center">
                   <svg
                     width="24"
@@ -220,10 +200,10 @@ export function HeroSection() {
                     strokeWidth={2}
                   />
                 </div>
-              </div>
+              </div> */}
 
-              {/* Talent Quest card */}
-              <div className="bg-[#F0F0F0] rounded-3xl p-6 relative overflow-hidden shadow-lg group">
+            {/* Talent Quest card - REMOVED */}
+            {/* <div className="bg-[#F0F0F0] rounded-3xl p-6 relative overflow-hidden shadow-lg group">
                 <div className="flex items-center mb-4">
                   <div className="bg-[#FFEB3B] rounded-full w-12 h-12"></div>
                   <div className="ml-2 bg-[#FF9800] rounded-full w-10 h-10 flex items-center justify-center overflow-hidden">
@@ -242,8 +222,8 @@ export function HeroSection() {
                     strokeWidth={2}
                   />
                 </div>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
           </div>
 
           {/* Right side - Image with floating elements */}

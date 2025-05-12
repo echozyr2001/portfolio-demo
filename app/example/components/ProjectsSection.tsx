@@ -86,12 +86,28 @@ export function ProjectsSection() {
               <div className="md:col-span-4 text-gray-600">
                 {project.description}
               </div>
-              <div className="md:col-span-3 flex justify-end">
+              {/* Add Tech Stack display */}
+              <div className="md:col-span-8 md:col-start-2 mt-2 flex flex-wrap gap-2">
+                {project.tech.map((techItem) => (
+                  <span
+                    key={techItem}
+                    className="bg-[#ECEAE8] text-[#2C2A25] text-xs font-medium px-2.5 py-0.5 rounded-full"
+                  >
+                    {techItem}
+                  </span>
+                ))}
+              </div>
+              <div className="md:col-span-3 flex justify-end md:col-start-10">
+                {/* Updated Button text and added icon */}
                 <Button
                   variant="outline"
-                  className="rounded-full border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white"
+                  className="rounded-full border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white flex items-center gap-1"
+                  onClick={() =>
+                    project.link && window.open(project.link, "_blank")
+                  }
                 >
-                  Buy Ticket
+                  <span>Have a look</span>
+                  <ArrowRight className="h-4 w-4" />
                 </Button>
               </div>
             </div>

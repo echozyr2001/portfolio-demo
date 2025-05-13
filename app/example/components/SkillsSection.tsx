@@ -10,7 +10,7 @@ export function SkillsSection() {
     >
       <div className="max-w-7xl mx-auto">
         <h2 className="text-6xl md:text-8xl font-bold mb-16 text-[#2C2A25]">
-          Skills
+          skills · skills · skills · skills
         </h2>
       </div>
 

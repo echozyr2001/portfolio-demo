@@ -35,7 +35,7 @@ export function ProjectsSection() {
         <div className="overflow-hidden mb-16">
           <div>
             <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap text-[#2C2A25]">
-              projects · projects
+              projects · projects · projects · projects
             </h2>
           </div>
         </div>

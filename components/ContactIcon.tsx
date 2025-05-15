@@ -1,6 +1,6 @@
 "use client";
 
-import { COLORS } from "../types";
+import { COLORS } from "../app/types";
 
 export function ContactIcon() {
   return (

@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { GrainEffect } from "./example/components/GrainEffect";
-import { COLORS } from "./example/types"; // We might use some of these for consistency or define new ones
+import { GrainEffect } from "../components/GrainEffect";
+import { COLORS } from "./types"; // We might use some of these for consistency or define new ones
 
 export default function NotFound() {
   return (

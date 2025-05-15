@@ -1,36 +1,58 @@
-import { ReactLenis } from "lenis/react";
+"use client";
 
-import { Hero } from "@/components/sections/Hero";
-import { Projects } from "@/components/sections/Projects";
-import { About } from "@/components/sections/About";
-import { Contact } from "@/components/sections/Contact";
-import { Tape } from "@/components/sections/Tape";
-import { Navbar } from "@/components/sections/Navbar";
-import { TechStack } from "@/components/sections/TechStack";
-import grainImage from "@/assets/images/grain.svg";
-// import { Threed } from "@/components/3D";
-// import BookDemo from "@/components/Book-demo";
+import { motion } from "motion/react";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
+import { GrainEffect } from "@/components/GrainEffect";
+import { HeroSection } from "@/components/HeroSection";
+import { AboutSection } from "@/components/AboutSection";
+import { SkillsSection } from "@/components/SkillsSection";
+import { ProjectsSection } from "@/components/ProjectsSection";
+import { ContactSection } from "@/components/ContactSection";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 export default function Home() {
   return (
-    <ReactLenis root>
-      <div className="relative">
-        <div
-          className="absolute inset-0 -z-30 bg-fixed opacity-5"
-          style={{ backgroundImage: `url(${grainImage.src})` }}
-        />
-        <Navbar />
-        <Hero />
-        {/* <div className="container flex items-center justify-center">
-          <Threed />
-          <BookDemo />
-        </div> */}
-        <TechStack />
-        <Projects />
-        <Tape />
-        <About />
-        <Contact />
-      </div>
-    </ReactLenis>
+    <div className="min-h-screen bg-[#D9D5D2] flex flex-col">
+      {/* Grain texture overlay - using transparent SVG for better results */}
+      <GrainEffect
+        opacity={0.7}
+        blendMode="difference"
+        zIndex={60}
+        grainIntensity={0.1}
+      />
+
+      {/* Header */}
+      <Header />
+
+      <motion.div
+        className="w-full max-w-[1400px] mx-auto bg-[#F6F4F1] overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
+        <motion.main className="flex-1 relative">
+          {/* Hero Section */}
+          <HeroSection />
+
+          {/* About Section */}
+          <AboutSection />
+
+          {/* Skills Section */}
+          <SkillsSection />
+
+          {/* Projects Section */}
+          <ProjectsSection />
+
+          {/* Contact Section */}
+          <ContactSection />
+        </motion.main>
+
+        {/* Footer */}
+        <Footer />
+      </motion.div>
+      {/* Scroll to top button */}
+      <ScrollToTop />
+    </div>
   );
 }

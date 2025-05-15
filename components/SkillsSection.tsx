@@ -1,6 +1,6 @@
 "use client";
 
-import { TechStack } from "@/components/sections/TechStack";
+import { TechStack } from "@/components/TechStack";
 
 export function SkillsSection() {
   return (

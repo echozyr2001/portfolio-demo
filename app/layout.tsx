@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ReactLenis } from "lenis/react";
 import { Calistoga, Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 
@@ -82,7 +83,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${calistoga.variable} antialiased font-sans bg-gray-900 text-white`}
       >
-        {children}
+        <ReactLenis root>{children}</ReactLenis>
       </body>
     </html>
   );

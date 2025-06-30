@@ -79,57 +79,82 @@ export function HeroSection() {
               className="relative mb-8"
               initial="initial"
               animate="animate"
-              whileHover="groupHover"
             >
-              <h1 className="relative">
+              <motion.h1 
+                className="relative"
+                whileHover="hover"
+              >
                 <motion.span
-                  className="block text-7xl md:text-9xl font-black text-[#2C2A25] tracking-tighter leading-[0.9]"
+                  className="text-7xl md:text-9xl font-black text-[#2C2A25] tracking-tighter leading-[0.9] cursor-pointer inline-block"
                   variants={{
                     initial: {
                       opacity: 0,
                       y: 20,
-                      textShadow: "-2px -2px 0 rgba(162, 210, 226, 0.3)",
+                      scale: 1,
+                      textShadow: "-3px -3px 0 rgba(162, 210, 226, 0.4)",
                     },
                     animate: {
                       opacity: 1,
                       y: 0,
-                      textShadow: "-2px -2px 0 rgba(162, 210, 226, 0.3)",
+                      scale: 1,
+                      textShadow: "-3px -3px 0 rgba(162, 210, 226, 0.4)",
                     },
-                    groupHover: {
-                      textShadow: "0 0 15px rgba(162, 210, 226, 0.6)",
+                    hover: {
+                      scale: 1.02,
+                      color: "#1A1815",
+                      textShadow: [
+                        "-3px -3px 0 rgba(162, 210, 226, 0.8)",
+                        "-6px -6px 0 rgba(162, 210, 226, 0.9)",
+                        "-9px -9px 0 rgba(162, 210, 226, 0.7)",
+                      ],
                     },
                   }}
                   transition={{
-                    duration: 0.6,
+                    duration: 0.3,
+                    ease: "easeOut",
+                    scale: { duration: 0.3 },
+                    color: { duration: 0.3 },
+                    textShadow: { duration: 0.3 },
                   }}
                 >
                   Build
                 </motion.span>
                 <motion.span
-                  className="block text-7xl md:text-9xl font-black text-[#2C2A25] tracking-tighter leading-[0.9]"
+                  className="text-7xl md:text-9xl font-black text-[#2C2A25] tracking-tighter leading-[0.9] cursor-pointer inline-block"
                   variants={{
                     initial: {
                       opacity: 0,
                       y: 20,
-                      textShadow: "-2px -2px 0 rgba(255, 235, 59, 0.3)",
+                      scale: 1,
+                      textShadow: "-3px -3px 0 rgba(255, 235, 59, 0.4)",
                     },
                     animate: {
                       opacity: 1,
                       y: 0,
-                      textShadow: "-2px -2px 0 rgba(255, 235, 59, 0.3)",
-                      transition: { delay: 0.2 },
+                      scale: 1,
+                      textShadow: "-3px -3px 0 rgba(255, 235, 59, 0.4)",
                     },
-                    groupHover: {
-                      textShadow: "0 0 15px rgba(255, 235, 59, 0.6)",
+                    hover: {
+                      scale: 1.02,
+                      color: "#1A1815",
+                      textShadow: [
+                        "-3px -3px 0 rgba(255, 235, 59, 0.8)",
+                        "-6px -6px 0 rgba(255, 235, 59, 0.9)",
+                        "-9px -9px 0 rgba(255, 235, 59, 0.7)",
+                      ],
                     },
                   }}
                   transition={{
-                    duration: 0.6,
+                    duration: 0.3,
+                    ease: "easeOut",
+                    scale: { duration: 0.3 },
+                    color: { duration: 0.3 },
+                    textShadow: { duration: 0.3 },
                   }}
                 >
                   & Design
                 </motion.span>
-              </h1>
+              </motion.h1>
             </motion.div>
             <p className="text-lg max-w-5/6 mb-8 text-[#2C2A25]">
               I&apos;m a software engineer who crafts digital experiences with

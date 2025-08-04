@@ -11,15 +11,18 @@ export function Logo() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="12" cy="12" r="12" fill={COLORS.text} />
-      <path
-        d="M24 0C30.6274 0 36 5.37258 36 12C36 18.6274 30.6274 24 24 24V0Z"
-        fill={COLORS.text}
-      />
-      <path
-        d="M36 0C42.6274 0 48 5.37258 48 12C48 18.6274 42.6274 24 36 24V0Z"
-        fill={COLORS.text}
-      />
+      <defs>
+        <linearGradient id="modernGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor={COLORS.text} />
+          <stop offset="100%" stopColor={COLORS.dark} />
+        </linearGradient>
+      </defs>
+
+      <circle cx="12" cy="12" r="10" fill="url(#modernGradient)" />
+
+      <path d="M 23 2 A 10 10 0 0 1 23 22 Z" fill={COLORS.text} opacity="0.8" />
+
+      <path d="M 34 2 A 10 10 0 0 1 34 22 Z" fill={COLORS.text} opacity="0.6" />
     </svg>
   );
 }

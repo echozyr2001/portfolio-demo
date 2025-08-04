@@ -17,12 +17,56 @@ export default function NotFound() {
         grainIntensity={0.08}
       />
       <div className="text-center relative z-10">
-        <h1
-          className="text-[10rem] md:text-[15rem] lg:text-[20rem] font-bold leading-none"
-          style={{ color: COLORS.light }} // Using COLORS.light for main text
-        >
-          404
-        </h1>
+        {/* Creative 404 with chat bubble */}
+        <div className="flex items-center justify-center mb-8">
+          {/* First 4 */}
+          <span
+            className="text-[8rem] md:text-[12rem] lg:text-[16rem] font-bold leading-none"
+            style={{ color: COLORS.light }}
+          >
+            4
+          </span>
+
+          {/* Chat bubble replacing the 0 */}
+          <div className="relative mx-4 md:mx-8">
+            <div
+              className="relative bg-white rounded-3xl px-6 py-4 md:px-8 md:py-6 lg:px-12 lg:py-8 shadow-lg"
+              style={{
+                minWidth: "120px",
+                minHeight: "80px",
+                transform: "translateY(-10px)",
+              }}
+            >
+              <span
+                className="text-3xl md:text-5xl lg:text-7xl font-bold"
+                style={{ color: "#111111" }}
+              >
+                oops!
+              </span>
+
+              {/* Chat bubble tail */}
+              <div
+                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full"
+                style={{
+                  width: 0,
+                  height: 0,
+                  borderLeft: "15px solid transparent",
+                  borderRight: "15px solid transparent",
+                  borderTop: "20px solid white",
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Second 4 */}
+          <span
+            className="text-[8rem] md:text-[12rem] lg:text-[16rem] font-bold leading-none"
+            style={{ color: COLORS.light }}
+          >
+            4
+          </span>
+        </div>
+
         <h2
           className="text-2xl md:text-3xl font-semibold mt-2 mb-6"
           style={{ color: COLORS.light }}

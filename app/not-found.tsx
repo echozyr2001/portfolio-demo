@@ -80,7 +80,7 @@ export default function NotFound() {
           Sorry, the page you're looking for seems to have been lost in the
           digital universe. Don't worry, we can get you back to safety.
         </p>
-        <Link href="/example" legacyBehavior>
+        <Link href="/" legacyBehavior>
           <a
             className="inline-block px-6 py-3 rounded-md text-lg font-medium border-2 transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#111111]"
             style={{

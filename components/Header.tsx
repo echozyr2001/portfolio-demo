@@ -23,15 +23,50 @@ export function Header() {
   }, []);
 
   // 使用 useTransform 创建平滑的动画值
+  // 导航宽度
   const navWidth = useTransform(scrollY, [0, 700], ["90%", "30%"]);
-  const backdropBlurStyle = useTransform(scrollY, [0, 500], [0, 12], {
-    mixer: () => (v) => `blur(${v}px)`,
+
+  // 背景模糊效果
+  const blurValue = useTransform(scrollY, [0, 500], [0, 12]);
+  const backdropBlurStyle = useTransform(
+    blurValue,
+    (blur) => `blur(${blur}px)`
+  );
+
+  // 边框颜色透明度
+  const borderOpacity = useTransform(scrollY, [0, 500], [0, 0.15]);
+  const borderColorStyle = useTransform(
+    borderOpacity,
+    (opacity) => `rgba(255, 255, 255, ${opacity})`
+  );
+
+  // 背景颜色透明度
+  const backgroundOpacity = useTransform(scrollY, [0, 500], [0, 0.6]);
+  const backgroundColorStyle = useTransform(
+    backgroundOpacity,
+    (opacity) => `rgba(255, 255, 255, ${opacity})`
+  );
+
+  // 阴影效果
+  const shadowOpacity = useTransform(scrollY, [0, 100, 500], [0, 0.3, 1]);
+  const shadowStyle = useTransform(shadowOpacity, (opacity) => {
+    if (opacity <= 0) return "none";
+    const baseOpacity = opacity * 0.15;
+    const mainShadowOpacity = opacity * 0.08;
+    return `0 8px 32px rgba(0, 0, 0, ${mainShadowOpacity}), 0 4px 16px rgba(0, 0, 0, ${baseOpacity}), 0 2px 8px rgba(0, 0, 0, ${
+      baseOpacity * 0.8
+    })`;
   });
-  const borderColorStyle = useTransform(scrollY, [0, 500], [0, 0.15], {
-    mixer: () => (v) => `rgba(255, 255, 255, ${v})`,
-  });
-  const backgroundColorStyle = useTransform(scrollY, [0, 500], [0, 0.1], {
-    mixer: () => (v) => `rgba(255, 255, 255, ${v})`,
+
+  // 移动端阴影效果
+  const mobileShadowOpacity = useTransform(scrollY, [0, 50, 300], [0, 0.2, 1]);
+  const mobileShadowStyle = useTransform(mobileShadowOpacity, (opacity) => {
+    if (opacity <= 0) return "none";
+    const shadowOpacity = opacity * 0.1;
+    const baseOpacity = opacity * 0.12;
+    return `0 6px 24px rgba(0, 0, 0, ${shadowOpacity}), 0 3px 12px rgba(0, 0, 0, ${baseOpacity}), 0 1px 4px rgba(0, 0, 0, ${
+      baseOpacity * 0.8
+    })`;
   });
 
   const navItems = [
@@ -64,6 +99,7 @@ export function Header() {
               backdropFilter: backdropBlurStyle,
               borderColor: borderColorStyle,
               backgroundColor: backgroundColorStyle,
+              boxShadow: mobileShadowStyle,
             }}
           >
             <Logo />
@@ -122,6 +158,7 @@ export function Header() {
             backdropFilter: backdropBlurStyle,
             borderColor: borderColorStyle,
             backgroundColor: backgroundColorStyle,
+            boxShadow: shadowStyle,
           }}
           className="flex items-center px-6 py-1 gap-1 p-0.5 border rounded-full bg-white/10 relative min-w-[600px] max-w-[1400px]"
           initial={{ opacity: 0 }}

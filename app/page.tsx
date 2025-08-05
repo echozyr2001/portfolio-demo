@@ -26,7 +26,8 @@ export default function Home() {
       <Header />
 
       <motion.div
-        className="w-full max-w-[1400px] mx-auto bg-[#F6F4F1] overflow-hidden"
+        // className="w-full max-w-7xl mx-auto bg-[#F6F4F1] overflow-hidden"
+        className="w-full mx-auto bg-[#F6F4F1] overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}

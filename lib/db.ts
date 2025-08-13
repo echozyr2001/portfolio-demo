@@ -1,12 +1,12 @@
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import Database from 'better-sqlite3';
-import * as schema from './schema';
+import Database from "better-sqlite3";
+import { drizzle } from "drizzle-orm/better-sqlite3";
+import * as schema from "./schema";
 
 // Create SQLite database connection
-const sqlite = new Database('sqlite.db');
+const sqlite = new Database("sqlite.db");
 
 // Enable WAL mode for better performance
-sqlite.pragma('journal_mode = WAL');
+sqlite.pragma("journal_mode = WAL");
 
 // Create Drizzle database instance with schema
 export const db = drizzle(sqlite, { schema });
@@ -16,16 +16,16 @@ export { sqlite };
 
 // Database utility functions
 export const closeDb = () => {
-  sqlite.close();
+	sqlite.close();
 };
 
 // Health check function
 export const checkDbConnection = () => {
-  try {
-    const result = sqlite.prepare('SELECT 1').get();
-    return !!result;
-  } catch (error) {
-    console.error('Database connection failed:', error);
-    return false;
-  }
+	try {
+		const result = sqlite.prepare("SELECT 1").get();
+		return !!result;
+	} catch (error) {
+		console.error("Database connection failed:", error);
+		return false;
+	}
 };

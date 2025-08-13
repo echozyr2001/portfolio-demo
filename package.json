@@ -10,7 +10,9 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "migrate": "npx tsx scripts/migrate-database.ts",
+    "verify-schema": "npx tsx scripts/verify-schema.ts"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.10",

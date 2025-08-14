@@ -7,6 +7,7 @@ import {
 	createErrorResponse,
 	createSuccessResponse,
 	generateId,
+	generateSlug,
 	getCurrentTimestamp,
 	handleValidationError,
 } from "@/lib/utils";
@@ -52,8 +53,11 @@ export async function POST(request: NextRequest) {
 
 		const categoryId = generateId();
 		const now = getCurrentTimestamp();
+		
+		// Generate slug from name if not provided
+		const slug = validatedData.slug || generateSlug(validatedData.name);
 
-		// Check if name or slug already exists
+		// Check if name already exists
 		const existingCategory = await db
 			.select({ id: categories.id })
 			.from(categories)
@@ -68,10 +72,11 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
+		// Check if slug already exists
 		const existingSlug = await db
 			.select({ id: categories.id })
 			.from(categories)
-			.where(eq(categories.slug, validatedData.slug))
+			.where(eq(categories.slug, slug))
 			.limit(1);
 
 		if (existingSlug.length > 0) {
@@ -86,7 +91,7 @@ export async function POST(request: NextRequest) {
 		const newCategory = {
 			id: categoryId,
 			name: validatedData.name,
-			slug: validatedData.slug,
+			slug: slug,
 			description: validatedData.description || null,
 			createdAt: now,
 			updatedAt: now,

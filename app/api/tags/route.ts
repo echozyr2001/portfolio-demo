@@ -7,6 +7,7 @@ import {
 	createErrorResponse,
 	createSuccessResponse,
 	generateId,
+	generateSlug,
 	getCurrentTimestamp,
 	handleValidationError,
 } from "@/lib/utils";
@@ -46,8 +47,11 @@ export async function POST(request: NextRequest) {
 
 		const tagId = generateId();
 		const now = getCurrentTimestamp();
+		
+		// Generate slug from name if not provided
+		const slug = validatedData.slug || generateSlug(validatedData.name);
 
-		// Check if name or slug already exists
+		// Check if name already exists
 		const existingTag = await db
 			.select({ id: tags.id })
 			.from(tags)
@@ -62,10 +66,11 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
+		// Check if slug already exists
 		const existingSlug = await db
 			.select({ id: tags.id })
 			.from(tags)
-			.where(eq(tags.slug, validatedData.slug))
+			.where(eq(tags.slug, slug))
 			.limit(1);
 
 		if (existingSlug.length > 0) {
@@ -80,7 +85,7 @@ export async function POST(request: NextRequest) {
 		const newTag = {
 			id: tagId,
 			name: validatedData.name,
-			slug: validatedData.slug,
+			slug: slug,
 			createdAt: now,
 		};
 

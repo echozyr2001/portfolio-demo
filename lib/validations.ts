@@ -77,7 +77,7 @@ export const slugParamSchema = z.object({
 // Category validation schemas
 export const createCategorySchema = z.object({
 	name: z.string().min(1, "Name is required").max(100, "Name too long"),
-	slug: z.string().min(1, "Slug is required").max(100, "Slug too long"),
+	slug: z.string().min(1, "Slug is required").max(100, "Slug too long").optional(),
 	description: z.string().max(500, "Description too long").optional(),
 });
 
@@ -86,7 +86,7 @@ export const updateCategorySchema = createCategorySchema.partial();
 // Tag validation schemas
 export const createTagSchema = z.object({
 	name: z.string().min(1, "Name is required").max(50, "Name too long"),
-	slug: z.string().min(1, "Slug is required").max(50, "Slug too long"),
+	slug: z.string().min(1, "Slug is required").max(50, "Slug too long").optional(),
 });
 
 export const updateTagSchema = createTagSchema.partial();

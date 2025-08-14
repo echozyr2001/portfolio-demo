@@ -1,68 +1,56 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import AdminLayout from "@/components/admin/AdminLayout";
 
 export default function AdminDashboard() {
-	const [isLoggingOut, setIsLoggingOut] = useState(false);
-	const router = useRouter();
-
-	const handleLogout = async () => {
-		setIsLoggingOut(true);
-		try {
-			const response = await fetch("/api/auth/logout", {
-				method: "POST",
-			});
-
-			if (response.ok) {
-				router.push("/admin/login");
-				router.refresh();
-			}
-		} catch (error) {
-			console.error("Logout error:", error);
-		} finally {
-			setIsLoggingOut(false);
-		}
-	};
-
 	return (
-		<div className="min-h-screen bg-gray-50">
-			<div className="bg-white shadow">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="flex justify-between items-center py-6">
-						<h1 className="text-3xl font-bold text-gray-900">
-							Admin Dashboard
-						</h1>
-						<button
-							onClick={handleLogout}
-							disabled={isLoggingOut}
-							className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50"
-						>
-							{isLoggingOut ? "Logging out..." : "Logout"}
-						</button>
-					</div>
-				</div>
-			</div>
-
-			<div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-				<div className="px-4 py-6 sm:px-0">
-					<div className="border-4 border-dashed border-gray-200 rounded-lg h-96 flex items-center justify-center">
-						<div className="text-center">
-							<h2 className="text-2xl font-semibold text-gray-900 mb-4">
-								Welcome to the Admin Dashboard
-							</h2>
-							<p className="text-gray-600">
-								Authentication is working! You are now logged in as an
-								administrator.
-							</p>
-							<p className="text-sm text-gray-500 mt-2">
-								This dashboard will be expanded with blog management features in
-								future tasks.
-							</p>
+		<AdminLayout>
+			<div className="p-6">
+				<div className="text-center py-12">
+					<h2 className="text-2xl font-semibold text-gray-900 mb-4">
+						Welcome to the Admin Dashboard
+					</h2>
+					<p className="text-gray-600 mb-6">
+						Manage your blog posts, projects, categories, tags, and media files.
+					</p>
+					
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+						<div className="bg-indigo-50 p-6 rounded-lg">
+							<div className="text-3xl mb-2">📝</div>
+							<h3 className="text-lg font-medium text-gray-900 mb-2">Posts</h3>
+							<p className="text-sm text-gray-600">Create and manage your blog posts with MDX support.</p>
+						</div>
+						
+						<div className="bg-green-50 p-6 rounded-lg">
+							<div className="text-3xl mb-2">🚀</div>
+							<h3 className="text-lg font-medium text-gray-900 mb-2">Projects</h3>
+							<p className="text-sm text-gray-600">Showcase your projects with detailed descriptions.</p>
+						</div>
+						
+						<div className="bg-yellow-50 p-6 rounded-lg">
+							<div className="text-3xl mb-2">📁</div>
+							<h3 className="text-lg font-medium text-gray-900 mb-2">Categories</h3>
+							<p className="text-sm text-gray-600">Organize your content with categories.</p>
+						</div>
+						
+						<div className="bg-purple-50 p-6 rounded-lg">
+							<div className="text-3xl mb-2">🏷️</div>
+							<h3 className="text-lg font-medium text-gray-900 mb-2">Tags</h3>
+							<p className="text-sm text-gray-600">Add tags to help visitors discover content.</p>
+						</div>
+						
+						<div className="bg-blue-50 p-6 rounded-lg">
+							<div className="text-3xl mb-2">🖼️</div>
+							<h3 className="text-lg font-medium text-gray-900 mb-2">Media</h3>
+							<p className="text-sm text-gray-600">Upload and manage images and media files.</p>
+						</div>
+						
+						<div className="bg-gray-50 p-6 rounded-lg">
+							<div className="text-3xl mb-2">📊</div>
+							<h3 className="text-lg font-medium text-gray-900 mb-2">Analytics</h3>
+							<p className="text-sm text-gray-600">View content statistics and performance.</p>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</AdminLayout>
 	);
 }

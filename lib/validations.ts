@@ -23,6 +23,57 @@ export const postQuerySchema = z.object({
 	search: z.string().optional(),
 });
 
+// Public post query schema (no status filter - only published posts)
+export const publicPostQuerySchema = z.object({
+	page: z.coerce.number().min(1).default(1),
+	limit: z.coerce.number().min(1).max(100).default(10),
+	categoryId: z.string().optional(),
+	tagId: z.string().optional(),
+	search: z.string().optional(),
+});
+
+// Project validation schemas
+export const createProjectSchema = z.object({
+	title: z.string().min(1, "Title is required").max(200, "Title too long"),
+	mdxContent: z.string().optional(),
+	githubUrl: z.string().url("Invalid GitHub URL").optional(),
+	liveUrl: z.string().url("Invalid live URL").optional(),
+	imageUrl: z.string().url("Invalid image URL").optional(),
+	technologies: z.array(z.string()).optional(),
+	featured: z.boolean().default(false),
+	status: z.enum(["draft", "published", "archived"]).default("draft"),
+	tagIds: z.array(z.string()).optional(),
+});
+
+export const updateProjectSchema = createProjectSchema.partial();
+
+export const projectQuerySchema = z.object({
+	page: z.coerce.number().min(1).default(1),
+	limit: z.coerce.number().min(1).max(100).default(10),
+	status: z.enum(["draft", "published", "archived"]).optional(),
+	featured: z.coerce.boolean().optional(),
+	tagId: z.string().optional(),
+	search: z.string().optional(),
+	sortBy: z.enum(["publishedAt", "title", "featured"]).default("publishedAt"),
+	sortOrder: z.enum(["asc", "desc"]).default("desc"),
+});
+
+// Public project query schema (no status filter - only published projects)
+export const publicProjectQuerySchema = z.object({
+	page: z.coerce.number().min(1).default(1),
+	limit: z.coerce.number().min(1).max(100).default(10),
+	featured: z.coerce.boolean().optional(),
+	tagId: z.string().optional(),
+	search: z.string().optional(),
+	sortBy: z.enum(["publishedAt", "title", "featured"]).default("publishedAt"),
+	sortOrder: z.enum(["asc", "desc"]).default("desc"),
+});
+
+// Slug parameter schema
+export const slugParamSchema = z.object({
+	slug: z.string().min(1, "Slug is required"),
+});
+
 // Category validation schemas
 export const createCategorySchema = z.object({
 	name: z.string().min(1, "Name is required").max(100, "Name too long"),

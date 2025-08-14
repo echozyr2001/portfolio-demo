@@ -3,6 +3,9 @@ import type { NextRequest } from "next/server";
 import { ZodError } from "zod";
 import { db } from "@/lib/db";
 import { categories, posts, postTags, tags } from "@/lib/schema";
+import { isAuthenticatedFromRequest } from "@/lib/auth";
+import { ContentStorageFactory } from "@/lib/content-storage";
+import { mdxProcessor } from "@/lib/mdx-processor";
 import {
 	createErrorResponse,
 	createSuccessResponse,
@@ -11,28 +14,62 @@ import {
 	getCurrentTimestamp,
 	handleValidationError,
 } from "@/lib/utils";
-import { createPostSchema, publicPostQuerySchema } from "@/lib/validations";
+import { z } from "zod";
 
-// GET /api/posts - Get published posts with filtering and pagination (Public API)
+// Admin-specific post validation schemas
+const createAdminPostSchema = z.object({
+	title: z.string().min(1, "Title is required").max(200, "Title too long"),
+	mdxContent: z.string().min(1, "MDX content is required"),
+	status: z.enum(["draft", "published", "archived"]).default("draft"),
+	categoryId: z.string().optional(),
+	tagIds: z.array(z.string()).optional(),
+	metaTitle: z.string().max(60, "Meta title too long").optional(),
+	metaDescription: z.string().max(160, "Meta description too long").optional(),
+});
+
+const updateAdminPostSchema = createAdminPostSchema.partial().extend({
+	id: z.string().min(1, "ID is required"),
+});
+
+const adminPostQuerySchema = z.object({
+	page: z.coerce.number().min(1).default(1),
+	limit: z.coerce.number().min(1).max(100).default(10),
+	status: z.enum(["draft", "published", "archived"]).optional(),
+	categoryId: z.string().optional(),
+	tagId: z.string().optional(),
+	search: z.string().optional(),
+});
+
+// Authentication middleware
+function requireAuth(request: NextRequest) {
+	if (!isAuthenticatedFromRequest(request)) {
+		return createErrorResponse("UNAUTHORIZED", "Authentication required", 401);
+	}
+	return null;
+}
+
+// GET /api/admin/posts - Get posts with admin privileges (includes drafts)
 export async function GET(request: NextRequest) {
+	// Check authentication
+	const authError = requireAuth(request);
+	if (authError) return authError;
+
 	try {
 		const { searchParams } = new URL(request.url);
 		const queryParams = Object.fromEntries(searchParams.entries());
 
-		const validatedQuery = publicPostQuerySchema.parse(queryParams);
-		const { page, limit, categoryId, tagId, search } = validatedQuery;
+		const validatedQuery = adminPostQuerySchema.parse(queryParams);
+		const { page, limit, status, categoryId, tagId, search } = validatedQuery;
 
-		// Build where conditions - Only show published posts for public API
-		const conditions = [eq(posts.status, "published")];
+		// Build where conditions
+		const conditions = [];
+
+		if (status) {
+			conditions.push(eq(posts.status, status));
+		}
 
 		if (categoryId) {
 			conditions.push(eq(posts.categoryId, categoryId));
-		}
-
-		// Handle tag filtering separately since it requires a join
-		let tagFilteredQuery = false;
-		if (tagId) {
-			tagFilteredQuery = true;
 		}
 
 		if (search) {
@@ -44,19 +81,50 @@ export async function GET(request: NextRequest) {
 			);
 		}
 
+		// Handle tag filtering
+		if (tagId) {
+			const taggedPostIds = await db
+				.select({ postId: postTags.postId })
+				.from(postTags)
+				.where(eq(postTags.tagId, tagId));
+			
+			if (taggedPostIds.length > 0) {
+				conditions.push(
+					or(...taggedPostIds.map(({ postId }) => eq(posts.id, postId)))
+				);
+			} else {
+				// No posts with this tag, return empty result
+				return createSuccessResponse({
+					posts: [],
+					pagination: {
+						page,
+						limit,
+						totalCount: 0,
+						totalPages: 0,
+						hasNext: false,
+						hasPrev: false,
+					},
+				});
+			}
+		}
+
 		// Calculate offset
 		const offset = (page - 1) * limit;
 
-		// Get posts with category information, ordered by publishedAt desc
-		let query = db
+		// Get posts with category information
+		const baseQuery = db
 			.select({
 				id: posts.id,
 				title: posts.title,
 				slug: posts.slug,
+				contentStorageType: posts.contentStorageType,
 				excerpt: posts.excerpt,
 				readingTime: posts.readingTime,
 				wordCount: posts.wordCount,
+				status: posts.status,
 				publishedAt: posts.publishedAt,
+				createdAt: posts.createdAt,
+				updatedAt: posts.updatedAt,
 				metaTitle: posts.metaTitle,
 				metaDescription: posts.metaDescription,
 				category: {
@@ -66,41 +134,14 @@ export async function GET(request: NextRequest) {
 				},
 			})
 			.from(posts)
-			.leftJoin(categories, eq(posts.categoryId, categories.id))
-			.where(and(...conditions))
+			.leftJoin(categories, eq(posts.categoryId, categories.id));
+
+		const postsResult = await (conditions.length > 0 
+			? baseQuery.where(and(...conditions))
+			: baseQuery)
 			.limit(limit)
 			.offset(offset)
-			.orderBy(desc(posts.publishedAt));
-
-		// If filtering by tag, we need to join with postTags
-		if (tagFilteredQuery) {
-			query = db
-				.select({
-					id: posts.id,
-					title: posts.title,
-					slug: posts.slug,
-					excerpt: posts.excerpt,
-					readingTime: posts.readingTime,
-					wordCount: posts.wordCount,
-					publishedAt: posts.publishedAt,
-					metaTitle: posts.metaTitle,
-					metaDescription: posts.metaDescription,
-					category: {
-						id: categories.id,
-						name: categories.name,
-						slug: categories.slug,
-					},
-				})
-				.from(posts)
-				.leftJoin(categories, eq(posts.categoryId, categories.id))
-				.innerJoin(postTags, eq(posts.id, postTags.postId))
-				.where(and(...conditions, eq(postTags.tagId, tagId!)))
-				.limit(limit)
-				.offset(offset)
-				.orderBy(desc(posts.publishedAt));
-		}
-
-		const postsResult = await query;
+			.orderBy(desc(posts.updatedAt));
 
 		// Get tags for each post
 		const postsWithTags = await Promise.all(
@@ -122,21 +163,10 @@ export async function GET(request: NextRequest) {
 			}),
 		);
 
-		// Get total count for pagination (only published posts)
-		let totalCountQuery = db
-			.select({ count: count() })
-			.from(posts)
-			.where(and(...conditions));
-
-		if (tagFilteredQuery) {
-			totalCountQuery = db
-				.select({ count: count() })
-				.from(posts)
-				.innerJoin(postTags, eq(posts.id, postTags.postId))
-				.where(and(...conditions, eq(postTags.tagId, tagId!)));
-		}
-
-		const [{ count: totalCount }] = await totalCountQuery;
+		// Get total count for pagination
+		const [{ count: totalCount }] = await (conditions.length > 0 
+			? db.select({ count: count() }).from(posts).where(and(...conditions))
+			: db.select({ count: count() }).from(posts));
 		const totalPages = Math.ceil(totalCount / limit);
 
 		return createSuccessResponse({
@@ -155,13 +185,17 @@ export async function GET(request: NextRequest) {
 			return handleValidationError(error);
 		}
 
-		console.error("Error fetching posts:", error);
+		console.error("Error fetching admin posts:", error);
 		return createErrorResponse("INTERNAL_ERROR", "Failed to fetch posts", 500);
 	}
 }
 
-// POST /api/posts - Create a new post
+// POST /api/admin/posts - Create a new post
 export async function POST(request: NextRequest) {
+	// Check authentication
+	const authError = requireAuth(request);
+	if (authError) return authError;
+
 	try {
 		let body;
 		try {
@@ -174,7 +208,7 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
-		const validatedData = createPostSchema.parse(body);
+		const validatedData = createAdminPostSchema.parse(body);
 
 		const postId = generateId();
 		const slug = generateSlug(validatedData.title);
@@ -210,12 +244,6 @@ export async function POST(request: NextRequest) {
 
 		// Validate tags exist if provided
 		if (validatedData.tagIds && validatedData.tagIds.length > 0) {
-			const existingTags = await db
-				.select({ id: tags.id })
-				.from(tags)
-				.where(eq(tags.id, validatedData.tagIds[0])); // This needs to be fixed for multiple tags
-
-			// Check all tag IDs exist
 			const tagChecks = await Promise.all(
 				validatedData.tagIds.map(async (tagId) => {
 					const tagExists = await db
@@ -237,13 +265,19 @@ export async function POST(request: NextRequest) {
 			}
 		}
 
-		// Create the post
+		// Process MDX content and extract metadata
+		const metadata = mdxProcessor.extractMetadata(validatedData.mdxContent);
+
+		// Create the post record
 		const newPost = {
 			id: postId,
 			title: validatedData.title,
 			slug,
-			content: validatedData.content || null,
-			excerpt: validatedData.excerpt || null,
+			contentStorageType: "database" as const,
+			mdxContent: validatedData.mdxContent,
+			excerpt: metadata.excerpt,
+			readingTime: metadata.readingTime,
+			wordCount: metadata.wordCount,
 			status: validatedData.status,
 			publishedAt: validatedData.status === "published" ? now : null,
 			createdAt: now,
@@ -271,8 +305,10 @@ export async function POST(request: NextRequest) {
 				id: posts.id,
 				title: posts.title,
 				slug: posts.slug,
-				content: posts.content,
+				contentStorageType: posts.contentStorageType,
 				excerpt: posts.excerpt,
+				readingTime: posts.readingTime,
+				wordCount: posts.wordCount,
 				status: posts.status,
 				publishedAt: posts.publishedAt,
 				createdAt: posts.createdAt,

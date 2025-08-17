@@ -38,6 +38,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 		{ name: "Categories", href: "/admin/categories", icon: "📁" },
 		{ name: "Tags", href: "/admin/tags", icon: "🏷️" },
 		{ name: "Media", href: "/admin/media", icon: "🖼️" },
+		{ name: "Import/Export", href: "/admin/import-export", icon: "📦" },
 	];
 
 	return (

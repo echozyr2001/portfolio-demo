@@ -117,3 +117,39 @@ export const successResponseSchema = z.object({
 	message: z.string().optional(),
 	data: z.any().optional(),
 });
+
+// Import/Export validation schemas
+export const importConfigSchema = z.object({
+	contentType: z.enum(["posts", "projects"]),
+	conflictResolution: z.enum(["skip", "overwrite", "rename"]).default("skip"),
+	validateContent: z.boolean().default(true),
+	createMissingCategories: z.boolean().default(true),
+	createMissingTags: z.boolean().default(true),
+});
+
+export const exportConfigSchema = z.object({
+	includeMetadata: z.boolean().default(true),
+	format: z.enum(["zip", "individual"]).default("zip"),
+	contentTypes: z.array(z.enum(["posts", "projects"])).min(1, "At least one content type must be selected"),
+	status: z.array(z.enum(["draft", "published", "archived"])).optional(),
+});
+
+export const mdxFileSchema = z.object({
+	filename: z.string().regex(/\.mdx?$/i, "File must be .md or .mdx"),
+	content: z.string().min(1, "File content cannot be empty"),
+});
+
+export const frontmatterSchema = z.object({
+	title: z.string().min(1, "Title is required"),
+	slug: z.string().optional(),
+	status: z.enum(["draft", "published", "archived"]).optional(),
+	publishedAt: z.string().or(z.date()).optional(),
+	category: z.string().optional(),
+	tags: z.array(z.string()).optional(),
+	// Project specific fields
+	githubUrl: z.string().url().optional(),
+	liveUrl: z.string().url().optional(),
+	imageUrl: z.string().url().optional(),
+	technologies: z.array(z.string()).optional(),
+	featured: z.boolean().optional(),
+});

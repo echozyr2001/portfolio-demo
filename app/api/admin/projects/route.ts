@@ -74,11 +74,7 @@ export async function GET(request: NextRequest) {
 		}
 
 		if (search) {
-			conditions.push(
-				or(
-					like(projects.title, `%${search}%`),
-				),
-			);
+			conditions.push(or(like(projects.title, `%${search}%`)));
 		}
 
 		// Handle tag filtering
@@ -87,10 +83,14 @@ export async function GET(request: NextRequest) {
 				.select({ projectId: projectTags.projectId })
 				.from(projectTags)
 				.where(eq(projectTags.tagId, tagId));
-			
+
 			if (taggedProjectIds.length > 0) {
 				conditions.push(
-					or(...taggedProjectIds.map(({ projectId }) => eq(projects.id, projectId)))
+					or(
+						...taggedProjectIds.map(({ projectId }) =>
+							eq(projects.id, projectId),
+						),
+					),
 				);
 			} else {
 				// No projects with this tag, return empty result
@@ -130,9 +130,10 @@ export async function GET(request: NextRequest) {
 			})
 			.from(projects);
 
-		const projectsResult = await (conditions.length > 0 
+		const projectsResult = await (conditions.length > 0
 			? baseQuery.where(and(...conditions))
-			: baseQuery)
+			: baseQuery
+		)
 			.limit(limit)
 			.offset(offset)
 			.orderBy(desc(projects.updatedAt));
@@ -158,8 +159,11 @@ export async function GET(request: NextRequest) {
 		);
 
 		// Get total count for pagination
-		const [{ count: totalCount }] = await (conditions.length > 0 
-			? db.select({ count: count() }).from(projects).where(and(...conditions))
+		const [{ count: totalCount }] = await (conditions.length > 0
+			? db
+					.select({ count: count() })
+					.from(projects)
+					.where(and(...conditions))
 			: db.select({ count: count() }).from(projects));
 		const totalPages = Math.ceil(totalCount / limit);
 
@@ -180,7 +184,11 @@ export async function GET(request: NextRequest) {
 		}
 
 		console.error("Error fetching admin projects:", error);
-		return createErrorResponse("INTERNAL_ERROR", "Failed to fetch projects", 500);
+		return createErrorResponse(
+			"INTERNAL_ERROR",
+			"Failed to fetch projects",
+			500,
+		);
 	}
 }
 
@@ -355,6 +363,10 @@ export async function POST(request: NextRequest) {
 			}
 		}
 
-		return createErrorResponse("INTERNAL_ERROR", "Failed to create project", 500);
+		return createErrorResponse(
+			"INTERNAL_ERROR",
+			"Failed to create project",
+			500,
+		);
 	}
 }

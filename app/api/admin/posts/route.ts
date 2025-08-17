@@ -87,10 +87,10 @@ export async function GET(request: NextRequest) {
 				.select({ postId: postTags.postId })
 				.from(postTags)
 				.where(eq(postTags.tagId, tagId));
-			
+
 			if (taggedPostIds.length > 0) {
 				conditions.push(
-					or(...taggedPostIds.map(({ postId }) => eq(posts.id, postId)))
+					or(...taggedPostIds.map(({ postId }) => eq(posts.id, postId))),
 				);
 			} else {
 				// No posts with this tag, return empty result
@@ -136,9 +136,10 @@ export async function GET(request: NextRequest) {
 			.from(posts)
 			.leftJoin(categories, eq(posts.categoryId, categories.id));
 
-		const postsResult = await (conditions.length > 0 
+		const postsResult = await (conditions.length > 0
 			? baseQuery.where(and(...conditions))
-			: baseQuery)
+			: baseQuery
+		)
 			.limit(limit)
 			.offset(offset)
 			.orderBy(desc(posts.updatedAt));
@@ -164,8 +165,11 @@ export async function GET(request: NextRequest) {
 		);
 
 		// Get total count for pagination
-		const [{ count: totalCount }] = await (conditions.length > 0 
-			? db.select({ count: count() }).from(posts).where(and(...conditions))
+		const [{ count: totalCount }] = await (conditions.length > 0
+			? db
+					.select({ count: count() })
+					.from(posts)
+					.where(and(...conditions))
 			: db.select({ count: count() }).from(posts));
 		const totalPages = Math.ceil(totalCount / limit);
 

@@ -21,11 +21,14 @@ export async function GET(
 	try {
 		const { id } = idParamSchema.parse(await params);
 		const { searchParams } = new URL(request.url);
-		const isPublicAccess = searchParams.get('public') === 'true';
+		const isPublicAccess = searchParams.get("public") === "true";
 
 		// Determine if the parameter is an ID (UUID format) or a slug
-		const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
-		
+		const isUUID =
+			/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+				id,
+			);
+
 		// Build where condition based on parameter type
 		let whereCondition;
 		if (isUUID) {
@@ -138,7 +141,11 @@ export async function GET(
 		}
 
 		console.error("Error fetching project:", error);
-		return createErrorResponse("INTERNAL_ERROR", "Failed to fetch project", 500);
+		return createErrorResponse(
+			"INTERNAL_ERROR",
+			"Failed to fetch project",
+			500,
+		);
 	}
 }
 
@@ -309,14 +316,21 @@ export async function PUT(
 			tags: projectTagsResult,
 		};
 
-		return createSuccessResponse(projectWithTags, "Project updated successfully");
+		return createSuccessResponse(
+			projectWithTags,
+			"Project updated successfully",
+		);
 	} catch (error) {
 		if (error instanceof ZodError) {
 			return handleValidationError(error);
 		}
 
 		console.error("Error updating project:", error);
-		return createErrorResponse("INTERNAL_ERROR", "Failed to update project", 500);
+		return createErrorResponse(
+			"INTERNAL_ERROR",
+			"Failed to update project",
+			500,
+		);
 	}
 }
 
@@ -352,6 +366,10 @@ export async function DELETE(
 		}
 
 		console.error("Error deleting project:", error);
-		return createErrorResponse("INTERNAL_ERROR", "Failed to delete project", 500);
+		return createErrorResponse(
+			"INTERNAL_ERROR",
+			"Failed to delete project",
+			500,
+		);
 	}
 }

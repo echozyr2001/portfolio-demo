@@ -6,7 +6,14 @@
  */
 
 import { db } from "@/lib/db";
-import { posts, projects, categories, tags, postTags, projectTags } from "@/lib/schema";
+import {
+	posts,
+	projects,
+	categories,
+	tags,
+	postTags,
+	projectTags,
+} from "@/lib/schema";
 import { generateId, generateSlug, getCurrentTimestamp } from "@/lib/utils";
 
 async function testPublicAPIs() {
@@ -20,7 +27,7 @@ async function testPublicAPIs() {
 		console.log("📝 Testing Posts API...");
 		await testPostsAPI();
 
-		// Test Projects API  
+		// Test Projects API
 		console.log("\n🚀 Testing Projects API...");
 		await testProjectsAPI();
 
@@ -183,23 +190,31 @@ async function testPostsAPI() {
 	console.log("  📋 Testing GET /api/posts");
 	const postsResponse = await fetch(`${baseUrl}/api/posts`);
 	const postsData = await postsResponse.json();
-	
+
 	if (!postsResponse.ok) {
 		throw new Error(`Posts API failed: ${postsData.message}`);
 	}
 
 	console.log(`    ✅ Found ${postsData.data.posts.length} published posts`);
-	console.log(`    📊 Pagination: ${postsData.data.pagination.totalCount} total`);
+	console.log(
+		`    📊 Pagination: ${postsData.data.pagination.totalCount} total`,
+	);
 
 	// Verify only published posts are returned
-	const hasOnlyPublished = postsData.data.posts.every((post: any) => post.status === undefined); // Status not returned in public API
+	const hasOnlyPublished = postsData.data.posts.every(
+		(post: any) => post.status === undefined,
+	); // Status not returned in public API
 	if (!hasOnlyPublished) {
-		console.log("    ⚠️  Note: Status field should not be returned in public API");
+		console.log(
+			"    ⚠️  Note: Status field should not be returned in public API",
+		);
 	}
 
 	// Test 2: Get post by slug
 	console.log("  📄 Testing GET /api/posts/[slug]");
-	const postResponse = await fetch(`${baseUrl}/api/posts/test-published-post?public=true`);
+	const postResponse = await fetch(
+		`${baseUrl}/api/posts/test-published-post?public=true`,
+	);
 	const postData = await postResponse.json();
 
 	if (!postResponse.ok) {
@@ -207,16 +222,20 @@ async function testPostsAPI() {
 	}
 
 	console.log(`    ✅ Retrieved post: "${postData.data.title}"`);
-	console.log(`    🏷️  Tags: ${postData.data.tags.map((t: any) => t.name).join(", ")}`);
+	console.log(
+		`    🏷️  Tags: ${postData.data.tags.map((t: any) => t.name).join(", ")}`,
+	);
 	console.log(`    📖 Reading time: ${postData.data.readingTime} minutes`);
-	
+
 	if (postData.data.mdxSource) {
 		console.log("    ✅ MDX content processed successfully");
 	}
 
 	// Test 3: Try to get draft post (should fail)
 	console.log("  🔒 Testing access to draft post");
-	const draftResponse = await fetch(`${baseUrl}/api/posts/test-draft-post?public=true`);
+	const draftResponse = await fetch(
+		`${baseUrl}/api/posts/test-draft-post?public=true`,
+	);
 	if (draftResponse.status === 404) {
 		console.log("    ✅ Draft post correctly hidden from public API");
 	} else {
@@ -224,17 +243,23 @@ async function testPostsAPI() {
 	}
 
 	// Test 4: Test filtering by category
-	const categoryResponse = await fetch(`${baseUrl}/api/posts?categoryId=${await getCategoryId()}`);
+	const categoryResponse = await fetch(
+		`${baseUrl}/api/posts?categoryId=${await getCategoryId()}`,
+	);
 	const categoryData = await categoryResponse.json();
 	if (categoryResponse.ok) {
-		console.log(`    ✅ Category filtering works: ${categoryData.data.posts.length} posts found`);
+		console.log(
+			`    ✅ Category filtering works: ${categoryData.data.posts.length} posts found`,
+		);
 	}
 
 	// Test 5: Test search functionality
 	const searchResponse = await fetch(`${baseUrl}/api/posts?search=test`);
 	const searchData = await searchResponse.json();
 	if (searchResponse.ok) {
-		console.log(`    ✅ Search works: ${searchData.data.posts.length} posts found`);
+		console.log(
+			`    ✅ Search works: ${searchData.data.posts.length} posts found`,
+		);
 	}
 }
 
@@ -245,17 +270,23 @@ async function testProjectsAPI() {
 	console.log("  📋 Testing GET /api/projects");
 	const projectsResponse = await fetch(`${baseUrl}/api/projects`);
 	const projectsData = await projectsResponse.json();
-	
+
 	if (!projectsResponse.ok) {
 		throw new Error(`Projects API failed: ${projectsData.message}`);
 	}
 
-	console.log(`    ✅ Found ${projectsData.data.projects.length} published projects`);
-	console.log(`    📊 Pagination: ${projectsData.data.pagination.totalCount} total`);
+	console.log(
+		`    ✅ Found ${projectsData.data.projects.length} published projects`,
+	);
+	console.log(
+		`    📊 Pagination: ${projectsData.data.pagination.totalCount} total`,
+	);
 
 	// Test 2: Get project by slug
 	console.log("  📄 Testing GET /api/projects/[slug]");
-	const projectResponse = await fetch(`${baseUrl}/api/projects/test-published-project?public=true`);
+	const projectResponse = await fetch(
+		`${baseUrl}/api/projects/test-published-project?public=true`,
+	);
 	const projectData = await projectResponse.json();
 
 	if (!projectResponse.ok) {
@@ -263,18 +294,22 @@ async function testProjectsAPI() {
 	}
 
 	console.log(`    ✅ Retrieved project: "${projectData.data.title}"`);
-	console.log(`    🏷️  Tags: ${projectData.data.tags.map((t: any) => t.name).join(", ")}`);
+	console.log(
+		`    🏷️  Tags: ${projectData.data.tags.map((t: any) => t.name).join(", ")}`,
+	);
 	console.log(`    🔗 GitHub: ${projectData.data.githubUrl}`);
 	console.log(`    🌐 Live URL: ${projectData.data.liveUrl}`);
 	console.log(`    ⭐ Featured: ${projectData.data.featured}`);
-	
+
 	if (projectData.data.mdxSource) {
 		console.log("    ✅ MDX content processed successfully");
 	}
 
 	// Test 3: Try to get draft project (should fail)
 	console.log("  🔒 Testing access to draft project");
-	const draftResponse = await fetch(`${baseUrl}/api/projects/test-draft-project?public=true`);
+	const draftResponse = await fetch(
+		`${baseUrl}/api/projects/test-draft-project?public=true`,
+	);
 	if (draftResponse.status === 404) {
 		console.log("    ✅ Draft project correctly hidden from public API");
 	} else {
@@ -285,11 +320,15 @@ async function testProjectsAPI() {
 	const featuredResponse = await fetch(`${baseUrl}/api/projects?featured=true`);
 	const featuredData = await featuredResponse.json();
 	if (featuredResponse.ok) {
-		console.log(`    ✅ Featured filtering works: ${featuredData.data.projects.length} featured projects`);
+		console.log(
+			`    ✅ Featured filtering works: ${featuredData.data.projects.length} featured projects`,
+		);
 	}
 
 	// Test 5: Test sorting
-	const sortedResponse = await fetch(`${baseUrl}/api/projects?sortBy=title&sortOrder=asc`);
+	const sortedResponse = await fetch(
+		`${baseUrl}/api/projects?sortBy=title&sortOrder=asc`,
+	);
 	const sortedData = await sortedResponse.json();
 	if (sortedResponse.ok) {
 		console.log(`    ✅ Sorting works: projects sorted by title`);
@@ -297,13 +336,16 @@ async function testProjectsAPI() {
 }
 
 async function getCategoryId(): Promise<string> {
-	const result = await db.select({ id: categories.id }).from(categories).limit(1);
+	const result = await db
+		.select({ id: categories.id })
+		.from(categories)
+		.limit(1);
 	return result[0]?.id || "";
 }
 
 async function cleanup() {
 	console.log("\n🧹 Cleaning up test data...");
-	
+
 	try {
 		// Delete in correct order due to foreign key constraints
 		await db.delete(postTags);
@@ -312,7 +354,7 @@ async function cleanup() {
 		await db.delete(projects);
 		await db.delete(categories);
 		await db.delete(tags);
-		
+
 		console.log("✅ Test data cleaned up");
 	} catch (error) {
 		console.error("⚠️  Cleanup failed:", error);

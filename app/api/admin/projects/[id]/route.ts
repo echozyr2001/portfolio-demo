@@ -17,7 +17,11 @@ import { z } from "zod";
 
 // Admin-specific project validation schemas
 const updateAdminProjectSchema = z.object({
-	title: z.string().min(1, "Title is required").max(200, "Title too long").optional(),
+	title: z
+		.string()
+		.min(1, "Title is required")
+		.max(200, "Title too long")
+		.optional(),
 	mdxContent: z.string().min(1, "MDX content is required").optional(),
 	githubUrl: z.string().url("Invalid GitHub URL").optional(),
 	liveUrl: z.string().url("Invalid live URL").optional(),
@@ -39,7 +43,7 @@ function requireAuth(request: NextRequest) {
 // GET /api/admin/projects/[id] - Get a specific project with MDX content
 export async function GET(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: { id: string } },
 ) {
 	// Check authentication
 	const authError = requireAuth(request);
@@ -73,7 +77,7 @@ export async function GET(
 
 		// Get MDX content using content storage service
 		const storageService = ContentStorageFactory.createForRecord(project[0]);
-		const mdxContent = await storageService.getContent(params.id, 'project');
+		const mdxContent = await storageService.getContent(params.id, "project");
 
 		// Get tags for the project
 		const projectTagsResult = await db
@@ -95,14 +99,18 @@ export async function GET(
 		return createSuccessResponse(projectWithContent);
 	} catch (error) {
 		console.error("Error fetching admin project:", error);
-		return createErrorResponse("INTERNAL_ERROR", "Failed to fetch project", 500);
+		return createErrorResponse(
+			"INTERNAL_ERROR",
+			"Failed to fetch project",
+			500,
+		);
 	}
 }
 
 // PUT /api/admin/projects/[id] - Update a specific project
 export async function PUT(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: { id: string } },
 ) {
 	// Check authentication
 	const authError = requireAuth(request);
@@ -145,9 +153,12 @@ export async function PUT(
 		};
 
 		// Handle title update and slug generation
-		if (validatedData.title && validatedData.title !== currentProject[0].title) {
+		if (
+			validatedData.title &&
+			validatedData.title !== currentProject[0].title
+		) {
 			const newSlug = generateSlug(validatedData.title);
-			
+
 			// Check if new slug conflicts with existing projects (excluding current project)
 			const existingProject = await db
 				.select({ id: projects.id })
@@ -170,13 +181,19 @@ export async function PUT(
 		// Handle status update and published date
 		if (validatedData.status) {
 			updateData.status = validatedData.status;
-			
+
 			// Set publishedAt when publishing for the first time
-			if (validatedData.status === "published" && currentProject[0].status !== "published") {
+			if (
+				validatedData.status === "published" &&
+				currentProject[0].status !== "published"
+			) {
 				updateData.publishedAt = now;
 			}
 			// Clear publishedAt when unpublishing
-			else if (validatedData.status !== "published" && currentProject[0].status === "published") {
+			else if (
+				validatedData.status !== "published" &&
+				currentProject[0].status === "published"
+			) {
 				updateData.publishedAt = null;
 			}
 		}
@@ -201,14 +218,18 @@ export async function PUT(
 		// Handle MDX content update
 		if (validatedData.mdxContent) {
 			// Update content using storage service
-			const storageService = ContentStorageFactory.createForRecord(currentProject[0]);
-			await storageService.saveContent(params.id, validatedData.mdxContent, 'project');
+			const storageService = ContentStorageFactory.createForRecord(
+				currentProject[0],
+			);
+			await storageService.saveContent(
+				params.id,
+				validatedData.mdxContent,
+				"project",
+			);
 		}
 
 		// Update project record
-		await db.update(projects)
-			.set(updateData)
-			.where(eq(projects.id, params.id));
+		await db.update(projects).set(updateData).where(eq(projects.id, params.id));
 
 		// Handle tags update
 		if (validatedData.tagIds !== undefined) {
@@ -286,7 +307,10 @@ export async function PUT(
 			tags: projectTagsResult,
 		};
 
-		return createSuccessResponse(projectWithTags, "Project updated successfully");
+		return createSuccessResponse(
+			projectWithTags,
+			"Project updated successfully",
+		);
 	} catch (error) {
 		console.error("Error updating project:", error);
 
@@ -313,14 +337,18 @@ export async function PUT(
 			}
 		}
 
-		return createErrorResponse("INTERNAL_ERROR", "Failed to update project", 500);
+		return createErrorResponse(
+			"INTERNAL_ERROR",
+			"Failed to update project",
+			500,
+		);
 	}
 }
 
 // DELETE /api/admin/projects/[id] - Delete a specific project
 export async function DELETE(
 	request: NextRequest,
-	{ params }: { params: { id: string } }
+	{ params }: { params: { id: string } },
 ) {
 	// Check authentication
 	const authError = requireAuth(request);
@@ -343,18 +371,24 @@ export async function DELETE(
 		}
 
 		// Clean up content storage
-		const storageService = ContentStorageFactory.createForRecord(existingProject[0]);
-		await storageService.deleteContent(params.id, 'project');
+		const storageService = ContentStorageFactory.createForRecord(
+			existingProject[0],
+		);
+		await storageService.deleteContent(params.id, "project");
 
 		// Delete project (this will cascade delete related records due to foreign key constraints)
 		await db.delete(projects).where(eq(projects.id, params.id));
 
 		return createSuccessResponse(
 			{ id: params.id, title: existingProject[0].title },
-			"Project deleted successfully"
+			"Project deleted successfully",
 		);
 	} catch (error) {
 		console.error("Error deleting project:", error);
-		return createErrorResponse("INTERNAL_ERROR", "Failed to delete project", 500);
+		return createErrorResponse(
+			"INTERNAL_ERROR",
+			"Failed to delete project",
+			500,
+		);
 	}
 }

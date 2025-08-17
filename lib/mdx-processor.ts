@@ -96,7 +96,10 @@ export class MDXProcessor {
 						},
 					] as any);
 				} catch (error) {
-					console.warn('Failed to load Shiki, code highlighting disabled:', error);
+					console.warn(
+						"Failed to load Shiki, code highlighting disabled:",
+						error,
+					);
 				}
 			}
 

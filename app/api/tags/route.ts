@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
 		const tagId = generateId();
 		const now = getCurrentTimestamp();
-		
+
 		// Generate slug from name if not provided
 		const slug = validatedData.slug || generateSlug(validatedData.name);
 

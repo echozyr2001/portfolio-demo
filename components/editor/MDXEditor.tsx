@@ -17,6 +17,8 @@ interface MDXEditorProps {
   className?: string;
   height?: string;
   theme?: 'light' | 'dark';
+  /** 同步滚动回调 - 当编辑器滚动时调用 */
+  onEditorMount?: (editor: editor.IStandaloneCodeEditor) => void;
 }
 
 export function MDXEditor({
@@ -27,7 +29,8 @@ export function MDXEditor({
   autoSaveDelay = 2000,
   className = '',
   height = '600px',
-  theme = 'dark'
+  theme = 'dark',
+  onEditorMount
 }: MDXEditorProps) {
   const [content, setContent] = useState(initialContent);
   const [isEditorReady, setIsEditorReady] = useState(false);
@@ -72,8 +75,11 @@ export function MDXEditor({
       bracketPairColorization: { enabled: true },
     });
 
+    // 通知父组件编辑器已挂载
+    onEditorMount?.(editor);
+
     setIsEditorReady(true);
-  }, []);
+  }, [onEditorMount]);
 
   // 内容变化处理
   const handleContentChange = useCallback((value: string | undefined) => {

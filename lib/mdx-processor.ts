@@ -82,18 +82,22 @@ export class MDXProcessor {
 
 			// 如果启用代码高亮，添加Shiki插件
 			if (enableCodeHighlight) {
-				const { default: rehypeShiki } = await import("@shikijs/rehype");
-				rehypePlugins.push([
-					rehypeShiki,
-					{
-						theme: shikiTheme,
-						// 支持双主题模式
-						themes: {
-							light: "github-light",
-							dark: shikiTheme,
+				try {
+					const { default: rehypeShiki } = await import("@shikijs/rehype");
+					rehypePlugins.push([
+						rehypeShiki,
+						{
+							theme: shikiTheme,
+							// 支持双主题模式
+							themes: {
+								light: "github-light",
+								dark: shikiTheme,
+							},
 						},
-					},
-				] as any);
+					] as any);
+				} catch (error) {
+					console.warn('Failed to load Shiki, code highlighting disabled:', error);
+				}
 			}
 
 			// 序列化MDX内容

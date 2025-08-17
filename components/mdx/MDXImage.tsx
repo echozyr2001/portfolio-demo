@@ -25,6 +25,8 @@ interface MDXImageProps {
   lazy?: boolean;
   /** 图片标题 */
   title?: string;
+  /** 是否作为内联元素渲染（不使用figure包装） */
+  inline?: boolean;
 }
 
 /**
@@ -92,6 +94,7 @@ export function MDXImage({
   showThumbnail = false,
   lazy = true,
   title,
+  inline = false,
   ...props 
 }: MDXImageProps) {
   const [mediaData, setMediaData] = useState<MediaRecord | null>(null);
@@ -204,6 +207,24 @@ export function MDXImage({
   } else {
     // 没有有效的图片源
     return null;
+  }
+
+  // 如果是内联模式，直接返回img标签
+  if (inline) {
+    return (
+      <img
+        src={imageSrc}
+        alt={alt}
+        title={title}
+        width={imageWidth}
+        height={imageHeight}
+        className={`inline-block ${className} ${hasError ? 'hidden' : ''}`}
+        onLoad={handleImageLoad}
+        onError={handleImageError}
+        loading={priority ? 'eager' : lazy ? 'lazy' : 'eager'}
+        {...props}
+      />
+    );
   }
 
   return (

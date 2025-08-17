@@ -130,7 +130,9 @@ export const importConfigSchema = z.object({
 export const exportConfigSchema = z.object({
 	includeMetadata: z.boolean().default(true),
 	format: z.enum(["zip", "individual"]).default("zip"),
-	contentTypes: z.array(z.enum(["posts", "projects"])).min(1, "At least one content type must be selected"),
+	contentTypes: z
+		.array(z.enum(["posts", "projects"]))
+		.min(1, "At least one content type must be selected"),
 	status: z.array(z.enum(["draft", "published", "archived"])).optional(),
 });
 

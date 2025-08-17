@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 import type { editor } from 'monaco-editor';
 

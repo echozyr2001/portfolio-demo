@@ -28,7 +28,10 @@ interface MDXRendererProps {
 const defaultComponents: MDXComponents = {
   // 自定义图片组件
   Image: MDXImage,
-  img: MDXImage,
+  img: (props: any) => {
+    // 对于标准的 img 标签，如果在段落中使用，则使用内联模式
+    return <MDXImage {...props} inline={true} />;
+  },
   
   // 代码块组件 (pre标签由Shiki处理，这里处理行内代码)
   code: ({ children, className, ...props }) => {
@@ -111,12 +114,37 @@ const defaultComponents: MDXComponents = {
     </h3>
   ),
   
-  // 段落
-  p: ({ children, ...props }) => (
-    <p className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed" {...props}>
-      {children}
-    </p>
-  ),
+  // 段落 - 检查是否包含块级元素
+  p: ({ children, ...props }) => {
+    // 检查children中是否包含块级元素（如figure, div等）
+    const hasBlockElements = React.Children.toArray(children).some(child => {
+      if (React.isValidElement(child)) {
+        // 检查是否是我们的自定义组件（通常渲染为块级元素）
+        const componentName = child.type?.toString();
+        return componentName?.includes('MDXImage') || 
+               componentName?.includes('ImageGallery') ||
+               componentName?.includes('Callout') ||
+               child.type === 'figure' ||
+               child.type === 'div';
+      }
+      return false;
+    });
+
+    // 如果包含块级元素，使用div而不是p
+    if (hasBlockElements) {
+      return (
+        <div className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed" {...props}>
+          {children}
+        </div>
+      );
+    }
+
+    return (
+      <p className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed" {...props}>
+        {children}
+      </p>
+    );
+  },
   
   // 列表
   ul: ({ children, ...props }) => (

@@ -21,11 +21,14 @@ export async function GET(
 	try {
 		const { id } = idParamSchema.parse(await params);
 		const { searchParams } = new URL(request.url);
-		const isPublicAccess = searchParams.get('public') === 'true';
+		const isPublicAccess = searchParams.get("public") === "true";
 
 		// Determine if the parameter is an ID (UUID format) or a slug
-		const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
-		
+		const isUUID =
+			/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+				id,
+			);
+
 		// Build where condition based on parameter type
 		let whereCondition;
 		if (isUUID) {

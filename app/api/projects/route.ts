@@ -17,7 +17,8 @@ export async function GET(request: NextRequest) {
 		const queryParams = Object.fromEntries(searchParams.entries());
 
 		const validatedQuery = publicProjectQuerySchema.parse(queryParams);
-		const { page, limit, featured, tagId, search, sortBy, sortOrder } = validatedQuery;
+		const { page, limit, featured, tagId, search, sortBy, sortOrder } =
+			validatedQuery;
 
 		// Build where conditions - Only show published projects for public API
 		const conditions = [eq(projects.status, "published")];
@@ -32,8 +33,8 @@ export async function GET(request: NextRequest) {
 				.select({ projectId: projectTags.projectId })
 				.from(projectTags)
 				.where(eq(projectTags.tagId, tagId));
-			
-			const projectIds = projectsWithTag.map(pt => pt.projectId);
+
+			const projectIds = projectsWithTag.map((pt) => pt.projectId);
 			if (projectIds.length === 0) {
 				// No projects with this tag, return empty result
 				return createSuccessResponse({
@@ -64,9 +65,12 @@ export async function GET(request: NextRequest) {
 		const offset = (page - 1) * limit;
 
 		// Determine sort order
-		const sortColumn = sortBy === "publishedAt" ? projects.publishedAt 
-			: sortBy === "title" ? projects.title 
-			: projects.featured;
+		const sortColumn =
+			sortBy === "publishedAt"
+				? projects.publishedAt
+				: sortBy === "title"
+					? projects.title
+					: projects.featured;
 		const orderFn = sortOrder === "asc" ? asc : desc;
 
 		// Get projects
@@ -166,6 +170,10 @@ export async function GET(request: NextRequest) {
 		}
 
 		console.error("Error fetching projects:", error);
-		return createErrorResponse("INTERNAL_ERROR", "Failed to fetch projects", 500);
+		return createErrorResponse(
+			"INTERNAL_ERROR",
+			"Failed to fetch projects",
+			500,
+		);
 	}
 }

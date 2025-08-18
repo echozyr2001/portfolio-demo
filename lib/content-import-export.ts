@@ -9,7 +9,7 @@ import {
 	projectTags,
 } from "./schema";
 import { MDXProcessor } from "./mdx-processor";
-import { eq, and } from "drizzle-orm";
+import { eq, and, inArray } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import JSZip from "jszip";
 import matter from "gray-matter";
@@ -246,7 +246,9 @@ export class ContentImportExportService {
 			};
 		} catch (error) {
 			throw new Error(
-				`Export failed: ${error instanceof Error ? error.message : String(error)}`,
+				`Export failed: ${
+					error instanceof Error ? error.message : String(error)
+				}`,
 			);
 		}
 	}
@@ -587,7 +589,7 @@ export class ContentImportExportService {
 			query = query.where(
 				status.length === 1
 					? eq(posts.status, status[0])
-					: posts.status.in(status),
+					: inArray(posts.status, status),
 			) as any;
 		}
 
@@ -622,7 +624,7 @@ export class ContentImportExportService {
 			query = query.where(
 				status.length === 1
 					? eq(projects.status, status[0])
-					: projects.status.in(status),
+					: inArray(projects.status, status),
 			) as any;
 		}
 

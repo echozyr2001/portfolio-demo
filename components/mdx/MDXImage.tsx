@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { MediaRecord } from "@/lib/media-service";
 

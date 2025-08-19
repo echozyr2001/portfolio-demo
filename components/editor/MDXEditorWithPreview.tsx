@@ -30,6 +30,8 @@ interface MDXEditorWithPreviewProps {
 	components?: Record<string, React.ComponentType>;
 	/** 是否启用同步滚动 */
 	enableSyncScroll?: boolean;
+	/** 可用的预览模式 */
+	availableModes?: PreviewMode[];
 }
 
 /**
@@ -54,10 +56,15 @@ export function MDXEditorWithPreview({
 	initialPreviewMode = "split",
 	components,
 	enableSyncScroll = true,
+	availableModes = ["edit", "preview", "split"],
 }: MDXEditorWithPreviewProps) {
 	const [content, setContent] = useState(initialContent);
-	const [previewMode, setPreviewMode] =
-		useState<PreviewMode>(initialPreviewMode);
+	const [previewMode, setPreviewMode] = useState<PreviewMode>(() => {
+		// 确保初始预览模式在可用模式列表中
+		return availableModes.includes(initialPreviewMode)
+			? initialPreviewMode
+			: availableModes[0] || "edit";
+	});
 	const [previewError, setPreviewError] = useState<Error | null>(null);
 	const [syncScrollEnabled, setSyncScrollEnabled] = useState(enableSyncScroll);
 
@@ -80,8 +87,8 @@ export function MDXEditorWithPreview({
 	);
 
 	// 预览模式按钮配置
-	const previewModeButtons = useMemo(
-		() => [
+	const previewModeButtons = useMemo(() => {
+		const allModes = [
 			{
 				mode: "edit" as const,
 				label: "编辑",
@@ -145,9 +152,10 @@ export function MDXEditorWithPreview({
 					</svg>
 				),
 			},
-		],
-		[],
-	);
+		];
+		// 只返回availableModes中指定的模式
+		return allModes.filter((mode) => availableModes.includes(mode.mode));
+	}, [availableModes]);
 
 	// 计算布局样式
 	const layoutStyles = useMemo(() => {

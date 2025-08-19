@@ -47,6 +47,9 @@ export async function GET(
 	const authError = requireAuth(request);
 	if (authError) return authError;
 
+	// Await params before using its properties
+	const { id } = await params;
+
 	try {
 		// Get basic post information
 		const post = await db
@@ -72,7 +75,7 @@ export async function GET(
 			})
 			.from(posts)
 			.leftJoin(categories, eq(posts.categoryId, categories.id))
-			.where(eq(posts.id, params.id))
+			.where(eq(posts.id, id))
 			.limit(1);
 
 		if (!post[0]) {
@@ -81,7 +84,7 @@ export async function GET(
 
 		// Get MDX content using content storage service
 		const storageService = ContentStorageFactory.createForRecord(post[0]);
-		const mdxContent = await storageService.getContent(params.id, "post");
+		const mdxContent = await storageService.getContent(id, "post");
 
 		// Get tags for the post
 		const postTagsResult = await db
@@ -92,7 +95,7 @@ export async function GET(
 			})
 			.from(postTags)
 			.innerJoin(tags, eq(postTags.tagId, tags.id))
-			.where(eq(postTags.postId, params.id));
+			.where(eq(postTags.postId, id));
 
 		const postWithContent = {
 			...post[0],
@@ -115,6 +118,9 @@ export async function PUT(
 	// Check authentication
 	const authError = requireAuth(request);
 	if (authError) return authError;
+
+	// Await params before using its properties
+	const { id } = await params;
 
 	try {
 		let body;
@@ -140,7 +146,7 @@ export async function PUT(
 				status: posts.status,
 			})
 			.from(posts)
-			.where(eq(posts.id, params.id))
+			.where(eq(posts.id, id))
 			.limit(1);
 
 		if (!currentPost[0]) {
@@ -163,7 +169,7 @@ export async function PUT(
 				.where(eq(posts.slug, newSlug))
 				.limit(1);
 
-			if (existingPost.length > 0 && existingPost[0].id !== params.id) {
+			if (existingPost.length > 0 && existingPost[0].id !== id) {
 				return createErrorResponse(
 					"CONFLICT",
 					"A post with this title already exists",
@@ -229,7 +235,7 @@ export async function PUT(
 				currentPost[0],
 			);
 			await storageService.saveContent(
-				params.id,
+				id,
 				validatedData.mdxContent,
 				"post",
 			);
@@ -241,7 +247,7 @@ export async function PUT(
 		}
 
 		// Update post record
-		await db.update(posts).set(updateData).where(eq(posts.id, params.id));
+		await db.update(posts).set(updateData).where(eq(posts.id, id));
 
 		// Handle tags update
 		if (validatedData.tagIds !== undefined) {
@@ -269,12 +275,12 @@ export async function PUT(
 			}
 
 			// Remove existing tag relations
-			await db.delete(postTags).where(eq(postTags.postId, params.id));
+			await db.delete(postTags).where(eq(postTags.postId, id));
 
 			// Add new tag relations
 			if (validatedData.tagIds.length > 0) {
 				const tagRelations = validatedData.tagIds.map((tagId) => ({
-					postId: params.id,
+					postId: id,
 					tagId,
 				}));
 
@@ -306,7 +312,7 @@ export async function PUT(
 			})
 			.from(posts)
 			.leftJoin(categories, eq(posts.categoryId, categories.id))
-			.where(eq(posts.id, params.id))
+			.where(eq(posts.id, id))
 			.limit(1);
 
 		// Get tags for the updated post
@@ -318,7 +324,7 @@ export async function PUT(
 			})
 			.from(postTags)
 			.innerJoin(tags, eq(postTags.tagId, tags.id))
-			.where(eq(postTags.postId, params.id));
+			.where(eq(postTags.postId, id));
 
 		const postWithTags = {
 			...updatedPost[0],
@@ -365,6 +371,9 @@ export async function DELETE(
 	const authError = requireAuth(request);
 	if (authError) return authError;
 
+	// Await params before using its properties
+	const { id } = await params;
+
 	try {
 		// Check if post exists
 		const existingPost = await db
@@ -374,7 +383,7 @@ export async function DELETE(
 				contentStorageType: posts.contentStorageType,
 			})
 			.from(posts)
-			.where(eq(posts.id, params.id))
+			.where(eq(posts.id, id))
 			.limit(1);
 
 		if (!existingPost[0]) {
@@ -385,13 +394,13 @@ export async function DELETE(
 		const storageService = ContentStorageFactory.createForRecord(
 			existingPost[0],
 		);
-		await storageService.deleteContent(params.id, "post");
+		await storageService.deleteContent(id, "post");
 
 		// Delete post (this will cascade delete related records due to foreign key constraints)
-		await db.delete(posts).where(eq(posts.id, params.id));
+		await db.delete(posts).where(eq(posts.id, id));
 
 		return createSuccessResponse(
-			{ id: params.id, title: existingPost[0].title },
+			{ id: id, title: existingPost[0].title },
 			"Post deleted successfully",
 		);
 	} catch (error) {

@@ -99,8 +99,8 @@ export function RelatedPosts({
 			<div className="bg-white rounded-lg shadow-sm p-8">
 				<h2 className="text-2xl font-bold text-gray-900 mb-6">Related Posts</h2>
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-					{[...Array(3)].map((_, i) => (
-						<div key={i} className="animate-pulse">
+					{[...Array(3)].map((item) => (
+						<div key={item.id} className="animate-pulse">
 							<div className="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
 							<div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
 							<div className="h-3 bg-gray-200 rounded w-2/3"></div>

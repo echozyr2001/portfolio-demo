@@ -4,29 +4,45 @@
  * 导出所有MDX相关组件和类型，提供统一的导入接口
  */
 
+// 首先导入所有组件
+import { MDXRenderer, defaultComponents } from "./MDXRenderer";
+import { MDXImage } from "./MDXImage";
+import { CodeBlock } from "./CodeBlock";
+import { Callout } from "./Callout";
+import { ImageGallery } from "./ImageGallery";
+import { MDXErrorBoundary, MDXErrorHandler } from "./MDXErrorBoundary";
+
+// 导入类型
+import type { MDXRendererProps } from "./MDXRenderer";
+import type { MDXImageProps } from "./MDXImage";
+import type { CodeBlockProps } from "./CodeBlock";
+import type { CalloutProps, CalloutType } from "./Callout";
+import type { ImageGalleryProps, GalleryImage } from "./ImageGallery";
+import type { MDXError, MDXErrorBoundaryProps } from "./MDXErrorBoundary";
+
 // 核心渲染组件
-export { MDXRenderer, defaultComponents } from "./MDXRenderer";
-export type { MDXRendererProps } from "./MDXRenderer";
+export { MDXRenderer, defaultComponents };
+export type { MDXRendererProps };
 
 // 图片组件
-export { MDXImage } from "./MDXImage";
-export type { MDXImageProps } from "./MDXImage";
+export { MDXImage };
+export type { MDXImageProps };
 
 // 代码块组件
-export { CodeBlock } from "./CodeBlock";
-export type { CodeBlockProps } from "./CodeBlock";
+export { CodeBlock };
+export type { CodeBlockProps };
 
 // 提示框组件
-export { Callout } from "./Callout";
-export type { CalloutProps, CalloutType } from "./Callout";
+export { Callout };
+export type { CalloutProps, CalloutType };
 
 // 图片画廊组件
-export { ImageGallery } from "./ImageGallery";
-export type { ImageGalleryProps, GalleryImage } from "./ImageGallery";
+export { ImageGallery };
+export type { ImageGalleryProps, GalleryImage };
 
 // 错误边界组件
-export { MDXErrorBoundary, MDXErrorHandler } from "./MDXErrorBoundary";
-export type { MDXError, MDXErrorBoundaryProps } from "./MDXErrorBoundary";
+export { MDXErrorBoundary, MDXErrorHandler };
+export type { MDXError, MDXErrorBoundaryProps };
 
 /**
  * 预设的MDX组件配置

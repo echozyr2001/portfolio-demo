@@ -180,11 +180,12 @@ export default function EditPostPage() {
 		<AdminLayout>
 			<div className="p-6">
 				<div className="max-w-7xl mx-auto">
-					{" "}
-					{/* 增加最大宽度以适应分屏编辑器 */}
 					{/* Header */}
 					<div className="flex justify-between items-center mb-6">
-						<h1 className="text-2xl font-bold text-gray-900">编辑文章</h1>
+						<div>
+							<h1 className="text-2xl font-bold text-gray-900">编辑文章</h1>
+							<p className="text-sm text-gray-600 mt-1">修改文章内容和设置</p>
+						</div>
 						<Button
 							type="button"
 							variant="outline"
@@ -193,204 +194,234 @@ export default function EditPostPage() {
 							取消
 						</Button>
 					</div>
-					{/* Form */}
-					<form onSubmit={handleSubmit} className="space-y-6">
-						{/* 标题和Slug */}
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-							{/* 标题 */}
-							<div>
-								<Label htmlFor="title">标题 *</Label>
-								<Input
-									id="title"
-									type="text"
-									value={formData.title}
-									onChange={handleTitleChange}
-									required
-									placeholder="输入文章标题"
-									className="mt-1"
-								/>
-							</div>
 
-							{/* Slug */}
-							<div>
-								<Label htmlFor="slug">URL Slug</Label>
-								<Input
-									id="slug"
-									type="text"
-									value={formData.slug}
-									onChange={(e) =>
-										setFormData((prev) => ({ ...prev, slug: e.target.value }))
-									}
-									placeholder="自动生成或手动输入"
-									className="mt-1"
-								/>
-							</div>
-						</div>
+					{/* 左右布局 */}
+					<form
+						onSubmit={handleSubmit}
+						className="grid grid-cols-1 lg:grid-cols-4 gap-6"
+					>
+						{/* 左侧：基本信息和设置 */}
+						<div className="lg:col-span-1 space-y-6">
+							{/* 基本信息 */}
+							<div className="bg-white p-4 rounded-lg border border-gray-200">
+								<h3 className="text-lg font-semibold mb-4">基本信息</h3>
 
-						{/* 内容 */}
-						<div>
-							<Label htmlFor="mdxContent">内容 *</Label>
-							<div className="mt-1">
-								<MDXEditorWithPreview
-									key={editorKey} // 使用key强制重新渲染
-									initialContent={formData.mdxContent}
-									onChange={(content) =>
-										setFormData((prev) => ({ ...prev, mdxContent: content }))
-									}
-									onSave={() => {}} // 这里不需要实现，因为我们有主要的保存按钮
-									height="60vh"
-									initialPreviewMode="split"
-									availableModes={["edit", "split"]} // 只显示编辑和并排模式
-									className="border border-gray-300 rounded-md overflow-hidden"
-								/>
-							</div>
-						</div>
+								<div className="space-y-4">
+									{/* 标题 */}
+									<div>
+										<Label htmlFor="title">标题 *</Label>
+										<Input
+											id="title"
+											type="text"
+											value={formData.title}
+											onChange={handleTitleChange}
+											required
+											placeholder="输入文章标题"
+											className="mt-1"
+										/>
+									</div>
 
-						{/* 摘要 */}
-						<div>
-							<Label htmlFor="excerpt">摘要</Label>
-							<Textarea
-								id="excerpt"
-								value={formData.excerpt}
-								onChange={(e) =>
-									setFormData((prev) => ({ ...prev, excerpt: e.target.value }))
-								}
-								placeholder="输入文章摘要"
-								rows={3}
-								className="mt-1"
-							/>
-						</div>
+									{/* Slug */}
+									<div>
+										<Label htmlFor="slug">URL Slug</Label>
+										<Input
+											id="slug"
+											type="text"
+											value={formData.slug}
+											onChange={(e) =>
+												setFormData((prev) => ({
+													...prev,
+													slug: e.target.value,
+												}))
+											}
+											placeholder="自动生成或手动输入"
+											className="mt-1"
+										/>
+										<p className="text-xs text-gray-500 mt-1">
+											用于生成文章链接
+										</p>
+									</div>
 
-						{/* 状态、分类和标签 */}
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-							{/* 状态 */}
-							<div>
-								<Label htmlFor="status">状态</Label>
-								<select
-									id="status"
-									value={formData.status}
-									onChange={(e) =>
-										setFormData((prev) => ({
-											...prev,
-											status: e.target.value as
-												| "draft"
-												| "published"
-												| "archived",
-										}))
-									}
-									className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-								>
-									<option value="draft">草稿</option>
-									<option value="published">已发布</option>
-									<option value="archived">已归档</option>
-								</select>
-							</div>
-
-							{/* 分类 */}
-							<div>
-								<Label htmlFor="categoryId">分类</Label>
-								<select
-									id="categoryId"
-									value={formData.categoryId}
-									onChange={(e) =>
-										setFormData((prev) => ({
-											...prev,
-											categoryId: e.target.value,
-										}))
-									}
-									className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-								>
-									<option value="">选择分类</option>
-									{categories.map((category) => (
-										<option key={category.id} value={category.id}>
-											{category.name}
-										</option>
-									))}
-								</select>
-							</div>
-						</div>
-
-						{/* 标签 */}
-						{tags.length > 0 && (
-							<div>
-								<Label>标签</Label>
-								<div className="mt-2 flex flex-wrap gap-2">
-									{tags.map((tag) => (
-										<label
-											key={tag.id}
-											className="flex items-center space-x-2 cursor-pointer"
+									{/* 状态 */}
+									<div>
+										<Label htmlFor="status">状态</Label>
+										<select
+											id="status"
+											value={formData.status}
+											onChange={(e) =>
+												setFormData((prev) => ({
+													...prev,
+													status: e.target.value as
+														| "draft"
+														| "published"
+														| "archived",
+												}))
+											}
+											className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
 										>
-											<input
-												type="checkbox"
-												checked={formData.tagIds.includes(tag.id)}
-												onChange={() => handleTagToggle(tag.id)}
-												className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-											/>
-											<span className="text-sm text-gray-700">{tag.name}</span>
-										</label>
-									))}
+											<option value="draft">草稿</option>
+											<option value="published">已发布</option>
+											<option value="archived">已归档</option>
+										</select>
+									</div>
+
+									{/* 分类 */}
+									<div>
+										<Label htmlFor="categoryId">分类</Label>
+										<select
+											id="categoryId"
+											value={formData.categoryId}
+											onChange={(e) =>
+												setFormData((prev) => ({
+													...prev,
+													categoryId: e.target.value,
+												}))
+											}
+											className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+										>
+											<option value="">选择分类</option>
+											{categories.map((category) => (
+												<option key={category.id} value={category.id}>
+													{category.name}
+												</option>
+											))}
+										</select>
+									</div>
 								</div>
 							</div>
-						)}
 
-						{/* SEO字段 */}
-						<div className="space-y-4">
-							<h3 className="text-lg font-medium text-gray-900">SEO设置</h3>
-							<div className="grid grid-cols-1 gap-4">
-								{/* Meta Title */}
-								<div>
-									<Label htmlFor="metaTitle">Meta标题</Label>
-									<Input
-										id="metaTitle"
-										type="text"
-										value={formData.metaTitle}
-										onChange={(e) =>
-											setFormData((prev) => ({
-												...prev,
-												metaTitle: e.target.value,
-											}))
-										}
-										placeholder="SEO标题（建议60字符以内）"
-										className="mt-1"
-									/>
+							{/* 标签 */}
+							{tags.length > 0 && (
+								<div className="bg-white p-4 rounded-lg border border-gray-200">
+									<h3 className="text-lg font-semibold mb-4">标签</h3>
+									<div className="flex flex-wrap gap-2">
+										{tags.map((tag) => (
+											<label
+												key={tag.id}
+												className="flex items-center space-x-2 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													checked={formData.tagIds.includes(tag.id)}
+													onChange={() => handleTagToggle(tag.id)}
+													className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+												/>
+												<span className="text-sm text-gray-700">
+													{tag.name}
+												</span>
+											</label>
+										))}
+									</div>
 								</div>
+							)}
 
-								{/* Meta Description */}
-								<div>
-									<Label htmlFor="metaDescription">Meta描述</Label>
-									<Textarea
-										id="metaDescription"
-										value={formData.metaDescription}
-										onChange={(e) =>
-											setFormData((prev) => ({
-												...prev,
-												metaDescription: e.target.value,
-											}))
-										}
-										placeholder="SEO描述（建议160字符以内）"
-										rows={2}
-										className="mt-1"
-									/>
+							{/* 摘要 */}
+							<div className="bg-white p-4 rounded-lg border border-gray-200">
+								<h3 className="text-lg font-semibold mb-4">摘要</h3>
+								<Textarea
+									id="excerpt"
+									value={formData.excerpt}
+									onChange={(e) =>
+										setFormData((prev) => ({
+											...prev,
+											excerpt: e.target.value,
+										}))
+									}
+									placeholder="输入文章摘要"
+									rows={4}
+									className="w-full"
+								/>
+							</div>
+
+							{/* SEO设置 */}
+							<div className="bg-white p-4 rounded-lg border border-gray-200">
+								<h3 className="text-lg font-semibold mb-4">SEO设置</h3>
+								<div className="space-y-4">
+									{/* Meta Title */}
+									<div>
+										<Label htmlFor="metaTitle">Meta标题</Label>
+										<Input
+											id="metaTitle"
+											type="text"
+											value={formData.metaTitle}
+											onChange={(e) =>
+												setFormData((prev) => ({
+													...prev,
+													metaTitle: e.target.value,
+												}))
+											}
+											placeholder="SEO标题（建议60字符以内）"
+											className="mt-1"
+										/>
+									</div>
+
+									{/* Meta Description */}
+									<div>
+										<Label htmlFor="metaDescription">Meta描述</Label>
+										<Textarea
+											id="metaDescription"
+											value={formData.metaDescription}
+											onChange={(e) =>
+												setFormData((prev) => ({
+													...prev,
+													metaDescription: e.target.value,
+												}))
+											}
+											placeholder="SEO描述（建议160字符以内）"
+											rows={3}
+											className="mt-1"
+										/>
+									</div>
+								</div>
+							</div>
+
+							{/* 提交按钮 */}
+							<div className="bg-white p-4 rounded-lg border border-gray-200">
+								<div className="flex flex-col space-y-3">
+									<Button
+										type="submit"
+										disabled={loading}
+										className="w-full bg-indigo-600 hover:bg-indigo-700"
+									>
+										{loading ? "更新中..." : "更新文章"}
+									</Button>
+									<Button
+										type="button"
+										variant="outline"
+										onClick={() => router.push("/admin/posts")}
+										className="w-full"
+									>
+										取消
+									</Button>
 								</div>
 							</div>
 						</div>
 
-						{/* 提交按钮 */}
-						<div className="flex justify-end space-x-4">
-							<Button
-								type="button"
-								variant="outline"
-								onClick={() => router.push("/admin/posts")}
-							>
-								取消
-							</Button>
-							<Button
-								type="submit"
-								disabled={loading}
-								className="bg-indigo-600 hover:bg-indigo-700"
-							>
-								{loading ? "更新中..." : "更新文章"}
-							</Button>
+						{/* 右侧：内容编辑器 */}
+						<div className="lg:col-span-3">
+							<div className="bg-white rounded-lg border border-gray-200">
+								<div className="p-4 border-b border-gray-200">
+									<h3 className="text-lg font-semibold">内容编辑</h3>
+									<p className="text-sm text-gray-600 mt-1">
+										支持 MDX 语法，可以使用 Markdown 和 React 组件
+									</p>
+								</div>
+
+								<div className="p-4">
+									<MDXEditorWithPreview
+										key={editorKey} // 使用key强制重新渲染
+										initialContent={formData.mdxContent}
+										onChange={(content) =>
+											setFormData((prev) => ({ ...prev, mdxContent: content }))
+										}
+										onSave={() => {}} // 这里不需要实现，因为我们有主要的保存按钮
+										height="70vh"
+										initialPreviewMode="split"
+										availableModes={["edit", "split"]} // 只显示编辑和并排模式
+										className="border border-gray-300 rounded-md overflow-hidden"
+									/>
+								</div>
+							</div>
 						</div>
 					</form>
 				</div>

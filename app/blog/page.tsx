@@ -24,11 +24,12 @@ interface BlogPageProps {
 	};
 }
 
-export default function BlogPage({ searchParams }: BlogPageProps) {
-	const currentPage = Number(searchParams.page) || 1;
-	const categoryFilter = searchParams.category;
-	const tagFilter = searchParams.tag;
-	const searchQuery = searchParams.search;
+export default async function BlogPage({ searchParams }: BlogPageProps) {
+	const resolvedSearchParams = await searchParams;
+	const currentPage = Number(resolvedSearchParams.page) || 1;
+	const categoryFilter = resolvedSearchParams.category;
+	const tagFilter = resolvedSearchParams.tag;
+	const searchQuery = resolvedSearchParams.search;
 
 	return (
 		<div className="min-h-screen bg-[#D9D5D2]">
@@ -62,8 +63,11 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
 				<Suspense
 					fallback={
 						<div className="space-y-6">
-							{[...Array(6)].map((_, i) => (
-								<div key={i} className="bg-white rounded-lg p-6 shadow-sm">
+							{[...Array(6)].map((item) => (
+								<div
+									key={item.id}
+									className="bg-white rounded-lg p-6 shadow-sm"
+								>
 									<div className="animate-pulse">
 										<div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
 										<div className="h-4 bg-gray-200 rounded w-full mb-2"></div>

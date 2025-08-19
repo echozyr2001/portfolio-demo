@@ -1,6 +1,9 @@
-import React from "react";
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import { MDXComponents } from "mdx/types";
+"use client";
+
+import React, { Suspense } from "react";
+import { MDXRemote } from "next-mdx-remote";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
+import type { MDXComponents } from "mdx/types";
 import { MDXErrorBoundary } from "./MDXErrorBoundary";
 import { MDXImage } from "./MDXImage";
 import { CodeBlock } from "./CodeBlock";
@@ -28,15 +31,24 @@ interface MDXRendererProps {
 const defaultComponents: MDXComponents = {
 	// 自定义图片组件
 	Image: MDXImage,
-	img: (props: any) => {
+	img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => {
 		// 对于标准的 img 标签，如果在段落中使用，则使用内联模式
-		return <MDXImage {...props} inline={true} />;
+		const { width, height, ...otherProps } = props;
+		return (
+			<MDXImage
+				{...otherProps}
+				alt={props.alt || ""}
+				width={typeof width === "string" ? parseInt(width) : width}
+				height={typeof height === "string" ? parseInt(height) : height}
+				inline={true}
+			/>
+		);
 	},
 
 	// 代码块组件 (pre标签由Shiki处理，这里处理行内代码)
 	code: ({ children, className, ...props }) => {
 		// 如果有className且包含language-，说明是代码块，由Shiki处理
-		if (className && className.includes("language-")) {
+		if (className?.includes("language-")) {
 			return (
 				<code className={className} {...props}>
 					{children}
@@ -292,7 +304,11 @@ export function MDXRenderer({
 		<div
 			className={`prose prose-gray dark:prose-invert max-w-none ${className}`}
 		>
-			<MDXRemote {...mdxSource} components={mergedComponents} />
+			<Suspense
+				fallback={<div className="animate-pulse">Loading content...</div>}
+			>
+				<MDXRemote {...mdxSource} components={mergedComponents} />
+			</Suspense>
 		</div>
 	);
 

@@ -35,7 +35,8 @@ async function getTag(slug: string) {
 export async function generateMetadata({
 	params,
 }: ProjectTagPageProps): Promise<Metadata> {
-	const tag = await getTag(params.slug);
+	const resolvedParams = await params;
+	const tag = await getTag(resolvedParams.slug);
 
 	if (!tag) {
 		return {
@@ -54,7 +55,8 @@ export async function generateMetadata({
 }
 
 export default async function ProjectTagPage({ params }: ProjectTagPageProps) {
-	const tag = await getTag(params.slug);
+	const resolvedParams = await params;
+	const tag = await getTag(resolvedParams.slug);
 
 	if (!tag) {
 		notFound();

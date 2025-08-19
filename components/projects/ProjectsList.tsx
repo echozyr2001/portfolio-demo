@@ -97,9 +97,9 @@ export function ProjectsList({
 	if (loading) {
 		return (
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-				{[...Array(6)].map((_, i) => (
+				{[...Array(6)].map((item) => (
 					<div
-						key={i}
+						key={item.id}
 						className="bg-white rounded-lg overflow-hidden shadow-sm"
 					>
 						<div className="animate-pulse">

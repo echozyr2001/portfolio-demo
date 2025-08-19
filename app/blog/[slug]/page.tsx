@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react";
@@ -9,6 +9,12 @@ interface BlogPostPageProps {
 	params: {
 		slug: string;
 	};
+}
+
+interface TagType {
+	id: string;
+	name: string;
+	slug: string;
 }
 
 // Fetch post data
@@ -37,7 +43,8 @@ async function getPost(slug: string) {
 export async function generateMetadata({
 	params,
 }: BlogPostPageProps): Promise<Metadata> {
-	const post = await getPost(params.slug);
+	const resolvedParams = await params;
+	const post = await getPost(resolvedParams.slug);
 
 	if (!post) {
 		return {
@@ -64,7 +71,8 @@ export async function generateMetadata({
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-	const post = await getPost(params.slug);
+	const resolvedParams = await params;
+	const post = await getPost(resolvedParams.slug);
 
 	if (!post) {
 		notFound();
@@ -128,7 +136,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 						{/* Tags */}
 						{post.tags && post.tags.length > 0 && (
 							<div className="flex flex-wrap gap-2 mb-8">
-								{post.tags.map((tag: any) => (
+								{post.tags.map((tag: TagType) => (
 									<Link
 										key={tag.id}
 										href={`/blog?tag=${tag.id}`}

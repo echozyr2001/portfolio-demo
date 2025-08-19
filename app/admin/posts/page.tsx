@@ -18,7 +18,8 @@ export default function PostsPage() {
 			const response = await fetch("/api/admin/posts");
 			if (response.ok) {
 				const data = await response.json();
-				setPosts(data.posts || []);
+				// API returns { success: true, data: { posts: [...] } }
+				setPosts(data.data?.posts || []);
 			}
 		} catch (error) {
 			console.error("Failed to fetch posts:", error);

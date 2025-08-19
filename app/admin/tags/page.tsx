@@ -19,7 +19,7 @@ export default function TagsPage() {
 			const response = await fetch("/api/tags");
 			if (response.ok) {
 				const data = await response.json();
-				setTags(data.tags || []);
+				setTags(data.data?.tags || []);
 			}
 		} catch (error) {
 			console.error("Failed to fetch tags:", error);

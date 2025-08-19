@@ -18,7 +18,7 @@ export default function ProjectsPage() {
 			const response = await fetch("/api/admin/projects");
 			if (response.ok) {
 				const data = await response.json();
-				setProjects(data.projects || []);
+				setProjects(data.data?.projects || []);
 			}
 		} catch (error) {
 			console.error("Failed to fetch projects:", error);

@@ -1,6 +1,6 @@
 "use client";
 
-import { COLORS } from "../app/types";
+import { COLORS } from "../app/(frontend)/types";
 
 export function Logo() {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { GrainEffect } from "../components/GrainEffect";
+import { GrainEffect } from "@/components/GrainEffect";
 import { COLORS } from "./types"; // We might use some of these for consistency or define new ones
 
 export default function NotFound() {
@@ -67,39 +67,39 @@ export default function NotFound() {
 					</span>
 				</div>
 
-				<h2
-					className="text-2xl md:text-3xl font-semibold mt-2 mb-6"
-					style={{ color: COLORS.light }}
-				>
-					Page Not Found
-				</h2>
-				<p
-					className="text-base md:text-lg mb-8 max-w-md mx-auto"
-					style={{ color: "rgba(236, 234, 232, 0.8)" }} // Slightly dimmer light color for paragraph
-				>
-					Sorry, the page you&apos;re looking for seems to have been lost in the
-					digital universe. Don&apos;t worry, we can get you back to safety.
-				</p>
-				<Link href="/" legacyBehavior>
-					<a
-						className="inline-block px-6 py-3 rounded-md text-lg font-medium border-2 transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#111111]"
-						style={{
-							borderColor: COLORS.light,
-							color: COLORS.light,
-						}}
-						onMouseOver={(e) => {
-							e.currentTarget.style.backgroundColor = COLORS.light;
-							e.currentTarget.style.color = "#111111"; // Dark text on hover
-						}}
-						onMouseOut={(e) => {
-							e.currentTarget.style.backgroundColor = "transparent";
-							e.currentTarget.style.color = COLORS.light;
-						}}
-					>
-						Take me home
-					</a>
-				</Link>
-			</div>
-		</div>
-	);
+        <h2
+          className="text-2xl md:text-3xl font-semibold mt-2 mb-6"
+          style={{ color: COLORS.light }}
+        >
+          Page Not Found
+        </h2>
+        <p
+          className="text-base md:text-lg mb-8 max-w-md mx-auto"
+          style={{ color: "rgba(236, 234, 232, 0.8)" }} // Slightly dimmer light color for paragraph
+        >
+          Sorry, the page you&apos;re looking for seems to have been lost in the
+          digital universe. Don&apos;t worry, we can get you back to safety.
+        </p>
+        <Link href="/" legacyBehavior>
+          <a
+            className="inline-block px-6 py-3 rounded-md text-lg font-medium border-2 transition-colors duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#111111]"
+            style={{
+              borderColor: COLORS.light,
+              color: COLORS.light,
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = COLORS.light;
+              e.currentTarget.style.color = "#111111"; // Dark text on hover
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+              e.currentTarget.style.color = COLORS.light;
+            }}
+          >
+            Take me home
+          </a>
+        </Link>
+      </div>
+    </div>
+  );
 }

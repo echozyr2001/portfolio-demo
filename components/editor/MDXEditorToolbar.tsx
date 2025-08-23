@@ -16,6 +16,17 @@ import {
 	Type,
 	AlignJustify,
 	ChevronDown,
+	Settings,
+	Search,
+	Eye,
+	EyeOff,
+	Maximize2,
+	Minimize2,
+	Undo2,
+	Redo2,
+	MousePointer,
+	Calendar,
+	Clock,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -35,11 +46,23 @@ interface MDXEditorToolbarProps {
 		onQuote: () => void;
 		onHorizontalRule: () => void;
 		onFormat: () => void;
+		// 新增的操作
+		onSettings?: () => void;
+		onFindReplace?: () => void;
+		onPreviewToggle?: () => void;
+		onFullscreen?: () => void;
+		onUndo?: () => void;
+		onRedo?: () => void;
+		onSelectAll?: () => void;
+		onInsertDate?: () => void;
+		onInsertTimestamp?: () => void;
 	};
 	isSaving: boolean;
 	lastSaved: Date | null;
 	onSave: () => void;
 	disabled?: boolean;
+	showPreview?: boolean;
+	isFullscreen?: boolean;
 }
 
 export function MDXEditorToolbar({
@@ -48,6 +71,8 @@ export function MDXEditorToolbar({
 	lastSaved,
 	onSave,
 	disabled = false,
+	showPreview = false,
+	isFullscreen = false,
 }: MDXEditorToolbarProps) {
 	const [showHeadingMenu, setShowHeadingMenu] = useState(false);
 
@@ -191,13 +216,79 @@ export function MDXEditorToolbar({
 					/>
 				</div>
 
-				{/* 格式化 */}
-				<div className="flex items-center space-x-1">
+				{/* 编辑操作 */}
+				<div className="flex items-center space-x-1 border-r border-gray-200 dark:border-gray-700 pr-2 mr-2">
+					{actions.onUndo && (
+						<ToolbarButton
+							onClick={actions.onUndo}
+							icon={Undo2}
+							title="撤销 (Ctrl+Z)"
+						/>
+					)}
+					{actions.onRedo && (
+						<ToolbarButton
+							onClick={actions.onRedo}
+							icon={Redo2}
+							title="重做 (Ctrl+Y)"
+						/>
+					)}
 					<ToolbarButton
 						onClick={actions.onFormat}
 						icon={AlignJustify}
 						title="格式化文档 (Shift+Alt+F)"
 					/>
+				</div>
+
+				{/* 工具操作 */}
+				<div className="flex items-center space-x-1 border-r border-gray-200 dark:border-gray-700 pr-2 mr-2">
+					{actions.onFindReplace && (
+						<ToolbarButton
+							onClick={actions.onFindReplace}
+							icon={Search}
+							title="查找替换 (Ctrl+F)"
+						/>
+					)}
+					{actions.onInsertDate && (
+						<ToolbarButton
+							onClick={actions.onInsertDate}
+							icon={Calendar}
+							title="插入日期 (Ctrl+Shift+D)"
+						/>
+					)}
+					{actions.onInsertTimestamp && (
+						<ToolbarButton
+							onClick={actions.onInsertTimestamp}
+							icon={Clock}
+							title="插入时间戳 (Ctrl+Shift+T)"
+						/>
+					)}
+				</div>
+
+				{/* 视图操作 */}
+				<div className="flex items-center space-x-1">
+					{actions.onPreviewToggle && (
+						<ToolbarButton
+							onClick={actions.onPreviewToggle}
+							icon={showPreview ? EyeOff : Eye}
+							title={showPreview ? "隐藏预览" : "显示预览 (Ctrl+Shift+P)"}
+							className={showPreview ? "bg-blue-100 dark:bg-blue-900" : ""}
+						/>
+					)}
+					{actions.onFullscreen && (
+						<ToolbarButton
+							onClick={actions.onFullscreen}
+							icon={isFullscreen ? Minimize2 : Maximize2}
+							title={isFullscreen ? "退出全屏" : "全屏模式 (F11)"}
+							className={isFullscreen ? "bg-blue-100 dark:bg-blue-900" : ""}
+						/>
+					)}
+					{actions.onSettings && (
+						<ToolbarButton
+							onClick={actions.onSettings}
+							icon={Settings}
+							title="编辑器设置 (Ctrl+,)"
+						/>
+					)}
 				</div>
 			</div>
 

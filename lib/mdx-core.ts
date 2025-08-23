@@ -330,9 +330,13 @@ export class MDXCoreProcessor {
       if (opts.enableCodeHighlight) {
         try {
           const { default: rehypeHighlight } = await import("rehype-highlight");
-          rehypePlugins.push(rehypeHighlight);
+          rehypePlugins.push([rehypeHighlight, { 
+            detect: true,
+            ignoreMissing: true 
+          }]);
         } catch (error) {
           console.warn("Failed to load rehype-highlight:", error);
+          // Fallback: continue without syntax highlighting
         }
       }
 

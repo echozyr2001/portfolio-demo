@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Callout } from '@/components/mdx/Callout'
 
 // Custom MDX components that can be used in content
 export const MDXComponents = {
@@ -117,6 +118,9 @@ export const MDXComponents = {
       </CardContent>
     </Card>
   ),
+
+  // MDX-specific components
+  Callout,
 }
 
 export type MDXComponentsType = typeof MDXComponents

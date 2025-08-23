@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useMemo } from "react";
 import { MDXEditor } from "./MDXEditor";
-import { MDXPreview } from "./MDXPreview";
+import { MDXLivePreview } from "./MDXLivePreview";
 import { useSyncScroll } from "./hooks/useSyncScroll";
 
 type PreviewMode = "edit" | "preview" | "split";
@@ -313,15 +313,21 @@ export function MDXEditorWithPreview({
 
 						{/* 预览内容 */}
 						<div
-							className="overflow-auto bg-white dark:bg-gray-900 p-6"
+							className="overflow-hidden bg-white dark:bg-gray-900"
 							style={{ height: `calc(${height} - 40px)` }}
-							ref={setPreviewRef}
 						>
-							<MDXPreview
-								mdxContent={content}
-								components={components}
+							<MDXLivePreview
+								content={content}
+								theme={theme}
+								showErrorDetails={true}
+								showStats={false}
+								showMetadata={false}
 								onError={setPreviewError}
-								onSuccess={() => setPreviewError(null)}
+								onCompileSuccess={() => setPreviewError(null)}
+								onScroll={(scrollTop) => {
+									// 可以在这里实现滚动同步
+									console.log('Preview scrolled:', scrollTop);
+								}}
 								className="h-full"
 							/>
 						</div>

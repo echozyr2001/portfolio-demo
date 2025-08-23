@@ -3,7 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import type { Project } from "../app/types";
+import { Project } from "../app/(frontend)/types";
 
 export function ProjectsSection() {
 	const projects: Project[] = [

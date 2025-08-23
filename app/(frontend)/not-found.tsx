@@ -77,8 +77,8 @@ export default function NotFound() {
           className="text-base md:text-lg mb-8 max-w-md mx-auto"
           style={{ color: "rgba(236, 234, 232, 0.8)" }} // Slightly dimmer light color for paragraph
         >
-          Sorry, the page you're looking for seems to have been lost in the
-          digital universe. Don't worry, we can get you back to safety.
+          Sorry, the page you&apos;re looking for seems to have been lost in the
+          digital universe. Don&apos;t worry, we can get you back to safety.
         </p>
         <Link href="/" legacyBehavior>
           <a

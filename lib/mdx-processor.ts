@@ -13,8 +13,7 @@ interface MDXProcessorOptions {
 	enableCodeHighlight?: boolean;
 	enableMath?: boolean;
 	customComponents?: Record<string, React.ComponentType>;
-	shikiTheme?: string;
-	shikiLangs?: string[];
+	highlightTheme?: string;
 }
 
 /**
@@ -43,23 +42,24 @@ interface MDXMetadata {
  * MDX处理器类
  * 提供MDX内容的序列化、解析和元数据提取功能
  *
- * 基于 Shiki Next.js 集成最佳实践：
- * - 使用 @shikijs/rehype 进行自动语法高亮
+ * 功能特性：
+ * - 使用 rehype-highlight 进行自动语法高亮
  * - 支持服务端渲染和客户端水合
- * - 推荐在 Serverless Runtime 中使用
+ * - 支持 frontmatter 解析和元数据提取
+ * - 提供阅读时间和字数统计
  */
 export class MDXProcessor {
 	/**
 	 * 序列化MDX内容为可渲染的格式
 	 *
-	 * 使用 @shikijs/rehype 进行自动语法高亮，无需手动管理 highlighter 实例
-	 * 支持主题切换和多种编程语言
+	 * 使用 rehype-highlight 进行自动语法高亮
+	 * 支持多种编程语言和自动语言检测
 	 */
 	async serialize(
 		mdxContent: string,
 		options: MDXProcessorOptions = {},
 	): Promise<MDXProcessResult> {
-		const { enableCodeHighlight = true, shikiTheme = "github-dark" } = options;
+		const { enableCodeHighlight = true, highlightTheme = "github-dark" } = options;
 
 		// 解析frontmatter和内容
 		const { frontmatter, content } = this.extractFrontmatter(mdxContent);
@@ -80,24 +80,20 @@ export class MDXProcessor {
 			// 配置rehype插件
 			const rehypePlugins = [];
 
-			// 如果启用代码高亮，添加Shiki插件
+			// 如果启用代码高亮，添加语法高亮插件
 			if (enableCodeHighlight) {
 				try {
-					const { default: rehypeShiki } = await import("@shikijs/rehype");
+					const { default: rehypeHighlight } = await import("rehype-highlight");
 					rehypePlugins.push([
-						rehypeShiki,
+						rehypeHighlight,
 						{
-							theme: shikiTheme,
-							// 支持双主题模式
-							themes: {
-								light: "github-light",
-								dark: shikiTheme,
-							},
+							detect: true,
+							ignoreMissing: true,
 						},
 					] as any);
 				} catch (error) {
 					console.warn(
-						"Failed to load Shiki, code highlighting disabled:",
+						"Failed to load rehype-highlight, code highlighting disabled:",
 						error,
 					);
 				}
@@ -271,11 +267,10 @@ export class MDXProcessor {
 	/**
 	 * 清理资源
 	 *
-	 * 注意：使用 @shikijs/rehype 时，highlighter 由插件内部管理，
-	 * 无需手动清理资源
+	 * 注意：使用 rehype-highlight 时，无需手动清理资源
 	 */
 	dispose(): void {
-		// 使用 @shikijs/rehype 时无需手动清理
+		// 使用 rehype-highlight 时无需手动清理
 		console.log("MDX Processor disposed");
 	}
 }

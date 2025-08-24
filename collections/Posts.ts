@@ -54,11 +54,13 @@ export const Posts: CollectionConfig = {
     },
     {
       name: 'content',
-      type: 'textarea',
+      type: 'text',
       required: true,
       admin: {
-        description: 'MDX content of the blog post',
-        rows: 20,
+        description: 'MDX content of the blog post with Monaco Editor',
+        components: {
+          Field: 'components/cms/EnhancedMonacoFieldWrapper#EnhancedMonacoFieldWrapper',
+        }
       },
     },
     {

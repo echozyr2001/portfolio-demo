@@ -1,14 +1,26 @@
 'use client'
 
 import React, { useEffect, useRef, useState, useCallback } from 'react'
-import Editor from '@monaco-editor/react'
-import * as monaco from 'monaco-editor'
+import dynamic from 'next/dynamic'
 import { 
   defaultEditorConfig, 
-  initializeMonacoMDX, 
   themes, 
   type ThemeOption 
 } from '@/lib/monaco-config'
+
+// Dynamically import Monaco Editor to avoid SSR issues
+const Editor = dynamic(() => import('@monaco-editor/react'), {
+  ssr: false,
+  loading: () => <div className="p-4 text-center">Loading Monaco Editor...</div>
+})
+
+// Dynamically import monaco-editor only on client side
+const getMonaco = () => {
+  if (typeof window !== 'undefined') {
+    return import('monaco-editor')
+  }
+  return null
+}
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -25,7 +37,10 @@ import {
   Minimize2,
   Search,
   Replace,
-  FileText
+  FileText,
+  Code,
+  ImageIcon,
+  FolderOpen
 } from 'lucide-react'
 
 export interface MonacoMDXEditorProps {
@@ -62,7 +77,7 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
   onThemeChange,
   className = ''
 }) => {
-  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
+  const editorRef = useRef<any>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [currentTheme, setCurrentTheme] = useState<ThemeOption>(theme)
   const [minimapEnabled, setMinimapEnabled] = useState(showMinimap)
@@ -70,13 +85,26 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
 
   // Initialize Monaco with MDX support
   useEffect(() => {
-    initializeMonacoMDX()
+    const initMonaco = async () => {
+      const monacoModule = await getMonaco()
+      if (monacoModule) {
+        const { initializeMonacoMDX } = await import('@/lib/monaco-config')
+        initializeMonacoMDX()
+      }
+    }
+    initMonaco()
   }, [])
 
   // Handle editor mount
-  const handleEditorDidMount = useCallback((editor: monaco.editor.IStandaloneCodeEditor) => {
+  const handleEditorDidMount = useCallback(async (editor: any) => {
     editorRef.current = editor
     setIsEditorReady(true)
+
+    // Get monaco module for keyboard shortcuts
+    const monacoModule = await getMonaco()
+    if (!monacoModule) return
+
+    const monaco = monacoModule.default || monacoModule
 
     // Set up keyboard shortcuts
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
@@ -111,17 +139,21 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
     findAndReplace: () => {
       editorRef.current?.getAction('editor.action.startFindReplaceAction')?.run()
     },
-    insertComponent: (component: string) => {
+    insertComponent: async (component: string) => {
       const editor = editorRef.current
       if (!editor) return
 
       const position = editor.getPosition()
       if (position) {
-        editor.executeEdits('insert-component', [{
-          range: new monaco.Range(position.lineNumber, position.column, position.lineNumber, position.column),
-          text: component
-        }])
-        editor.focus()
+        const monacoModule = await getMonaco()
+        if (monacoModule) {
+          const monaco = monacoModule.default || monacoModule
+          editor.executeEdits('insert-component', [{
+            range: new monaco.Range(position.lineNumber, position.column, position.lineNumber, position.column),
+            text: component
+          }])
+          editor.focus()
+        }
       }
     },
     undo: () => {
@@ -188,7 +220,7 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
 `)
   }
 
-  const editorOptions: monaco.editor.IStandaloneEditorConstructionOptions = {
+  const editorOptions: any = {
     ...defaultEditorConfig.options,
     readOnly,
     minimap: { enabled: minimapEnabled },
@@ -225,8 +257,9 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={editorActions.save}
                 disabled={!isEditorReady}
                 title="Save (Ctrl+S)"
+                className="bg-gradient-to-r from-emerald-50 to-green-50 border-emerald-200 hover:from-emerald-100 hover:to-green-100 hover:border-emerald-300 text-emerald-700 font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
               >
-                <Save className="h-4 w-4 mr-1" />
+                <Save className="h-4 w-4 mr-1.5" />
                 Save
               </Button>
               
@@ -236,8 +269,9 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={editorActions.formatDocument}
                 disabled={!isEditorReady}
                 title="Format document"
+                className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-300 text-blue-700 font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
               >
-                <Settings className="h-4 w-4 mr-1" />
+                <Settings className="h-4 w-4 mr-1.5" />
                 Format
               </Button>
               
@@ -247,8 +281,9 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={editorActions.findAndReplace}
                 disabled={!isEditorReady}
                 title="Find & Replace (Ctrl+Shift+F)"
+                className="bg-gradient-to-r from-purple-50 to-violet-50 border-purple-200 hover:from-purple-100 hover:to-violet-100 hover:border-purple-300 text-purple-700 font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
               >
-                <Search className="h-4 w-4 mr-1" />
+                <Search className="h-4 w-4 mr-1.5" />
                 Find
               </Button>
             </div>
@@ -263,7 +298,9 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={insertCodeBlock}
                 disabled={!isEditorReady}
                 title="Insert code block"
+                className="bg-gradient-to-r from-slate-50 to-gray-50 border-slate-200 hover:from-slate-100 hover:to-gray-100 hover:border-slate-300 text-slate-700 font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
               >
+                <Code className="h-4 w-4 mr-1.5" />
                 Code
               </Button>
               
@@ -273,7 +310,9 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={insertImageGallery}
                 disabled={!isEditorReady}
                 title="Insert image gallery"
+                className="bg-gradient-to-r from-orange-50 to-amber-50 border-orange-200 hover:from-orange-100 hover:to-amber-100 hover:border-orange-300 text-orange-700 font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
               >
+                <ImageIcon className="h-4 w-4 mr-1.5" />
                 Gallery
               </Button>
               
@@ -283,7 +322,9 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={insertProjectCard}
                 disabled={!isEditorReady}
                 title="Insert project card"
+                className="bg-gradient-to-r from-teal-50 to-cyan-50 border-teal-200 hover:from-teal-100 hover:to-cyan-100 hover:border-teal-300 text-teal-700 font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
               >
+                <FolderOpen className="h-4 w-4 mr-1.5" />
                 Project
               </Button>
             </div>

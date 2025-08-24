@@ -1,4 +1,6 @@
 import type { CollectionConfig } from "payload";
+import React from "react";
+import { EnhancedMonacoEditor } from "../components/cms/EnhancedMonacoEditor";
 
 export const Projects: CollectionConfig = {
   slug: "projects",
@@ -63,11 +65,13 @@ export const Projects: CollectionConfig = {
     },
     {
       name: "description",
-      type: "textarea",
+      type: "text",
       required: true,
       admin: {
-        description: "Full MDX description of the project",
-        rows: 15,
+        description: "Full MDX description of the project with Monaco Editor",
+        components: {
+          Field: 'components/cms/EnhancedMonacoField#EnhancedMonacoField',
+        }
       },
     },
     {

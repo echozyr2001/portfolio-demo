@@ -1,9 +1,9 @@
-import * as monaco from 'monaco-editor'
+// Monaco will be imported dynamically to avoid SSR issues
 
 export interface EditorConfig {
   language: 'markdown' | 'mdx'
   theme: 'vs-dark' | 'vs-light' | 'hc-black'
-  options: monaco.editor.IStandaloneEditorConstructionOptions
+  options: any // Will be typed properly when monaco is loaded
 }
 
 /**
@@ -54,7 +54,7 @@ export const defaultEditorConfig: EditorConfig = {
 /**
  * MDX language configuration for Monaco Editor
  */
-export function configureMDXLanguage() {
+export function configureMDXLanguage(monaco: any) {
   // Register MDX as a language variant of markdown
   monaco.languages.register({ id: 'mdx' })
   
@@ -134,9 +134,9 @@ export function configureMDXLanguage() {
 /**
  * Custom completion provider for MDX components
  */
-export function registerMDXCompletionProvider() {
+export function registerMDXCompletionProvider(monaco: any) {
   monaco.languages.registerCompletionItemProvider('mdx', {
-    provideCompletionItems: (model, position) => {
+    provideCompletionItems: (model: any, position: any) => {
       const word = model.getWordUntilPosition(position)
       const range = {
         startLineNumber: position.lineNumber,
@@ -145,7 +145,7 @@ export function registerMDXCompletionProvider() {
         endColumn: word.endColumn
       }
       
-      const suggestions: monaco.languages.CompletionItem[] = [
+      const suggestions: any[] = [
         {
           label: 'CodeBlock',
           kind: monaco.languages.CompletionItemKind.Snippet,
@@ -188,9 +188,12 @@ export function registerMDXCompletionProvider() {
 /**
  * Initialize Monaco Editor with MDX support
  */
-export function initializeMonacoMDX() {
-  configureMDXLanguage()
-  registerMDXCompletionProvider()
+export async function initializeMonacoMDX() {
+  if (typeof window === 'undefined') return
+  
+  const monaco = await import('monaco-editor')
+  configureMDXLanguage(monaco)
+  registerMDXCompletionProvider(monaco)
 }
 
 /**

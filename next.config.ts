@@ -8,13 +8,18 @@ const nextConfig: NextConfig = {
     mdxRs: true,
   },
   webpack: (config, { isServer }) => {
-    // Monaco Editor support
+    // Monaco Editor support and Node.js modules fallback
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         fs: false,
         path: false,
         crypto: false,
+        child_process: false,
+        os: false,
+        util: false,
+        stream: false,
+        buffer: false,
       };
     }
     

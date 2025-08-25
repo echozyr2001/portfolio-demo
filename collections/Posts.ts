@@ -59,7 +59,7 @@ export const Posts: CollectionConfig = {
       admin: {
         description: 'MDX content of the blog post with Monaco Editor',
         components: {
-          Field: 'components/cms/EnhancedMonacoFieldWrapper#EnhancedMonacoFieldWrapper',
+          Field: '@/components/cms/EnhancedMonacoFieldWrapper#EnhancedMonacoFieldWrapper',
         }
       },
     },

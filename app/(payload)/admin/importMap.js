@@ -1,5 +1,5 @@
-import { EnhancedMonacoFieldWrapper as EnhancedMonacoFieldWrapper_95650089c3a46a3a179aef5d194dd17a } from '../../../components/cms/EnhancedMonacoFieldWrapper'
+import { EnhancedMonacoFieldWrapper as EnhancedMonacoFieldWrapper_5ffa48afd40888852243f147b3b381b1 } from '@/components/cms/EnhancedMonacoFieldWrapper'
 
 export const importMap = {
-  "components/cms/EnhancedMonacoFieldWrapper#EnhancedMonacoFieldWrapper": EnhancedMonacoFieldWrapper_95650089c3a46a3a179aef5d194dd17a
+  "@/components/cms/EnhancedMonacoFieldWrapper#EnhancedMonacoFieldWrapper": EnhancedMonacoFieldWrapper_5ffa48afd40888852243f147b3b381b1
 }

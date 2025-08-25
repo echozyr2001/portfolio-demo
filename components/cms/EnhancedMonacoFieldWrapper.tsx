@@ -1,30 +1,35 @@
 'use client'
 
 import React from 'react'
+import { useField } from '@payloadcms/ui'
 import { MonacoMDXEditor } from './MonacoMDXEditor'
 
 interface EnhancedMonacoFieldWrapperProps {
   value?: string
   onChange?: (value: string) => void
-  label?: string
-  required?: boolean
-  readOnly?: boolean
   path?: string
-  admin?: any
+  field?: any
+  [key: string]: any
 }
 
-export const EnhancedMonacoFieldWrapper: React.FC<EnhancedMonacoFieldWrapperProps> = ({
-  value = '',
-  onChange,
-  label,
-  required = false,
-  readOnly = false,
-}) => {
+export const EnhancedMonacoFieldWrapper: React.FC<EnhancedMonacoFieldWrapperProps> = (props) => {
+  const { path, field } = props
+  
+  // Use Payload's useField hook to manage field state
+  const { value, setValue } = useField({ path })
+  
+  // Convert value to string and handle undefined
+  const stringValue = typeof value === 'string' ? value : ''
+  
   const handleChange = React.useCallback((newValue: string) => {
-    if (typeof onChange === 'function') {
-      onChange(newValue)
+    // Use Payload's setValue to update the field
+    setValue(newValue)
+    
+    // Also try the onChange callback as fallback
+    if (typeof props.onChange === 'function') {
+      props.onChange(newValue)
     }
-  }, [onChange])
+  }, [setValue, path, props.onChange])
 
   return (
     <div style={{ width: '100%' }}>
@@ -95,13 +100,13 @@ export const EnhancedMonacoFieldWrapper: React.FC<EnhancedMonacoFieldWrapperProp
         boxShadow: '0 4px 12px rgba(16, 185, 129, 0.1)'
       }}>
         <MonacoMDXEditor
-          value={value}
+          value={stringValue}
           onChange={handleChange}
           height="500px"
           showToolbar={true}
           theme="dark"
           showMinimap={true}
-          readOnly={readOnly}
+          readOnly={field?.admin?.readOnly || false}
         />
       </div>
 
@@ -133,7 +138,7 @@ export const EnhancedMonacoFieldWrapper: React.FC<EnhancedMonacoFieldWrapperProp
             borderRadius: '6px',
             fontWeight: '500'
           }}>
-            📊 Lines: {value.split('\n').length}
+            📊 Lines: {stringValue.split('\n').length}
           </span>
           <span style={{
             display: 'flex',
@@ -144,7 +149,7 @@ export const EnhancedMonacoFieldWrapper: React.FC<EnhancedMonacoFieldWrapperProp
             borderRadius: '6px',
             fontWeight: '500'
           }}>
-            🔤 Characters: {value.length}
+            🔤 Characters: {stringValue.length}
           </span>
           <span style={{
             display: 'flex',
@@ -155,7 +160,7 @@ export const EnhancedMonacoFieldWrapper: React.FC<EnhancedMonacoFieldWrapperProp
             borderRadius: '6px',
             fontWeight: '500'
           }}>
-            📝 Words: {value.split(/\s+/).filter(word => word.length > 0).length}
+            📝 Words: {stringValue.split(/\s+/).filter((word: string) => word.length > 0).length}
           </span>
         </div>
         <span style={{
@@ -165,8 +170,8 @@ export const EnhancedMonacoFieldWrapper: React.FC<EnhancedMonacoFieldWrapperProp
           backgroundColor: 'rgba(16, 185, 129, 0.1)',
           borderRadius: '6px'
         }}>
-          {required && <span style={{ color: '#ef4444' }}>* </span>}
-          {label || 'Content'}
+          {field?.required && <span style={{ color: '#ef4444' }}>* </span>}
+          {field?.label || field?.name || 'Content'}
         </span>
       </div>
     </div>

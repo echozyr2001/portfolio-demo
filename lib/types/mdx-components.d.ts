@@ -1,4 +1,4 @@
-import { ReactNode, ComponentType } from 'react';
+import { ReactNode, ComponentType } from "react";
 
 // Base component props
 export interface BaseComponentProps {
@@ -53,7 +53,7 @@ export interface TimelineProps {
 
 // UI and layout components
 export interface CalloutProps extends BaseComponentProps {
-  type?: 'info' | 'warning' | 'error' | 'success';
+  type?: "info" | "warning" | "error" | "success";
   title?: string;
 }
 
@@ -72,7 +72,7 @@ export interface AccordionProps {
     title: string;
     content: ReactNode;
   }>;
-  type?: 'single' | 'multiple';
+  type?: "single" | "multiple";
 }
 
 export interface FeatureGridProps {
@@ -159,13 +159,23 @@ export interface EnhancedLinkProps {
 export interface ComponentMetadata {
   name: string;
   description: string;
-  category: 'content' | 'media' | 'layout' | 'ui' | 'data' | 'interactive' | 'embed';
-  props: Record<string, {
-    type: string;
-    required: boolean;
-    description: string;
-    defaultValue?: any;
-  }>;
+  category:
+    | "content"
+    | "media"
+    | "layout"
+    | "ui"
+    | "data"
+    | "interactive"
+    | "embed";
+  props: Record<
+    string,
+    {
+      type: string;
+      required: boolean;
+      description: string;
+      defaultValue?: any;
+    }
+  >;
   examples?: Array<{
     title: string;
     code: string;
@@ -174,7 +184,7 @@ export interface ComponentMetadata {
 }
 
 // Export all component types
-export type MDXComponentProps = 
+export type MDXComponentProps =
   | CodeBlockProps
   | ImageGalleryProps
   | VideoPlayerProps

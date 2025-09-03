@@ -6,62 +6,62 @@
 export const CMS_CONFIG = {
   // Collection names
   collections: {
-    BLOG: 'blog',
-    PROJECTS: 'projects',
-    MEDIA: 'media',
-    USERS: 'users',
+    BLOG: "blog",
+    PROJECTS: "projects",
+    MEDIA: "media",
+    USERS: "users",
   },
-  
+
   // API endpoints
   api: {
-    BASE_URL: process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3000',
+    BASE_URL: process.env.NEXT_PUBLIC_PAYLOAD_URL || "http://localhost:3000",
     ENDPOINTS: {
-      BLOG: '/api/blog',
-      PROJECTS: '/api/projects',
-      MEDIA: '/api/media',
-      AUTH: '/api/users',
-    }
+      BLOG: "/api/blog",
+      PROJECTS: "/api/projects",
+      MEDIA: "/api/media",
+      AUTH: "/api/users",
+    },
   },
-  
+
   // File upload settings
   upload: {
     MAX_FILE_SIZE: 10 * 1024 * 1024, // 10MB
     ALLOWED_MIME_TYPES: [
-      'image/jpeg',
-      'image/png',
-      'image/webp',
-      'image/gif',
-      'image/svg+xml',
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/gif",
+      "image/svg+xml",
     ],
     THUMBNAIL_SIZES: [
-      { name: 'thumbnail', width: 300, height: 300 },
-      { name: 'medium', width: 800, height: 600 },
-      { name: 'large', width: 1200, height: 900 },
-    ]
+      { name: "thumbnail", width: 300, height: 300 },
+      { name: "medium", width: 800, height: 600 },
+      { name: "large", width: 1200, height: 900 },
+    ],
   },
-  
+
   // Editor settings
   editor: {
-    DEFAULT_THEME: 'vs-dark' as const,
+    DEFAULT_THEME: "vs-dark" as const,
     AUTO_SAVE_DELAY: 2000, // 2 seconds
     PREVIEW_DEBOUNCE: 500, // 500ms
     MAX_CONTENT_LENGTH: 100000, // 100KB
   },
-  
+
   // SEO defaults
   seo: {
-    DEFAULT_TITLE_SUFFIX: ' | Portfolio',
+    DEFAULT_TITLE_SUFFIX: " | Portfolio",
     MAX_TITLE_LENGTH: 60,
     MAX_DESCRIPTION_LENGTH: 160,
-    DEFAULT_OG_IMAGE: '/og-default.jpg',
+    DEFAULT_OG_IMAGE: "/og-default.jpg",
   },
-  
+
   // Pagination
   pagination: {
     DEFAULT_LIMIT: 10,
     MAX_LIMIT: 50,
   },
-  
+
   // Security settings
   security: {
     RATE_LIMIT: {
@@ -70,7 +70,7 @@ export const CMS_CONFIG = {
     },
     SESSION_TIMEOUT: 24 * 60 * 60 * 1000, // 24 hours
   },
-  
+
   // Feature flags
   features: {
     ENABLE_COMMENTS: false,
@@ -79,44 +79,44 @@ export const CMS_CONFIG = {
     ENABLE_TAGS: true,
     ENABLE_DRAFTS: true,
     ENABLE_PREVIEW: true,
-  }
-} as const
+  },
+} as const;
 
 /**
  * Environment-specific configurations
  */
 export const getEnvironmentConfig = () => {
-  const isDevelopment = process.env.NODE_ENV === 'development'
-  const isProduction = process.env.NODE_ENV === 'production'
-  
+  const isDevelopment = process.env.NODE_ENV === "development";
+  const isProduction = process.env.NODE_ENV === "production";
+
   return {
     isDevelopment,
     isProduction,
-    
+
     // Database
     database: {
-      url: process.env.DATABASE_URL || './payload.db',
+      url: process.env.DATABASE_URL || "./payload.db",
     },
-    
+
     // Payload CMS
     payload: {
-      secret: process.env.PAYLOAD_SECRET || 'your-secret-here',
-      adminUrl: process.env.PAYLOAD_ADMIN_URL || '/admin',
+      secret: process.env.PAYLOAD_SECRET || "your-secret-here",
+      adminUrl: process.env.PAYLOAD_ADMIN_URL || "/admin",
     },
-    
+
     // Next.js
     nextjs: {
-      url: process.env.NEXTAUTH_URL || 'http://localhost:3000',
+      url: process.env.NEXTAUTH_URL || "http://localhost:3000",
     },
-    
+
     // Security
     security: {
-      corsOrigins: isDevelopment 
-        ? ['http://localhost:3000', 'http://localhost:3001']
-        : [process.env.NEXTAUTH_URL || 'https://yourdomain.com'],
-    }
-  }
-}
+      corsOrigins: isDevelopment
+        ? ["http://localhost:3000", "http://localhost:3001"]
+        : [process.env.NEXTAUTH_URL || "https://yourdomain.com"],
+    },
+  };
+};
 
 /**
  * Validation schemas for content
@@ -142,9 +142,9 @@ export const VALIDATION_RULES = {
     },
     tags: {
       maxItems: 10,
-    }
+    },
   },
-  
+
   project: {
     title: {
       minLength: 1,
@@ -169,16 +169,16 @@ export const VALIDATION_RULES = {
       minItems: 1,
       maxItems: 20,
       required: true,
-    }
-  }
-} as const
+    },
+  },
+} as const;
 
 /**
  * Default content templates
  */
 export const CONTENT_TEMPLATES = {
   blog: {
-    title: 'New Blog Post',
+    title: "New Blog Post",
     content: `# New Blog Post
 
 Write your blog post content here using MDX syntax.
@@ -205,13 +205,13 @@ You can add images using the ImageGallery component:
   }
 ]} />
 `,
-    excerpt: 'A brief description of your blog post...',
-    status: 'draft' as const,
+    excerpt: "A brief description of your blog post...",
+    status: "draft" as const,
   },
-  
+
   project: {
-    title: 'New Project',
-    shortDescription: 'A brief description of your project',
+    title: "New Project",
+    shortDescription: "A brief description of your project",
     description: `# Project Name
 
 ## Overview
@@ -248,9 +248,9 @@ interface ProjectProps {
 }
 \`\`\`
 `,
-    technologies: ['React', 'TypeScript'],
-    status: 'draft' as const,
+    technologies: ["React", "TypeScript"],
+    status: "draft" as const,
     featured: false,
     order: 0,
-  }
-} as const
+  },
+} as const;

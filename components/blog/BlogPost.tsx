@@ -1,77 +1,85 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { MDXRemote } from 'next-mdx-remote'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { Calendar, Clock, ArrowLeft, Share2, Twitter, Facebook, Linkedin } from 'lucide-react'
-import { mdxComponents } from '@/lib/mdx-components'
-import { processMDX } from '@/lib/mdx'
-import type { MDXContent } from '@/lib/mdx'
-import { BlogPost } from '@/app/(frontend)/types'
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { MDXRemote } from "next-mdx-remote";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import {
+  Calendar,
+  Clock,
+  ArrowLeft,
+  Share2,
+  Twitter,
+  Facebook,
+  Linkedin,
+} from "lucide-react";
+import { mdxComponents } from "@/lib/mdx-components";
+import { processMDX } from "@/lib/mdx";
+import type { MDXContent } from "@/lib/mdx";
+import { BlogPost as BlogPostType } from "@/app/(frontend)/types";
 
 interface BlogPostProps {
-  post: BlogPost
+  post: BlogPostType;
 }
 
 export function BlogPost({ post }: BlogPostProps) {
-  const [mdxContent, setMdxContent] = useState<MDXContent | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [mdxContent, setMdxContent] = useState<MDXContent | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const compileMDX = async () => {
       try {
-        setLoading(true)
-        const compiled = await processMDX(post.content)
-        setMdxContent(compiled)
+        setLoading(true);
+        const compiled = await processMDX(post.content);
+        setMdxContent(compiled);
       } catch (err) {
-        console.error('Error compiling MDX:', err)
-        setError('Failed to load post content')
+        console.error("Error compiling MDX:", err);
+        setError("Failed to load post content");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    compileMDX()
-  }, [post.content])
+    compileMDX();
+  }, [post.content]);
 
-// Utility functions moved outside component scope
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
+  // Utility functions moved outside component scope
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("zh-CN", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
-const calculateReadingTime = (content: string) => {
-  const wordsPerMinute = 200
-  const words = content.split(/\s+/).length
-  const minutes = Math.ceil(words / wordsPerMinute)
-  return `${minutes} min read`
-}
+  const calculateReadingTime = (content: string) => {
+    const wordsPerMinute = 200;
+    const words = content.split(/\s+/).length;
+    const minutes = Math.ceil(words / wordsPerMinute);
+    return `${minutes} min read`;
+  };
 
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
-  const shareTitle = post.title
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+  const shareTitle = post.title;
 
   const shareLinks = {
     twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareTitle)}&url=${encodeURIComponent(shareUrl)}`,
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
-  }
+  };
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(shareUrl)
+      await navigator.clipboard.writeText(shareUrl);
       // You could add a toast notification here
     } catch (err) {
-      console.error('Failed to copy URL:', err)
+      console.error("Failed to copy URL:", err);
     }
-  }
+  };
 
   if (loading) {
     return (
@@ -87,14 +95,16 @@ const calculateReadingTime = (content: string) => {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   if (error) {
     return (
       <div className="max-w-4xl mx-auto px-4 md:px-8 py-16">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Error Loading Post</h1>
+          <h1 className="text-2xl font-bold text-red-600 mb-4">
+            Error Loading Post
+          </h1>
           <p className="text-gray-600 mb-8">{error}</p>
           <Link href="/blog">
             <Button variant="outline">
@@ -104,7 +114,7 @@ const calculateReadingTime = (content: string) => {
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -112,7 +122,10 @@ const calculateReadingTime = (content: string) => {
       {/* Back to Blog Link */}
       <div className="mb-8">
         <Link href="/blog">
-          <Button variant="ghost" className="text-[#A2ABB1] hover:text-[#8A9AA3]">
+          <Button
+            variant="ghost"
+            className="text-[#A2ABB1] hover:text-[#8A9AA3]"
+          >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Blog
           </Button>
@@ -124,7 +137,7 @@ const calculateReadingTime = (content: string) => {
         <h1 className="text-4xl md:text-5xl font-bold text-[#2C2A25] mb-6 leading-tight">
           {post.title}
         </h1>
-        
+
         <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-6">
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />
@@ -180,7 +193,7 @@ const calculateReadingTime = (content: string) => {
             Found this helpful? Share it with others!
           </p>
         </div>
-        
+
         <div className="flex items-center gap-3">
           <Button
             variant="outline"
@@ -191,13 +204,8 @@ const calculateReadingTime = (content: string) => {
             <Share2 className="h-4 w-4 mr-2" />
             Copy Link
           </Button>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            asChild
-            className="rounded-full"
-          >
+
+          <Button variant="outline" size="sm" asChild className="rounded-full">
             <a
               href={shareLinks.twitter}
               target="_blank"
@@ -207,13 +215,8 @@ const calculateReadingTime = (content: string) => {
               Twitter
             </a>
           </Button>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            asChild
-            className="rounded-full"
-          >
+
+          <Button variant="outline" size="sm" asChild className="rounded-full">
             <a
               href={shareLinks.facebook}
               target="_blank"
@@ -223,13 +226,8 @@ const calculateReadingTime = (content: string) => {
               Facebook
             </a>
           </Button>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            asChild
-            className="rounded-full"
-          >
+
+          <Button variant="outline" size="sm" asChild className="rounded-full">
             <a
               href={shareLinks.linkedin}
               target="_blank"
@@ -256,5 +254,5 @@ const calculateReadingTime = (content: string) => {
         </Link>
       </div>
     </article>
-  )
+  );
 }

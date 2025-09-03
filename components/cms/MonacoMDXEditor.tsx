@@ -1,190 +1,216 @@
-'use client'
+"use client";
 
-import React, { useEffect, useRef, useState, useCallback } from 'react'
-import dynamic from 'next/dynamic'
-import { 
-  defaultEditorConfig, 
-  themes, 
-  type ThemeOption 
-} from '@/lib/monaco-config'
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import dynamic from "next/dynamic";
+import {
+  defaultEditorConfig,
+  themes,
+  type ThemeOption,
+} from "@/lib/monaco-config";
 
 // Dynamically import Monaco Editor to avoid SSR issues
-const Editor = dynamic(() => import('@monaco-editor/react'), {
+const Editor = dynamic(() => import("@monaco-editor/react"), {
   ssr: false,
-  loading: () => <div className="p-4 text-center">Loading Monaco Editor...</div>
-})
+  loading: () => (
+    <div className="p-4 text-center">Loading Monaco Editor...</div>
+  ),
+});
 
 // Dynamically import monaco-editor only on client side
 const getMonaco = () => {
-  if (typeof window !== 'undefined') {
-    return import('monaco-editor')
+  if (typeof window !== "undefined") {
+    return import("monaco-editor");
   }
-  return null
-}
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
-import { Label } from '@/components/ui/label'
-import { Separator } from '@/components/ui/separator'
-import { 
-  Save, 
-  Download, 
-  Upload, 
-  RotateCcw, 
-  Settings, 
-  Maximize2, 
+  return null;
+};
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import {
+  Save,
+  Download,
+  Upload,
+  RotateCcw,
+  Settings,
+  Maximize2,
   Minimize2,
   Search,
   Replace,
   FileText,
   Code,
   ImageIcon,
-  FolderOpen
-} from 'lucide-react'
+  FolderOpen,
+} from "lucide-react";
 
 export interface MonacoMDXEditorProps {
-  value: string
-  onChange: (value: string) => void
-  onSave?: () => void
-  height?: string | number
-  readOnly?: boolean
-  showToolbar?: boolean
-  showMinimap?: boolean
-  theme?: ThemeOption
-  onThemeChange?: (theme: ThemeOption) => void
-  className?: string
+  value: string;
+  onChange: (value: string) => void;
+  onSave?: () => void;
+  height?: string | number;
+  readOnly?: boolean;
+  showToolbar?: boolean;
+  showMinimap?: boolean;
+  theme?: ThemeOption;
+  onThemeChange?: (theme: ThemeOption) => void;
+  className?: string;
 }
 
 export interface EditorActions {
-  formatDocument: () => void
-  findAndReplace: () => void
-  insertComponent: (component: string) => void
-  undo: () => void
-  redo: () => void
-  save: () => void
+  formatDocument: () => void;
+  findAndReplace: () => void;
+  insertComponent: (component: string) => void;
+  undo: () => void;
+  redo: () => void;
+  save: () => void;
 }
 
 export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
   value,
   onChange,
   onSave,
-  height = '600px',
+  height = "600px",
   readOnly = false,
   showToolbar = true,
   showMinimap = true,
-  theme = 'dark',
+  theme = "dark",
   onThemeChange,
-  className = ''
+  className = "",
 }) => {
-  const editorRef = useRef<any>(null)
-  const [isFullscreen, setIsFullscreen] = useState(false)
-  const [currentTheme, setCurrentTheme] = useState<ThemeOption>(theme)
-  const [minimapEnabled, setMinimapEnabled] = useState(showMinimap)
-  const [isEditorReady, setIsEditorReady] = useState(false)
+  const editorRef = useRef<any>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState<ThemeOption>(theme);
+  const [minimapEnabled, setMinimapEnabled] = useState(showMinimap);
+  const [isEditorReady, setIsEditorReady] = useState(false);
 
   // Initialize Monaco with MDX support
   useEffect(() => {
     const initMonaco = async () => {
-      const monacoModule = await getMonaco()
+      const monacoModule = await getMonaco();
       if (monacoModule) {
-        const { initializeMonacoMDX } = await import('@/lib/monaco-config')
-        initializeMonacoMDX()
+        const { initializeMonacoMDX } = await import("@/lib/monaco-config");
+        initializeMonacoMDX();
       }
-    }
-    initMonaco()
-  }, [])
+    };
+    initMonaco();
+  }, []);
 
   // Handle editor mount
-  const handleEditorDidMount = useCallback(async (editor: any) => {
-    editorRef.current = editor
-    setIsEditorReady(true)
+  const handleEditorDidMount = useCallback(
+    async (editor: any) => {
+      editorRef.current = editor;
+      setIsEditorReady(true);
 
-    // Get monaco module for keyboard shortcuts
-    const monacoModule = await getMonaco()
-    if (!monacoModule) return
+      // Get monaco module for keyboard shortcuts
+      const monacoModule = await getMonaco();
+      if (!monacoModule) return;
 
-    const monaco = monacoModule.default || monacoModule
+      const monaco = monacoModule.default || monacoModule;
 
-    // Set up keyboard shortcuts
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
-      onSave?.()
-    })
+      // Set up keyboard shortcuts
+      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+        onSave?.();
+      });
 
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyF, () => {
-      editor.getAction('actions.find')?.run()
-    })
+      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyF, () => {
+        editor.getAction("actions.find")?.run();
+      });
 
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyF, () => {
-      editor.getAction('editor.action.startFindReplaceAction')?.run()
-    })
+      editor.addCommand(
+        monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyF,
+        () => {
+          editor.getAction("editor.action.startFindReplaceAction")?.run();
+        }
+      );
 
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyP, () => {
-      editor.getAction('editor.action.quickCommand')?.run()
-    })
+      editor.addCommand(
+        monaco.KeyMod.CtrlCmd | monaco.KeyMod.Shift | monaco.KeyCode.KeyP,
+        () => {
+          editor.getAction("editor.action.quickCommand")?.run();
+        }
+      );
 
-    // Auto-format on paste
-    editor.onDidPaste(() => {
-      setTimeout(() => {
-        editor.getAction('editor.action.formatDocument')?.run()
-      }, 100)
-    })
-  }, [onSave])
+      // Auto-format on paste
+      editor.onDidPaste(() => {
+        setTimeout(() => {
+          editor.getAction("editor.action.formatDocument")?.run();
+        }, 100);
+      });
+    },
+    [onSave]
+  );
 
   // Editor actions
   const editorActions: EditorActions = {
     formatDocument: () => {
-      editorRef.current?.getAction('editor.action.formatDocument')?.run()
+      editorRef.current?.getAction("editor.action.formatDocument")?.run();
     },
     findAndReplace: () => {
-      editorRef.current?.getAction('editor.action.startFindReplaceAction')?.run()
+      editorRef.current
+        ?.getAction("editor.action.startFindReplaceAction")
+        ?.run();
     },
     insertComponent: async (component: string) => {
-      const editor = editorRef.current
-      if (!editor) return
+      const editor = editorRef.current;
+      if (!editor) return;
 
-      const position = editor.getPosition()
+      const position = editor.getPosition();
       if (position) {
-        const monacoModule = await getMonaco()
+        const monacoModule = await getMonaco();
         if (monacoModule) {
-          const monaco = monacoModule.default || monacoModule
-          editor.executeEdits('insert-component', [{
-            range: new monaco.Range(position.lineNumber, position.column, position.lineNumber, position.column),
-            text: component
-          }])
-          editor.focus()
+          const monaco = monacoModule.default || monacoModule;
+          editor.executeEdits("insert-component", [
+            {
+              range: new monaco.Range(
+                position.lineNumber,
+                position.column,
+                position.lineNumber,
+                position.column
+              ),
+              text: component,
+            },
+          ]);
+          editor.focus();
         }
       }
     },
     undo: () => {
-      editorRef.current?.getAction('undo')?.run()
+      editorRef.current?.getAction("undo")?.run();
     },
     redo: () => {
-      editorRef.current?.getAction('redo')?.run()
+      editorRef.current?.getAction("redo")?.run();
     },
     save: () => {
-      onSave?.()
-    }
-  }
+      onSave?.();
+    },
+  };
 
   // Handle theme change
   const handleThemeChange = (newTheme: ThemeOption) => {
-    setCurrentTheme(newTheme)
-    onThemeChange?.(newTheme)
-  }
+    setCurrentTheme(newTheme);
+    onThemeChange?.(newTheme);
+  };
 
   // Handle minimap toggle
   const handleMinimapToggle = (enabled: boolean) => {
-    setMinimapEnabled(enabled)
+    setMinimapEnabled(enabled);
     editorRef.current?.updateOptions({
-      minimap: { enabled }
-    })
-  }
+      minimap: { enabled },
+    });
+  };
 
   // Handle fullscreen toggle
   const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen)
-  }
+    setIsFullscreen(!isFullscreen);
+  };
 
   // Insert component templates
   const insertCodeBlock = () => {
@@ -192,8 +218,8 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
 <CodeBlock language="javascript">
 // Your code here
 </CodeBlock>
-`)
-  }
+`);
+  };
 
   const insertImageGallery = () => {
     editorActions.insertComponent(`
@@ -204,8 +230,8 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
     caption: "Optional caption"
   }
 ]} />
-`)
-  }
+`);
+  };
 
   const insertProjectCard = () => {
     editorActions.insertComponent(`
@@ -217,18 +243,20 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
   githubUrl="https://github.com/user/repo"
   image="/path/to/image.jpg"
 />
-`)
-  }
+`);
+  };
 
   const editorOptions: any = {
     ...defaultEditorConfig.options,
     readOnly,
     minimap: { enabled: minimapEnabled },
-    theme: themes[currentTheme]
-  }
+    theme: themes[currentTheme],
+  };
 
   return (
-    <Card className={`${className} ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
+    <Card
+      className={`${className} ${isFullscreen ? "fixed inset-0 z-50" : ""}`}
+    >
       {showToolbar && (
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
@@ -243,11 +271,15 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={toggleFullscreen}
                 title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
               >
-                {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                {isFullscreen ? (
+                  <Minimize2 className="h-4 w-4" />
+                ) : (
+                  <Maximize2 className="h-4 w-4" />
+                )}
               </Button>
             </div>
           </div>
-          
+
           <div className="flex flex-wrap items-center gap-4">
             {/* Action buttons */}
             <div className="flex items-center gap-2">
@@ -262,7 +294,7 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 <Save className="h-4 w-4 mr-1.5" />
                 Save
               </Button>
-              
+
               <Button
                 variant="outline"
                 size="sm"
@@ -274,7 +306,7 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 <Settings className="h-4 w-4 mr-1.5" />
                 Format
               </Button>
-              
+
               <Button
                 variant="outline"
                 size="sm"
@@ -303,7 +335,7 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 <Code className="h-4 w-4 mr-1.5" />
                 Code
               </Button>
-              
+
               <Button
                 variant="outline"
                 size="sm"
@@ -315,7 +347,7 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 <ImageIcon className="h-4 w-4 mr-1.5" />
                 Gallery
               </Button>
-              
+
               <Button
                 variant="outline"
                 size="sm"
@@ -334,7 +366,9 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
             {/* Settings */}
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <Label htmlFor="theme-select" className="text-sm">Theme:</Label>
+                <Label htmlFor="theme-select" className="text-sm">
+                  Theme:
+                </Label>
                 <Select value={currentTheme} onValueChange={handleThemeChange}>
                   <SelectTrigger id="theme-select" className="w-32">
                     <SelectValue />
@@ -353,7 +387,9 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                   checked={minimapEnabled}
                   onCheckedChange={handleMinimapToggle}
                 />
-                <Label htmlFor="minimap-toggle" className="text-sm">Minimap</Label>
+                <Label htmlFor="minimap-toggle" className="text-sm">
+                  Minimap
+                </Label>
               </div>
             </div>
           </div>
@@ -363,11 +399,11 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
       <CardContent className="p-0">
         <div className="border rounded-md overflow-hidden">
           <Editor
-            height={isFullscreen ? 'calc(100vh - 200px)' : height}
+            height={isFullscreen ? "calc(100vh - 200px)" : height}
             language="mdx"
             theme={themes[currentTheme]}
             value={value}
-            onChange={(newValue) => onChange(newValue || '')}
+            onChange={(newValue) => onChange(newValue || "")}
             onMount={handleEditorDidMount}
             options={editorOptions}
             loading={
@@ -379,7 +415,7 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
         </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default MonacoMDXEditor
+export default MonacoMDXEditor;

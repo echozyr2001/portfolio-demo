@@ -1,68 +1,69 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { ArrowRight, ExternalLink, Github, Star } from 'lucide-react'
-import { ProjectCMS } from '@/app/(frontend)/types'
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, ExternalLink, Github, Star } from "lucide-react";
+import { ProjectCMS } from "@/app/(frontend)/types";
 
 interface ProjectsListProps {
-  initialProjects: ProjectCMS[]
+  initialProjects: ProjectCMS[];
 }
 
 export function ProjectsList({ initialProjects }: ProjectsListProps) {
-  const [projects, setProjects] = useState<ProjectCMS[]>(initialProjects)
-  const [loading, setLoading] = useState(false)
-  const [hasMore, setHasMore] = useState(initialProjects.length >= 20)
-  const [page, setPage] = useState(1)
-  const [filter, setFilter] = useState<'all' | 'featured'>('all')
+  const [projects, setProjects] = useState<ProjectCMS[]>(initialProjects);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(initialProjects.length >= 20);
+  const [page, setPage] = useState(1);
+  const [filter, setFilter] = useState<"all" | "featured">("all");
 
   const loadMoreProjects = async () => {
-    if (loading || !hasMore) return
+    if (loading || !hasMore) return;
 
-    setLoading(true)
+    setLoading(true);
     try {
-      const response = await fetch(`/api/projects?page=${page + 1}&limit=20`)
-      const data = await response.json()
-      
+      const response = await fetch(`/api/projects?page=${page + 1}&limit=20`);
+      const data = await response.json();
+
       if (data.docs && data.docs.length > 0) {
-        setProjects(prev => [...prev, ...data.docs])
-        setPage(prev => prev + 1)
-        setHasMore(data.hasNextPage)
+        setProjects((prev) => [...prev, ...data.docs]);
+        setPage((prev) => prev + 1);
+        setHasMore(data.hasNextPage);
       } else {
-        setHasMore(false)
+        setHasMore(false);
       }
     } catch (error) {
-      console.error('Error loading more projects:', error)
+      console.error("Error loading more projects:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const filterProjects = async (filterType: 'all' | 'featured') => {
-    setFilter(filterType)
-    setLoading(true)
-    
+  const filterProjects = async (filterType: "all" | "featured") => {
+    setFilter(filterType);
+    setLoading(true);
+
     try {
-      const url = filterType === 'featured' 
-        ? '/api/projects/featured?limit=20'
-        : '/api/projects?limit=20'
-      
-      const response = await fetch(url)
-      const data = await response.json()
-      
-      setProjects(data.docs || [])
-      setPage(1)
-      setHasMore(filterType === 'all' && data.hasNextPage)
+      const url =
+        filterType === "featured"
+          ? "/api/projects/featured?limit=20"
+          : "/api/projects?limit=20";
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      setProjects(data.docs || []);
+      setPage(1);
+      setHasMore(filterType === "all" && data.hasNextPage);
     } catch (error) {
-      console.error('Error filtering projects:', error)
+      console.error("Error filtering projects:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   if (projects.length === 0) {
     return (
@@ -70,11 +71,9 @@ export function ProjectsList({ initialProjects }: ProjectsListProps) {
         <h2 className="text-2xl font-semibold text-[#2C2A25] mb-4">
           No projects yet
         </h2>
-        <p className="text-gray-600">
-          Check back soon for new projects!
-        </p>
+        <p className="text-gray-600">Check back soon for new projects!</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -82,21 +81,23 @@ export function ProjectsList({ initialProjects }: ProjectsListProps) {
       {/* Filter Buttons */}
       <div className="flex gap-4 mb-8">
         <Button
-          variant={filter === 'all' ? 'default' : 'outline'}
-          onClick={() => filterProjects('all')}
-          className={filter === 'all' 
-            ? 'bg-[#A2ABB1] text-white hover:bg-[#8A9AA3]' 
-            : 'border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white'
+          variant={filter === "all" ? "default" : "outline"}
+          onClick={() => filterProjects("all")}
+          className={
+            filter === "all"
+              ? "bg-[#A2ABB1] text-white hover:bg-[#8A9AA3]"
+              : "border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white"
           }
         >
           All Projects
         </Button>
         <Button
-          variant={filter === 'featured' ? 'default' : 'outline'}
-          onClick={() => filterProjects('featured')}
-          className={filter === 'featured' 
-            ? 'bg-[#A2ABB1] text-white hover:bg-[#8A9AA3]' 
-            : 'border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white'
+          variant={filter === "featured" ? "default" : "outline"}
+          onClick={() => filterProjects("featured")}
+          className={
+            filter === "featured"
+              ? "bg-[#A2ABB1] text-white hover:bg-[#8A9AA3]"
+              : "border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white"
           }
         >
           <Star className="h-4 w-4 mr-2" />
@@ -112,20 +113,20 @@ export function ProjectsList({ initialProjects }: ProjectsListProps) {
       </div>
 
       {/* Load More Button */}
-      {hasMore && filter === 'all' && (
+      {hasMore && filter === "all" && (
         <div className="flex justify-center mt-12">
           <Button
             onClick={loadMoreProjects}
             disabled={loading}
             className="rounded-full bg-[#A2ABB1] text-white px-8 h-12 hover:bg-[#8A9AA3] transition-colors duration-300"
           >
-            {loading ? 'Loading...' : 'Load More Projects'}
+            {loading ? "Loading..." : "Load More Projects"}
             <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function ProjectCard({ project }: { project: ProjectCMS }) {
@@ -150,21 +151,19 @@ function ProjectCard({ project }: { project: ProjectCMS }) {
           )}
         </div>
       )}
-      
+
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-semibold text-[#2C2A25] group-hover:text-[#A2ABB1] transition-colors line-clamp-2">
-          <Link href={`/projects/${project.slug}`}>
-            {project.title}
-          </Link>
+          <Link href={`/projects/${project.slug}`}>{project.title}</Link>
         </CardTitle>
       </CardHeader>
-      
+
       <CardContent className="pt-0 space-y-4">
         {/* Short Description */}
         <p className="text-gray-600 text-sm line-clamp-3">
           {project.shortDescription}
         </p>
-        
+
         {/* Technologies */}
         {project.technologies && project.technologies.length > 0 && (
           <div className="flex flex-wrap gap-1">
@@ -180,7 +179,7 @@ function ProjectCard({ project }: { project: ProjectCMS }) {
             )}
           </div>
         )}
-        
+
         {/* Action Buttons */}
         <div className="flex items-center justify-between pt-2">
           <Link href={`/projects/${project.slug}`}>
@@ -193,7 +192,7 @@ function ProjectCard({ project }: { project: ProjectCMS }) {
               <ArrowRight className="h-3 w-3 ml-1" />
             </Button>
           </Link>
-          
+
           <div className="flex gap-2">
             {project.projectUrl && (
               <Button
@@ -212,7 +211,7 @@ function ProjectCard({ project }: { project: ProjectCMS }) {
                 </a>
               </Button>
             )}
-            
+
             {project.githubUrl && (
               <Button
                 variant="ghost"
@@ -234,5 +233,5 @@ function ProjectCard({ project }: { project: ProjectCMS }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

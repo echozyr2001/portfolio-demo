@@ -1,55 +1,61 @@
-import React, { useState } from 'react'
-import Image from 'next/image'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import React, { useState } from "react";
+import Image from "next/image";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface GalleryImage {
-  src: string
-  alt: string
-  caption?: string
-  width?: number
-  height?: number
+  src: string;
+  alt: string;
+  caption?: string;
+  width?: number;
+  height?: number;
 }
 
 export interface ImageGalleryProps {
-  images: GalleryImage[]
-  columns?: number
-  className?: string
+  images: GalleryImage[];
+  columns?: number;
+  className?: string;
 }
 
 export const ImageGallery: React.FC<ImageGalleryProps> = ({
   images,
   columns = 3,
-  className = ''
+  className = "",
 }) => {
-  const [selectedImage, setSelectedImage] = useState<number | null>(null)
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   const nextImage = () => {
     if (selectedImage !== null) {
-      setSelectedImage((selectedImage + 1) % images.length)
+      setSelectedImage((selectedImage + 1) % images.length);
     }
-  }
+  };
 
   const prevImage = () => {
     if (selectedImage !== null) {
-      setSelectedImage(selectedImage === 0 ? images.length - 1 : selectedImage - 1)
+      setSelectedImage(
+        selectedImage === 0 ? images.length - 1 : selectedImage - 1
+      );
     }
-  }
+  };
 
-  const gridCols = {
-    1: 'grid-cols-1',
-    2: 'grid-cols-2',
-    3: 'grid-cols-3',
-    4: 'grid-cols-4'
-  }[columns] || 'grid-cols-3'
+  const gridCols =
+    {
+      1: "grid-cols-1",
+      2: "grid-cols-2",
+      3: "grid-cols-3",
+      4: "grid-cols-4",
+    }[columns] || "grid-cols-3";
 
   return (
     <div className={`my-6 ${className}`}>
       <div className={`grid ${gridCols} gap-4`}>
         {images.map((image, index) => (
-          <Card key={index} className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow">
+          <Card
+            key={index}
+            className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+          >
             <Dialog>
               <DialogTrigger asChild>
                 <div onClick={() => setSelectedImage(index)}>
@@ -64,7 +70,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                   </div>
                   {image.caption && (
                     <CardContent className="p-3">
-                      <p className="text-sm text-muted-foreground">{image.caption}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {image.caption}
+                      </p>
                     </CardContent>
                   )}
                 </div>
@@ -80,7 +88,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       sizes="90vw"
                     />
                   </div>
-                  
+
                   {images.length > 1 && (
                     <>
                       <Button
@@ -101,10 +109,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                       </Button>
                     </>
                   )}
-                  
+
                   {image.caption && (
                     <div className="mt-4 text-center">
-                      <p className="text-sm text-muted-foreground">{image.caption}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {image.caption}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -114,7 +124,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ImageGallery
+export default ImageGallery;

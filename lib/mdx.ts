@@ -11,7 +11,10 @@ import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkStringify from "remark-stringify";
 import { getMDXConfig, securityConfig } from "./mdx-config";
-import { validateMDXComponents, ValidationResult as ComponentValidationResult } from "./mdx-component-validator";
+import {
+  validateMDXComponents,
+  ValidationResult as ComponentValidationResult,
+} from "./mdx-component-validator";
 
 export interface MDXContent {
   mdxSource: MDXRemoteSerializeResult;
@@ -60,17 +63,39 @@ export interface MDXProcessorOptions {
 export class MDXProcessor {
   private registeredComponents: Map<string, ComponentRegistration> = new Map();
   private allowedTags: Set<string> = new Set([
-    'div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-    'ul', 'ol', 'li', 'a', 'img', 'code', 'pre', 'blockquote',
-    'strong', 'em', 'table', 'thead', 'tbody', 'tr', 'td', 'th'
+    "div",
+    "span",
+    "p",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "ul",
+    "ol",
+    "li",
+    "a",
+    "img",
+    "code",
+    "pre",
+    "blockquote",
+    "strong",
+    "em",
+    "table",
+    "thead",
+    "tbody",
+    "tr",
+    "td",
+    "th",
   ]);
 
   constructor() {
     // Register default components
     this.registerDefaultComponents();
-    
+
     // Initialize allowed tags from security config
-    securityConfig.allowedTags.forEach(tag => {
+    securityConfig.allowedTags.forEach((tag) => {
       this.allowedTags.add(tag);
     });
   }
@@ -81,13 +106,13 @@ export class MDXProcessor {
   private registerDefaultComponents(): void {
     // Register basic components - will be loaded dynamically when needed
     const defaultComponents = [
-      'CodeBlock',
-      'ImageGallery', 
-      'ProjectCard',
-      'TechStack'
+      "CodeBlock",
+      "ImageGallery",
+      "ProjectCard",
+      "TechStack",
     ];
-    
-    defaultComponents.forEach(name => {
+
+    defaultComponents.forEach((name) => {
       this.registerComponent({
         name,
         component: null, // Will be loaded dynamically
@@ -123,24 +148,27 @@ export class MDXProcessor {
   private sanitizeContent(content: string): string {
     // Check content length
     if (content.length > securityConfig.maxContentLength) {
-      throw new Error(`Content exceeds maximum length of ${securityConfig.maxContentLength} characters`);
+      throw new Error(
+        `Content exceeds maximum length of ${securityConfig.maxContentLength} characters`
+      );
     }
 
     // Remove potentially dangerous patterns
     let sanitized = content;
-    securityConfig.dangerousPatterns.forEach(pattern => {
-      sanitized = sanitized.replace(pattern, '');
+    securityConfig.dangerousPatterns.forEach((pattern) => {
+      sanitized = sanitized.replace(pattern, "");
     });
 
     return sanitized;
   }
 
-
-
   /**
    * Process MDX content with enhanced security and validation
    */
-  async compile(source: string, options: MDXProcessorOptions = {}): Promise<MDXContent> {
+  async compile(
+    source: string,
+    options: MDXProcessorOptions = {}
+  ): Promise<MDXContent> {
     // Merge with default config
     const config = { ...getMDXConfig(), ...options };
     try {
@@ -148,8 +176,8 @@ export class MDXProcessor {
       const { data: frontmatter, content } = matter(source);
 
       // Sanitize content if enabled
-      const processedContent = config.sanitizeContent 
-        ? this.sanitizeContent(content) 
+      const processedContent = config.sanitizeContent
+        ? this.sanitizeContent(content)
         : content;
 
       // Calculate reading time
@@ -187,12 +215,13 @@ export class MDXProcessor {
       };
     } catch (error) {
       const mdxError: MDXError = {
-        type: 'runtime',
-        message: error instanceof Error ? error.message : 'Unknown compilation error',
-        suggestion: 'Check MDX syntax and component usage',
+        type: "runtime",
+        message:
+          error instanceof Error ? error.message : "Unknown compilation error",
+        suggestion: "Check MDX syntax and component usage",
       };
-      
-      throw new MDXProcessingError('MDX compilation failed', [mdxError]);
+
+      throw new MDXProcessingError("MDX compilation failed", [mdxError]);
     }
   }
 }
@@ -205,7 +234,7 @@ export class MDXProcessingError extends Error {
 
   constructor(message: string, errors: MDXError[] = []) {
     super(message);
-    this.name = 'MDXProcessingError';
+    this.name = "MDXProcessingError";
     this.errors = errors;
   }
 }
@@ -213,7 +242,10 @@ export class MDXProcessingError extends Error {
 /**
  * Enhanced MDX validation with comprehensive checks
  */
-export async function validateMDX(source: string, processor?: MDXProcessor): Promise<ValidationResult> {
+export async function validateMDX(
+  source: string,
+  processor?: MDXProcessor
+): Promise<ValidationResult> {
   const errors: MDXError[] = [];
   const warnings: string[] = [];
   const mdxProcessor = processor || new MDXProcessor();
@@ -232,15 +264,15 @@ export async function validateMDX(source: string, processor?: MDXProcessor): Pro
 
     // Enhanced component validation with prop checking
     const componentValidation = validateMDXComponents(content);
-    componentValidation.errors.forEach(error => {
+    componentValidation.errors.forEach((error) => {
       errors.push({
-        type: 'component',
+        type: "component",
         message: error.message,
         suggestion: `Check component '${error.component}' usage`,
       });
     });
-    
-    componentValidation.warnings.forEach(warning => {
+
+    componentValidation.warnings.forEach((warning) => {
       warnings.push(warning.message);
     });
 
@@ -260,9 +292,10 @@ export async function validateMDX(source: string, processor?: MDXProcessor): Pro
         errors.push(...error.errors);
       } else {
         errors.push({
-          type: 'runtime',
-          message: error instanceof Error ? error.message : 'Unknown runtime error',
-          suggestion: 'Check MDX syntax and component usage',
+          type: "runtime",
+          message:
+            error instanceof Error ? error.message : "Unknown runtime error",
+          suggestion: "Check MDX syntax and component usage",
         });
       }
     }
@@ -274,9 +307,10 @@ export async function validateMDX(source: string, processor?: MDXProcessor): Pro
     };
   } catch (error) {
     errors.push({
-      type: 'syntax',
-      message: error instanceof Error ? error.message : 'Unknown validation error',
-      suggestion: 'Check MDX syntax and structure',
+      type: "syntax",
+      message:
+        error instanceof Error ? error.message : "Unknown validation error",
+      suggestion: "Check MDX syntax and structure",
     });
 
     return {
@@ -290,19 +324,25 @@ export async function validateMDX(source: string, processor?: MDXProcessor): Pro
 /**
  * Validate component usage in MDX content
  */
-function validateComponentUsage(content: string, processor: MDXProcessor): MDXError[] {
+function validateComponentUsage(
+  content: string,
+  processor: MDXProcessor
+): MDXError[] {
   const errors: MDXError[] = [];
-  
+
   // Find all JSX components in the content
   const componentMatches = content.match(/<[A-Z][a-zA-Z0-9]*[\s\S]*?>/g) || [];
-  
-  componentMatches.forEach(match => {
+
+  componentMatches.forEach((match) => {
     const componentName = match.match(/<([A-Z][a-zA-Z0-9]*)/)?.[1];
     if (componentName && !processor.getComponent(componentName)) {
       errors.push({
-        type: 'component',
+        type: "component",
         message: `Unknown component: ${componentName}`,
-        suggestion: `Register the component or use one of: ${processor.getRegisteredComponents().map(c => c.name).join(', ')}`,
+        suggestion: `Register the component or use one of: ${processor
+          .getRegisteredComponents()
+          .map((c) => c.name)
+          .join(", ")}`,
       });
     }
   });
@@ -319,44 +359,46 @@ function validateSecurity(content: string): MDXError[] {
   // Check content length
   if (content.length > securityConfig.maxContentLength) {
     errors.push({
-      type: 'security',
+      type: "security",
       message: `Content exceeds maximum length of ${securityConfig.maxContentLength} characters`,
-      suggestion: 'Reduce content length or split into multiple documents',
+      suggestion: "Reduce content length or split into multiple documents",
     });
   }
 
   // Check for dangerous patterns using security config
   const patternMessages = [
-    { pattern: /javascript:/gi, message: 'JavaScript URLs are not allowed' },
-    { pattern: /data:text\/html/gi, message: 'HTML data URLs are not allowed' },
-    { pattern: /vbscript:/gi, message: 'VBScript URLs are not allowed' },
-    { pattern: /on\w+\s*=/gi, message: 'Event handlers are not allowed' },
-    { pattern: /<script/gi, message: 'Script tags are not allowed' },
-    { pattern: /<iframe/gi, message: 'Iframe tags are not allowed' },
-    { pattern: /<object/gi, message: 'Object tags are not allowed' },
-    { pattern: /<embed/gi, message: 'Embed tags are not allowed' },
-    { pattern: /<form/gi, message: 'Form tags are not allowed' },
-    { pattern: /<input/gi, message: 'Input tags are not allowed' },
-    { pattern: /<textarea/gi, message: 'Textarea tags are not allowed' },
+    { pattern: /javascript:/gi, message: "JavaScript URLs are not allowed" },
+    { pattern: /data:text\/html/gi, message: "HTML data URLs are not allowed" },
+    { pattern: /vbscript:/gi, message: "VBScript URLs are not allowed" },
+    { pattern: /on\w+\s*=/gi, message: "Event handlers are not allowed" },
+    { pattern: /<script/gi, message: "Script tags are not allowed" },
+    { pattern: /<iframe/gi, message: "Iframe tags are not allowed" },
+    { pattern: /<object/gi, message: "Object tags are not allowed" },
+    { pattern: /<embed/gi, message: "Embed tags are not allowed" },
+    { pattern: /<form/gi, message: "Form tags are not allowed" },
+    { pattern: /<input/gi, message: "Input tags are not allowed" },
+    { pattern: /<textarea/gi, message: "Textarea tags are not allowed" },
   ];
 
   patternMessages.forEach(({ pattern, message }) => {
     if (pattern.test(content)) {
       errors.push({
-        type: 'security',
+        type: "security",
         message,
-        suggestion: 'Remove or replace the dangerous content',
+        suggestion: "Remove or replace the dangerous content",
       });
     }
   });
 
   // Check component count
-  const componentCount = (content.match(/<[A-Z][a-zA-Z0-9]*[\s\S]*?>/g) || []).length;
+  const componentCount = (content.match(/<[A-Z][a-zA-Z0-9]*[\s\S]*?>/g) || [])
+    .length;
   if (componentCount > securityConfig.maxComponentsPerDocument) {
     errors.push({
-      type: 'security',
+      type: "security",
       message: `Too many components (${componentCount}). Maximum allowed: ${securityConfig.maxComponentsPerDocument}`,
-      suggestion: 'Reduce the number of components or split into multiple documents',
+      suggestion:
+        "Reduce the number of components or split into multiple documents",
     });
   }
 
@@ -381,9 +423,9 @@ async function validateSyntax(content: string): Promise<MDXError[]> {
 
     if (openTags !== closeTags + selfClosingTags) {
       errors.push({
-        type: 'syntax',
-        message: 'Possible unclosed JSX tags detected',
-        suggestion: 'Check that all JSX tags are properly closed',
+        type: "syntax",
+        message: "Possible unclosed JSX tags detected",
+        suggestion: "Check that all JSX tags are properly closed",
       });
     }
 
@@ -391,17 +433,16 @@ async function validateSyntax(content: string): Promise<MDXError[]> {
     const malformedAttrs = content.match(/<[^>]*\s+\w+\s*=\s*[^"'{][^>\s]*/g);
     if (malformedAttrs) {
       errors.push({
-        type: 'syntax',
-        message: 'Malformed JSX attributes detected',
-        suggestion: 'Ensure all attribute values are properly quoted',
+        type: "syntax",
+        message: "Malformed JSX attributes detected",
+        suggestion: "Ensure all attribute values are properly quoted",
       });
     }
-
   } catch (error) {
     errors.push({
-      type: 'syntax',
-      message: error instanceof Error ? error.message : 'Syntax parsing failed',
-      suggestion: 'Check Markdown and JSX syntax',
+      type: "syntax",
+      message: error instanceof Error ? error.message : "Syntax parsing failed",
+      suggestion: "Check Markdown and JSX syntax",
     });
   }
 
@@ -415,21 +456,23 @@ function validateStructure(content: string): string[] {
   const warnings: string[] = [];
 
   // Check for code blocks formatting
-  if (content.includes('```') && !content.match(/```\w*\n[\s\S]*?\n```/g)) {
-    warnings.push('Code blocks may not be properly formatted');
+  if (content.includes("```") && !content.match(/```\w*\n[\s\S]*?\n```/g)) {
+    warnings.push("Code blocks may not be properly formatted");
   }
 
   // Check for heading structure
   const headings = content.match(/^#{1,6}\s+.+$/gm) || [];
   if (headings.length === 0) {
-    warnings.push('No headings found - consider adding structure to your content');
+    warnings.push(
+      "No headings found - consider adding structure to your content"
+    );
   }
 
   // Check for very long paragraphs
-  const paragraphs = content.split('\n\n').filter(p => p.trim().length > 0);
-  const longParagraphs = paragraphs.filter(p => p.length > 1000);
+  const paragraphs = content.split("\n\n").filter((p) => p.trim().length > 0);
+  const longParagraphs = paragraphs.filter((p) => p.length > 1000);
   if (longParagraphs.length > 0) {
-    warnings.push('Some paragraphs are very long - consider breaking them up');
+    warnings.push("Some paragraphs are very long - consider breaking them up");
   }
 
   return warnings;
@@ -441,7 +484,10 @@ const defaultProcessor = new MDXProcessor();
 /**
  * Process MDX content using the default processor (backward compatibility)
  */
-export async function processMDX(source: string, options?: MDXProcessorOptions): Promise<MDXContent> {
+export async function processMDX(
+  source: string,
+  options?: MDXProcessorOptions
+): Promise<MDXContent> {
   return defaultProcessor.compile(source, options);
 }
 
@@ -460,17 +506,20 @@ export function extractFrontmatter(source: string): Record<string, any> {
 /**
  * Render MDX to HTML string (for preview purposes)
  */
-export async function renderMDXToHTML(source: string, options?: MDXProcessorOptions): Promise<string> {
+export async function renderMDXToHTML(
+  source: string,
+  options?: MDXProcessorOptions
+): Promise<string> {
   try {
     const { mdxSource } = await defaultProcessor.compile(source, options);
-    
+
     // For server-side rendering, we would need to use renderToString
     // This is a placeholder implementation
     const processor = unified()
       .use(remarkParse)
       .use(remarkGfm)
       .use(remarkStringify);
-    
+
     const result = await processor.process(source);
     return String(result);
   } catch (error) {

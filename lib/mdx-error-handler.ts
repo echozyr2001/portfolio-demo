@@ -1,4 +1,4 @@
-import { MDXError, MDXProcessingError } from './mdx';
+import { MDXError, MDXProcessingError } from "./mdx";
 
 /**
  * Error handler for MDX processing with user-friendly messages
@@ -9,18 +9,18 @@ export class MDXErrorHandler {
    */
   static getUserFriendlyMessage(error: MDXError): string {
     switch (error.type) {
-      case 'syntax':
-        return `Syntax Error: ${error.message}. ${error.suggestion || 'Please check your Markdown and JSX syntax.'}`;
-      
-      case 'component':
-        return `Component Error: ${error.message}. ${error.suggestion || 'Make sure the component is properly registered.'}`;
-      
-      case 'security':
-        return `Security Issue: ${error.message}. ${error.suggestion || 'Please remove or replace the problematic content.'}`;
-      
-      case 'runtime':
-        return `Runtime Error: ${error.message}. ${error.suggestion || 'Please check your content and try again.'}`;
-      
+      case "syntax":
+        return `Syntax Error: ${error.message}. ${error.suggestion || "Please check your Markdown and JSX syntax."}`;
+
+      case "component":
+        return `Component Error: ${error.message}. ${error.suggestion || "Make sure the component is properly registered."}`;
+
+      case "security":
+        return `Security Issue: ${error.message}. ${error.suggestion || "Please remove or replace the problematic content."}`;
+
+      case "runtime":
+        return `Runtime Error: ${error.message}. ${error.suggestion || "Please check your content and try again."}`;
+
       default:
         return `Error: ${error.message}`;
     }
@@ -30,26 +30,28 @@ export class MDXErrorHandler {
    * Format multiple errors for display
    */
   static formatErrors(errors: MDXError[]): string {
-    if (errors.length === 0) return '';
-    
+    if (errors.length === 0) return "";
+
     if (errors.length === 1) {
       return this.getUserFriendlyMessage(errors[0]);
     }
 
     return `Multiple issues found:\n${errors
-      .map((error, index) => `${index + 1}. ${this.getUserFriendlyMessage(error)}`)
-      .join('\n')}`;
+      .map(
+        (error, index) => `${index + 1}. ${this.getUserFriendlyMessage(error)}`
+      )
+      .join("\n")}`;
   }
 
   /**
    * Log errors for debugging (in development)
    */
   static logError(error: MDXProcessingError | Error): void {
-    if (process.env.NODE_ENV === 'development') {
-      console.error('MDX Processing Error:', error);
-      
+    if (process.env.NODE_ENV === "development") {
+      console.error("MDX Processing Error:", error);
+
       if (error instanceof MDXProcessingError && error.errors.length > 0) {
-        console.error('Detailed errors:', error.errors);
+        console.error("Detailed errors:", error.errors);
       }
     }
   }
@@ -74,14 +76,20 @@ export class MDXErrorHandler {
 
     return {
       success: false,
-      message: error.message || 'An unexpected error occurred while processing MDX content.',
+      message:
+        error.message ||
+        "An unexpected error occurred while processing MDX content.",
     };
   }
 
   /**
    * Handle validation results and provide feedback
    */
-  static handleValidationResult(result: { isValid: boolean; errors: MDXError[]; warnings: string[] }): {
+  static handleValidationResult(result: {
+    isValid: boolean;
+    errors: MDXError[];
+    warnings: string[];
+  }): {
     success: boolean;
     message?: string;
     warnings?: string[];
@@ -114,12 +122,15 @@ export async function safeMDXProcess<T>(
     const data = await operation();
     return { success: true, data };
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-    
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error occurred";
+
     if (errorHandler) {
       errorHandler(error instanceof Error ? error : new Error(errorMessage));
     } else {
-      MDXErrorHandler.logError(error instanceof Error ? error : new Error(errorMessage));
+      MDXErrorHandler.logError(
+        error instanceof Error ? error : new Error(errorMessage)
+      );
     }
 
     return { success: false, error: errorMessage };

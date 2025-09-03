@@ -1,20 +1,20 @@
-import React from 'react'
-import { Card } from '@/components/ui/card'
+import React from "react";
+import { Card } from "@/components/ui/card";
 
 export interface CodeBlockProps {
-  children: React.ReactNode
-  language?: string
-  title?: string
-  showLineNumbers?: boolean
-  className?: string
+  children: React.ReactNode;
+  language?: string;
+  title?: string;
+  showLineNumbers?: boolean;
+  className?: string;
 }
 
 export const CodeBlock: React.FC<CodeBlockProps> = ({
   children,
-  language = 'javascript',
+  language = "javascript",
   title,
   showLineNumbers = false,
-  className = ''
+  className = "",
 }) => {
   return (
     <Card className={`my-4 overflow-hidden ${className}`}>
@@ -31,15 +31,15 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
         </div>
       )}
       <div className="relative">
-        <pre className={`p-4 overflow-x-auto text-sm ${showLineNumbers ? 'pl-12' : ''}`}>
-          <code className={`language-${language}`}>
-            {children}
-          </code>
+        <pre
+          className={`p-4 overflow-x-auto text-sm ${showLineNumbers ? "pl-12" : ""}`}
+        >
+          <code className={`language-${language}`}>{children}</code>
         </pre>
         {showLineNumbers && (
           <div className="absolute left-0 top-0 p-4 text-xs text-muted-foreground select-none">
             {String(children)
-              .split('\n')
+              .split("\n")
               .map((_, i) => (
                 <div key={i} className="leading-5">
                   {i + 1}
@@ -49,7 +49,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
         )}
       </div>
     </Card>
-  )
-}
+  );
+};
 
-export default CodeBlock
+export default CodeBlock;

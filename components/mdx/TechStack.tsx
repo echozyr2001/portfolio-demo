@@ -1,23 +1,23 @@
-import React from 'react'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import React from "react";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export interface TechStackProps {
-  technologies: string[]
-  title?: string
-  variant?: 'badges' | 'list' | 'grid'
-  className?: string
+  technologies: string[];
+  title?: string;
+  variant?: "badges" | "list" | "grid";
+  className?: string;
 }
 
 export const TechStack: React.FC<TechStackProps> = ({
   technologies,
-  title = 'Tech Stack',
-  variant = 'badges',
-  className = ''
+  title = "Tech Stack",
+  variant = "badges",
+  className = "",
 }) => {
   const renderTechnologies = () => {
     switch (variant) {
-      case 'list':
+      case "list":
         return (
           <ul className="space-y-2">
             {technologies.map((tech) => (
@@ -27,9 +27,9 @@ export const TechStack: React.FC<TechStackProps> = ({
               </li>
             ))}
           </ul>
-        )
-      
-      case 'grid':
+        );
+
+      case "grid":
         return (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {technologies.map((tech) => (
@@ -41,9 +41,9 @@ export const TechStack: React.FC<TechStackProps> = ({
               </div>
             ))}
           </div>
-        )
-      
-      case 'badges':
+        );
+
+      case "badges":
       default:
         return (
           <div className="flex flex-wrap gap-2">
@@ -53,16 +53,12 @@ export const TechStack: React.FC<TechStackProps> = ({
               </Badge>
             ))}
           </div>
-        )
+        );
     }
-  }
+  };
 
-  if (variant === 'badges' && !title) {
-    return (
-      <div className={`my-4 ${className}`}>
-        {renderTechnologies()}
-      </div>
-    )
+  if (variant === "badges" && !title) {
+    return <div className={`my-4 ${className}`}>{renderTechnologies()}</div>;
   }
 
   return (
@@ -70,11 +66,9 @@ export const TechStack: React.FC<TechStackProps> = ({
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        {renderTechnologies()}
-      </CardContent>
+      <CardContent>{renderTechnologies()}</CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default TechStack
+export default TechStack;

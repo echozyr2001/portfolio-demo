@@ -1,89 +1,100 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { MDXRemote } from 'next-mdx-remote'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { Card, CardContent } from '@/components/ui/card'
-import { ArrowLeft, ExternalLink, Github, Star, Calendar, ImageIcon } from 'lucide-react'
-import { mdxComponents } from '@/lib/mdx-components'
-import { processMDX } from '@/lib/mdx'
-import type { MDXContent } from '@/lib/mdx'
-import { ProjectCMS } from '@/app/(frontend)/types'
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { MDXRemote } from "next-mdx-remote";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  ArrowLeft,
+  ExternalLink,
+  Github,
+  Star,
+  Calendar,
+  ImageIcon,
+} from "lucide-react";
+import { mdxComponents } from "@/lib/mdx-components";
+import { processMDX } from "@/lib/mdx";
+import type { MDXContent } from "@/lib/mdx";
+import { ProjectCMS } from "@/app/(frontend)/types";
 
 interface ProjectDetailProps {
-  project: ProjectCMS
+  project: ProjectCMS;
 }
 
 export function ProjectDetail({ project }: ProjectDetailProps) {
-  const [mdxContent, setMdxContent] = useState<MDXContent | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
+  const [mdxContent, setMdxContent] = useState<MDXContent | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
+    null
+  );
 
   useEffect(() => {
     const compileMDX = async () => {
       try {
-        setLoading(true)
-        const compiled = await processMDX(project.description)
-        setMdxContent(compiled)
+        setLoading(true);
+        const compiled = await processMDX(project.description);
+        setMdxContent(compiled);
       } catch (err) {
-        console.error('Error compiling MDX:', err)
-        setError('Failed to load project description')
+        console.error("Error compiling MDX:", err);
+        setError("Failed to load project description");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    compileMDX()
-  }, [project.description])
+    compileMDX();
+  }, [project.description]);
 
-// Utility function moved outside component scope
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
+  // Utility function moved outside component scope
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("zh-CN", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   const openLightbox = (index: number) => {
-    setSelectedImageIndex(index)
-  }
+    setSelectedImageIndex(index);
+  };
 
   const closeLightbox = () => {
-    setSelectedImageIndex(null)
-  }
+    setSelectedImageIndex(null);
+  };
 
   const nextImage = () => {
     if (selectedImageIndex !== null && project.images) {
-      setSelectedImageIndex((selectedImageIndex + 1) % project.images.length)
+      setSelectedImageIndex((selectedImageIndex + 1) % project.images.length);
     }
-  }
+  };
 
   const prevImage = () => {
     if (selectedImageIndex !== null && project.images) {
       setSelectedImageIndex(
-        selectedImageIndex === 0 ? project.images.length - 1 : selectedImageIndex - 1
-      )
+        selectedImageIndex === 0
+          ? project.images.length - 1
+          : selectedImageIndex - 1
+      );
     }
-  }
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (selectedImageIndex !== null) {
-        if (e.key === 'Escape') closeLightbox()
-        if (e.key === 'ArrowRight') nextImage()
-        if (e.key === 'ArrowLeft') prevImage()
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowRight") nextImage();
+        if (e.key === "ArrowLeft") prevImage();
       }
-    }
+    };
 
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [selectedImageIndex])
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [selectedImageIndex]);
 
   if (loading) {
     return (
@@ -99,14 +110,16 @@ const formatDate = (dateString: string) => {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   if (error) {
     return (
       <div className="max-w-6xl mx-auto px-4 md:px-8 py-16">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Error Loading Project</h1>
+          <h1 className="text-2xl font-bold text-red-600 mb-4">
+            Error Loading Project
+          </h1>
           <p className="text-gray-600 mb-8">{error}</p>
           <Link href="/projects">
             <Button variant="outline">
@@ -116,7 +129,7 @@ const formatDate = (dateString: string) => {
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -124,7 +137,10 @@ const formatDate = (dateString: string) => {
       {/* Back to Projects Link */}
       <div className="mb-8">
         <Link href="/projects">
-          <Button variant="ghost" className="text-[#A2ABB1] hover:text-[#8A9AA3]">
+          <Button
+            variant="ghost"
+            className="text-[#A2ABB1] hover:text-[#8A9AA3]"
+          >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Projects
           </Button>
@@ -144,7 +160,7 @@ const formatDate = (dateString: string) => {
                 </Badge>
               )}
             </h1>
-            
+
             <p className="text-xl text-gray-600 mb-6 leading-relaxed">
               {project.shortDescription}
             </p>
@@ -157,7 +173,7 @@ const formatDate = (dateString: string) => {
             <Calendar className="h-4 w-4" />
             <span>Created {formatDate(project.createdAt)}</span>
           </div>
-          
+
           {project.technologies && project.technologies.length > 0 && (
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium">Technologies:</span>
@@ -189,7 +205,7 @@ const formatDate = (dateString: string) => {
               </a>
             </Button>
           )}
-          
+
           {project.githubUrl && (
             <Button
               variant="outline"
@@ -235,7 +251,7 @@ const formatDate = (dateString: string) => {
       {project.images && project.images.length > 0 && (
         <>
           <Separator className="my-12" />
-          
+
           <section className="mb-12">
             <div className="flex items-center gap-2 mb-6">
               <ImageIcon className="h-5 w-5 text-[#A2ABB1]" />
@@ -243,10 +259,13 @@ const formatDate = (dateString: string) => {
                 Project Gallery
               </h2>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {project.images.map((imageObj, index) => (
-                <Card key={index} className="overflow-hidden cursor-pointer group">
+                <Card
+                  key={index}
+                  className="overflow-hidden cursor-pointer group"
+                >
                   <div
                     className="relative aspect-video overflow-hidden"
                     onClick={() => openLightbox(index)}
@@ -265,7 +284,9 @@ const formatDate = (dateString: string) => {
                   </div>
                   {imageObj.caption && (
                     <CardContent className="p-4">
-                      <p className="text-sm text-gray-600">{imageObj.caption}</p>
+                      <p className="text-sm text-gray-600">
+                        {imageObj.caption}
+                      </p>
                     </CardContent>
                   )}
                 </Card>
@@ -319,8 +340,8 @@ const formatDate = (dateString: string) => {
                   size="sm"
                   className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20"
                   onClick={(e) => {
-                    e.stopPropagation()
-                    prevImage()
+                    e.stopPropagation();
+                    prevImage();
                   }}
                 >
                   ←
@@ -330,8 +351,8 @@ const formatDate = (dateString: string) => {
                   size="sm"
                   className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20"
                   onClick={(e) => {
-                    e.stopPropagation()
-                    nextImage()
+                    e.stopPropagation();
+                    nextImage();
                   }}
                 >
                   →
@@ -347,5 +368,5 @@ const formatDate = (dateString: string) => {
         </div>
       )}
     </article>
-  )
+  );
 }

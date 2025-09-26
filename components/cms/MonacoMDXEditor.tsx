@@ -12,7 +12,9 @@ import {
 const Editor = dynamic(() => import("@monaco-editor/react"), {
   ssr: false,
   loading: () => (
-    <div className="p-4 text-center">Loading Monaco Editor...</div>
+    <div className="flex h-full w-full items-center justify-center p-4 text-center">
+      Loading Monaco Editor...
+    </div>
   ),
 });
 
@@ -24,7 +26,6 @@ const getMonaco = () => {
   return null;
 };
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -37,14 +38,10 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import {
   Save,
-  Download,
-  Upload,
-  RotateCcw,
   Settings,
   Maximize2,
   Minimize2,
   Search,
-  Replace,
   FileText,
   Code,
   ImageIcon,
@@ -254,16 +251,18 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
   };
 
   return (
-    <Card
-      className={`${className} ${isFullscreen ? "fixed inset-0 z-50" : ""}`}
+    <div
+      className={`flex flex-col ${className} ${
+        isFullscreen ? "fixed inset-0 z-50 bg-background" : "relative"
+      }`}
     >
       {showToolbar && (
-        <CardHeader className="pb-3">
+        <div className="flex flex-col gap-3 border-b p-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
+            <h3 className="flex items-center gap-2 text-base font-semibold">
               <FileText className="h-5 w-5" />
               MDX Editor
-            </CardTitle>
+            </h3>
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
@@ -280,7 +279,7 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-3">
             {/* Action buttons */}
             <div className="flex items-center gap-2">
               <Button
@@ -289,9 +288,8 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={editorActions.save}
                 disabled={!isEditorReady}
                 title="Save (Ctrl+S)"
-                className="bg-gradient-to-r from-emerald-50 to-green-50 border-emerald-200 hover:from-emerald-100 hover:to-green-100 hover:border-emerald-300 text-emerald-700 font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
               >
-                <Save className="h-4 w-4 mr-1.5" />
+                <Save className="mr-1.5 h-4 w-4" />
                 Save
               </Button>
 
@@ -301,9 +299,8 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={editorActions.formatDocument}
                 disabled={!isEditorReady}
                 title="Format document"
-                className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-300 text-blue-700 font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
               >
-                <Settings className="h-4 w-4 mr-1.5" />
+                <Settings className="mr-1.5 h-4 w-4" />
                 Format
               </Button>
 
@@ -313,9 +310,8 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={editorActions.findAndReplace}
                 disabled={!isEditorReady}
                 title="Find & Replace (Ctrl+Shift+F)"
-                className="bg-gradient-to-r from-purple-50 to-violet-50 border-purple-200 hover:from-purple-100 hover:to-violet-100 hover:border-purple-300 text-purple-700 font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
               >
-                <Search className="h-4 w-4 mr-1.5" />
+                <Search className="mr-1.5 h-4 w-4" />
                 Find
               </Button>
             </div>
@@ -330,9 +326,8 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={insertCodeBlock}
                 disabled={!isEditorReady}
                 title="Insert code block"
-                className="bg-gradient-to-r from-slate-50 to-gray-50 border-slate-200 hover:from-slate-100 hover:to-gray-100 hover:border-slate-300 text-slate-700 font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
               >
-                <Code className="h-4 w-4 mr-1.5" />
+                <Code className="mr-1.5 h-4 w-4" />
                 Code
               </Button>
 
@@ -342,9 +337,8 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={insertImageGallery}
                 disabled={!isEditorReady}
                 title="Insert image gallery"
-                className="bg-gradient-to-r from-orange-50 to-amber-50 border-orange-200 hover:from-orange-100 hover:to-amber-100 hover:border-orange-300 text-orange-700 font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
               >
-                <ImageIcon className="h-4 w-4 mr-1.5" />
+                <ImageIcon className="mr-1.5 h-4 w-4" />
                 Gallery
               </Button>
 
@@ -354,9 +348,8 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
                 onClick={insertProjectCard}
                 disabled={!isEditorReady}
                 title="Insert project card"
-                className="bg-gradient-to-r from-teal-50 to-cyan-50 border-teal-200 hover:from-teal-100 hover:to-cyan-100 hover:border-teal-300 text-teal-700 font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
               >
-                <FolderOpen className="h-4 w-4 mr-1.5" />
+                <FolderOpen className="mr-1.5 h-4 w-4" />
                 Project
               </Button>
             </div>
@@ -367,10 +360,10 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <Label htmlFor="theme-select" className="text-sm">
-                  Theme:
+                  Theme
                 </Label>
                 <Select value={currentTheme} onValueChange={handleThemeChange}>
-                  <SelectTrigger id="theme-select" className="w-32">
+                  <SelectTrigger id="theme-select" className="w-28">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -393,28 +386,26 @@ export const MonacoMDXEditor: React.FC<MonacoMDXEditorProps> = ({
               </div>
             </div>
           </div>
-        </CardHeader>
+        </div>
       )}
 
-      <CardContent className="p-0">
-        <div className="border rounded-md overflow-hidden">
-          <Editor
-            height={isFullscreen ? "calc(100vh - 200px)" : height}
-            language="mdx"
-            theme={themes[currentTheme]}
-            value={value}
-            onChange={(newValue) => onChange(newValue || "")}
-            onMount={handleEditorDidMount}
-            options={editorOptions}
-            loading={
-              <div className="flex items-center justify-center h-64">
-                <div className="text-muted-foreground">Loading editor...</div>
-              </div>
-            }
-          />
-        </div>
-      </CardContent>
-    </Card>
+      <div className="relative flex-grow">
+        <Editor
+          height={isFullscreen ? "calc(100vh - 110px)" : height}
+          language="mdx"
+          theme={themes[currentTheme]}
+          value={value}
+          onChange={(newValue) => onChange(newValue || "")}
+          onMount={handleEditorDidMount}
+          options={editorOptions}
+          loading={
+            <div className="flex h-full items-center justify-center">
+              <div className="text-muted-foreground">Loading editor...</div>
+            </div>
+          }
+        />
+      </div>
+    </div>
   );
 };
 

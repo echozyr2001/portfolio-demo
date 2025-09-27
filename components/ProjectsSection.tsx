@@ -1,45 +1,18 @@
-"use client";
+'use client';
 
-import { ArrowRight } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ProjectCMS } from "../app/(frontend)/types";
-import { useEffect, useState } from "react";
+import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import type { ProjectData } from '@/lib/projects';
 
 interface ProjectsSectionProps {
-  featuredProjects?: ProjectCMS[];
+  projects: ProjectData[];
 }
 
-export function ProjectsSection({ featuredProjects }: ProjectsSectionProps) {
-  const [projects, setProjects] = useState<ProjectCMS[]>(
-    featuredProjects || []
-  );
-  const [loading, setLoading] = useState(!featuredProjects);
-
-  useEffect(() => {
-    if (!featuredProjects || featuredProjects.length === 0) {
-      // Fetch featured projects if not provided
-      const fetchFeaturedProjects = async () => {
-        try {
-          const response = await fetch("/api/projects/featured?limit=6");
-          const data = await response.json();
-          setProjects(data.docs || []);
-        } catch (error) {
-          console.error("Error fetching featured projects:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchFeaturedProjects();
-    } else {
-      setLoading(false);
-    }
-  }, [featuredProjects]);
-
-  if (loading) {
+export function ProjectsSection({ projects }: ProjectsSectionProps) {
+  if (!projects || projects.length === 0) {
     return (
       <section
         id="projects"
@@ -47,16 +20,15 @@ export function ProjectsSection({ featuredProjects }: ProjectsSectionProps) {
       >
         <div className="max-w-7xl mx-auto gap-8 flex flex-col">
           <div className="overflow-hidden mb-16">
-            <div>
-              <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap text-[#2C2A25]">
-                projects · projects · projects · projects
-              </h2>
-            </div>
+            <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap text-[#2C2A25]">
+              projects · projects · projects · projects
+            </h2>
           </div>
-          <div className="animate-pulse space-y-8">
-            <div className="h-32 bg-gray-200 rounded"></div>
-            <div className="h-32 bg-gray-200 rounded"></div>
-            <div className="h-32 bg-gray-200 rounded"></div>
+          <div className="text-center py-16">
+            <h2 className="text-2xl font-semibold text-[#2C2A25] mb-4">
+              No projects yet
+            </h2>
+            <p className="text-gray-600">Check back soon for new content!</p>
           </div>
         </div>
       </section>
@@ -70,11 +42,9 @@ export function ProjectsSection({ featuredProjects }: ProjectsSectionProps) {
     >
       <div className="max-w-7xl mx-auto gap-8 flex flex-col">
         <div className="overflow-hidden mb-16">
-          <div>
-            <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap text-[#2C2A25]">
-              projects · projects · projects · projects
-            </h2>
-          </div>
+          <h2 className="text-6xl md:text-8xl font-bold whitespace-nowrap text-[#2C2A25]">
+            projects · projects · projects · projects
+          </h2>
         </div>
 
         {/* Featured Projects Showcase */}
@@ -82,16 +52,16 @@ export function ProjectsSection({ featuredProjects }: ProjectsSectionProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {projects.slice(0, 2).map((project, index) => (
               <div
-                key={project.id}
+                key={project.slug}
                 className={`${
-                  index === 0 ? "col-span-2" : "col-span-1"
+                  index === 0 ? 'col-span-2' : 'col-span-1'
                 } bg-[#ECEAE8] rounded-3xl p-8 h-[400px] relative overflow-hidden group cursor-pointer`}
               >
                 <Link href={`/projects/${project.slug}`}>
                   {project.featuredImage && (
                     <Image
-                      src={project.featuredImage.url}
-                      alt={project.featuredImage.alt}
+                      src={project.featuredImage}
+                      alt={project.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -108,7 +78,7 @@ export function ProjectsSection({ featuredProjects }: ProjectsSectionProps) {
             ))}
 
             {projects.length === 1 && (
-              <div className="bg-[#A2ABB1] rounded-3xl p-8 h-[400px] flex items-center justify-center">
+              <div className="bg-[#A2ABB1] rounded-3xl p-8 h-[400px] flex items-center justify-center col-span-1">
                 <div className="text-center text-white">
                   <h3 className="text-xl font-semibold mb-2">
                     More Projects Coming Soon
@@ -124,11 +94,11 @@ export function ProjectsSection({ featuredProjects }: ProjectsSectionProps) {
         <div className="space-y-8">
           {projects.map((project, index) => (
             <div
-              key={project.id}
+              key={project.slug}
               className="border-t border-gray-200 py-8 grid grid-cols-1 md:grid-cols-12 gap-4 items-center"
             >
               <div className="md:col-span-1 text-xl font-bold text-[#2C2A25]">
-                {String(index + 1).padStart(2, "0")}
+                {String(index + 1).padStart(2, '0')}
               </div>
               <div className="md:col-span-4">
                 <Link href={`/projects/${project.slug}`}>
@@ -142,9 +112,9 @@ export function ProjectsSection({ featuredProjects }: ProjectsSectionProps) {
               </div>
               {/* Tech Stack display */}
               <div className="md:col-span-8 md:col-start-2 mt-2 flex flex-wrap gap-2">
-                {project.technologies?.slice(0, 4).map((techObj, techIndex) => (
+                {project.technologies?.slice(0, 4).map((tech, techIndex) => (
                   <Badge key={techIndex} variant="outline" className="text-xs">
-                    {techObj.technology}
+                    {tech}
                   </Badge>
                 ))}
                 {project.technologies && project.technologies.length > 4 && (
@@ -176,7 +146,7 @@ export function ProjectsSection({ featuredProjects }: ProjectsSectionProps) {
               className="rounded-full bg-[#A2ABB1] text-white px-8 h-12 hover:bg-[#8A9AA3] transition-colors duration-300"
             >
               <span>View All Projects</span>
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           </Link>
         </div>

@@ -10,8 +10,12 @@ export type ProjectData = {
   shortDescription: string;
   technologies: string[];
   featuredImage?: string;
+  images?: { src: string; alt: string; caption?: string }[];
   featured?: boolean;
   order?: number;
+  projectUrl?: string;
+  githubUrl?: string;
+  date?: string;
   [key: string]: any;
 };
 
@@ -32,8 +36,12 @@ function getProjectsData(): ProjectData[] {
           shortDescription: string;
           technologies: string[];
           featuredImage?: string;
+          images?: { src: string; alt: string; caption?: string }[];
           featured?: boolean;
           order?: number;
+          projectUrl?: string;
+          githubUrl?: string;
+          date?: string;
         }),
       };
     });

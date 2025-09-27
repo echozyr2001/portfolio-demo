@@ -1,71 +1,29 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, ExternalLink, Github, Star } from "lucide-react";
-import { ProjectCMS } from "@/app/(frontend)/types";
+import { useState, useMemo } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ArrowRight, ExternalLink, Github, Star } from 'lucide-react';
+import type { ProjectData } from '@/lib/projects';
 
 interface ProjectsListProps {
-  initialProjects: ProjectCMS[];
+  allProjects: ProjectData[];
 }
 
-export function ProjectsList({ initialProjects }: ProjectsListProps) {
-  const [projects, setProjects] = useState<ProjectCMS[]>(initialProjects);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(initialProjects.length >= 20);
-  const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState<"all" | "featured">("all");
+export function ProjectsList({ allProjects }: ProjectsListProps) {
+  const [filter, setFilter] = useState<'all' | 'featured'>('all');
 
-  const loadMoreProjects = async () => {
-    if (loading || !hasMore) return;
-
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/projects?page=${page + 1}&limit=20`);
-      const data = await response.json();
-
-      if (data.docs && data.docs.length > 0) {
-        setProjects((prev) => [...prev, ...data.docs]);
-        setPage((prev) => prev + 1);
-        setHasMore(data.hasNextPage);
-      } else {
-        setHasMore(false);
-      }
-    } catch (error) {
-      console.error("Error loading more projects:", error);
-    } finally {
-      setLoading(false);
+  const filteredProjects = useMemo(() => {
+    if (filter === 'featured') {
+      return allProjects.filter((p) => p.featured);
     }
-  };
+    return allProjects;
+  }, [allProjects, filter]);
 
-  const filterProjects = async (filterType: "all" | "featured") => {
-    setFilter(filterType);
-    setLoading(true);
-
-    try {
-      const url =
-        filterType === "featured"
-          ? "/api/projects/featured?limit=20"
-          : "/api/projects?limit=20";
-
-      const response = await fetch(url);
-      const data = await response.json();
-
-      setProjects(data.docs || []);
-      setPage(1);
-      setHasMore(filterType === "all" && data.hasNextPage);
-    } catch (error) {
-      console.error("Error filtering projects:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (projects.length === 0) {
+  if (allProjects.length === 0) {
     return (
       <div className="text-center py-16">
         <h2 className="text-2xl font-semibold text-[#2C2A25] mb-4">
@@ -81,23 +39,23 @@ export function ProjectsList({ initialProjects }: ProjectsListProps) {
       {/* Filter Buttons */}
       <div className="flex gap-4 mb-8">
         <Button
-          variant={filter === "all" ? "default" : "outline"}
-          onClick={() => filterProjects("all")}
+          variant={filter === 'all' ? 'default' : 'outline'}
+          onClick={() => setFilter('all')}
           className={
-            filter === "all"
-              ? "bg-[#A2ABB1] text-white hover:bg-[#8A9AA3]"
-              : "border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white"
+            filter === 'all'
+              ? 'bg-[#A2ABB1] text-white hover:bg-[#8A9AA3]'
+              : 'border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white'
           }
         >
           All Projects
         </Button>
         <Button
-          variant={filter === "featured" ? "default" : "outline"}
-          onClick={() => filterProjects("featured")}
+          variant={filter === 'featured' ? 'default' : 'outline'}
+          onClick={() => setFilter('featured')}
           className={
-            filter === "featured"
-              ? "bg-[#A2ABB1] text-white hover:bg-[#8A9AA3]"
-              : "border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white"
+            filter === 'featured'
+              ? 'bg-[#A2ABB1] text-white hover:bg-[#8A9AA3]'
+              : 'border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white'
           }
         >
           <Star className="h-4 w-4 mr-2" />
@@ -107,37 +65,23 @@ export function ProjectsList({ initialProjects }: ProjectsListProps) {
 
       {/* Projects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+        {filteredProjects.map((project) => (
+          <ProjectCard key={project.slug} project={project} />
         ))}
       </div>
-
-      {/* Load More Button */}
-      {hasMore && filter === "all" && (
-        <div className="flex justify-center mt-12">
-          <Button
-            onClick={loadMoreProjects}
-            disabled={loading}
-            className="rounded-full bg-[#A2ABB1] text-white px-8 h-12 hover:bg-[#8A9AA3] transition-colors duration-300"
-          >
-            {loading ? "Loading..." : "Load More Projects"}
-            <ArrowRight className="h-4 w-4 ml-2" />
-          </Button>
-        </div>
-      )}
     </div>
   );
 }
 
-function ProjectCard({ project }: { project: ProjectCMS }) {
+function ProjectCard({ project }: { project: ProjectData }) {
   return (
     <Card className="overflow-hidden bg-white shadow-md hover:shadow-lg transition-all duration-300 group">
       {/* Project Image */}
       {project.featuredImage && (
         <div className="relative aspect-video overflow-hidden">
           <Image
-            src={project.featuredImage.url}
-            alt={project.featuredImage.alt}
+            src={project.featuredImage}
+            alt={project.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
@@ -167,9 +111,9 @@ function ProjectCard({ project }: { project: ProjectCMS }) {
         {/* Technologies */}
         {project.technologies && project.technologies.length > 0 && (
           <div className="flex flex-wrap gap-1">
-            {project.technologies.slice(0, 3).map((techObj, index) => (
+            {project.technologies.slice(0, 3).map((tech, index) => (
               <Badge key={index} variant="outline" className="text-xs">
-                {techObj.technology}
+                {tech}
               </Badge>
             ))}
             {project.technologies.length > 3 && (

@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { getPublishedProjects } from '@/lib/payload-server'
+import { getSortedProjectsData } from '@/lib/projects'
 import { ProjectsList } from '@/components/projects/ProjectsList'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   description: 'Explore my portfolio of web development projects, applications, and creative coding experiments.',
 }
 
-export default async function ProjectsPage() {
-  const projects = await getPublishedProjects(20)
+export default function ProjectsPage() {
+  const projects = getSortedProjectsData()
 
   return (
     <div className="min-h-screen bg-[#D9D5D2] flex flex-col">
@@ -35,7 +35,7 @@ export default async function ProjectsPage() {
             </p>
           </div>
           
-          <ProjectsList initialProjects={projects.docs} />
+          <ProjectsList allProjects={projects} />
         </div>
       </main>
       

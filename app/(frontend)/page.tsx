@@ -1,8 +1,8 @@
-import { getFeaturedProjects } from '@/lib/payload-server'
+import { getFeaturedProjects } from '@/lib/projects'
 import { HomeClient } from '@/components/HomeClient'
 
-export default async function Home() {
+export default function Home() {
 	// Fetch featured projects for the homepage
-	const featuredProjects = await getFeaturedProjects(6)
-	return <HomeClient featuredProjects={featuredProjects.docs} />
+	const featuredProjects = getFeaturedProjects()
+	return <HomeClient featuredProjects={featuredProjects} />
 }

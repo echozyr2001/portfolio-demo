@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { getPublishedPosts } from '@/lib/payload-server'
+import { getSortedPostsData } from '@/lib/posts'
 import { BlogList } from '@/components/blog/BlogList'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   description: 'Read my latest blog posts about web development, technology, and more.',
 }
 
-export default async function BlogPage() {
-  const posts = await getPublishedPosts(12)
+export default function BlogPage() {
+  const posts = getSortedPostsData()
 
   return (
     <div className="min-h-screen bg-[#D9D5D2] flex flex-col">
@@ -35,7 +35,7 @@ export default async function BlogPage() {
             </p>
           </div>
           
-          <BlogList initialPosts={posts.docs} />
+          <BlogList posts={posts} />
         </div>
       </main>
       

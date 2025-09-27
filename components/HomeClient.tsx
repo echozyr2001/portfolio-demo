@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { motion } from "motion/react";
-import { AboutSection } from "@/components/AboutSection";
-import { ContactSection } from "@/components/ContactSection";
-import { Footer } from "@/components/Footer";
-import { GrainEffect } from "@/components/GrainEffect";
-import { Header } from "@/components/Header";
-import { HeroSection } from "@/components/HeroSection";
-import { ProjectsSection } from "@/components/ProjectsSection";
-import { ScrollToTop } from "@/components/ScrollToTop";
-import { SkillsSection } from "@/components/SkillsSection";
-import { ProjectCMS } from "@/app/(frontend)/types";
+import { motion } from 'motion/react';
+import { AboutSection } from '@/components/AboutSection';
+import { ContactSection } from '@/components/ContactSection';
+import { Footer } from '@/components/Footer';
+import { GrainEffect } from '@/components/GrainEffect';
+import { Header } from '@/components/Header';
+import { HeroSection } from '@/components/HeroSection';
+import { ProjectsSection } from '@/components/ProjectsSection';
+import { ScrollToTop } from '@/components/ScrollToTop';
+import { SkillsSection } from '@/components/SkillsSection';
+import type { ProjectData } from '@/lib/projects';
 
 interface HomeClientProps {
-  featuredProjects: ProjectCMS[];
+  featuredProjects: ProjectData[];
 }
 
 export function HomeClient({ featuredProjects }: HomeClientProps) {
@@ -48,7 +48,7 @@ export function HomeClient({ featuredProjects }: HomeClientProps) {
           <SkillsSection />
 
           {/* Projects Section */}
-          <ProjectsSection featuredProjects={featuredProjects} />
+          <ProjectsSection projects={featuredProjects} />
 
           {/* Contact Section */}
           <ContactSection />

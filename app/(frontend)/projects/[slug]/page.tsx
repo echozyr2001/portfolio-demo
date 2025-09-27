@@ -15,13 +15,12 @@ import { getAllProjectSlugs, getProjectData } from '@/lib/projects';
 import { mdxComponents } from '@/lib/mdx-components';
 
 interface ProjectPageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string; }>;
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
-  const { frontmatter } = await getProjectData(params.slug);
+  const { slug } = await params;
+  const { frontmatter } = await getProjectData(slug);
 
   if (!frontmatter) {
     return {
@@ -68,7 +67,7 @@ const formatDate = (dateString: string) => {
 };
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const { frontmatter, content } = await getProjectData(slug);
 
   if (!content) {

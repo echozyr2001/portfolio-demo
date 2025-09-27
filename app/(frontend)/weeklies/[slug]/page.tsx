@@ -12,13 +12,12 @@ import { getAllWeeklySlugs, getWeeklyData } from '@/lib/weeklies';
 import { mdxComponents } from '@/lib/mdx-components';
 
 interface WeeklyPageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string; }>;
 }
 
 export async function generateMetadata({ params }: WeeklyPageProps): Promise<Metadata> {
-  const { frontmatter } = await getWeeklyData(params.slug);
+  const { slug } = await params;
+  const { frontmatter } = await getWeeklyData(slug);
 
   if (!frontmatter) {
     return {
@@ -46,7 +45,7 @@ const formatDate = (dateString: string) => {
 };
 
 export default async function WeeklyPage({ params }: WeeklyPageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const { frontmatter, content } = await getWeeklyData(slug);
 
   if (!content) {

@@ -16,14 +16,13 @@ import { mdxComponents } from '@/lib/mdx-components';
 import readingTime from 'reading-time';
 
 interface BlogPostPageProps {
-  params: {
-    slug: string;
-  };
+  params: Promise<{ slug: string; }>;
 }
 
 // Generate metadata for the page
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const { frontmatter } = await getPostData(params.slug);
+  const { slug } = await params;
+  const { frontmatter } = await getPostData(slug);
 
   if (!frontmatter) {
     return {
@@ -73,7 +72,7 @@ const formatDate = (dateString: string) => {
 };
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const { frontmatter, content } = await getPostData(slug);
 
   if (!content) {

@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getSortedIdeasData, getAllIdeaCategories, getAllIdeaStatuses } from '@/lib/ideas';
+import { getSortedIdeas, getAllIdeaCategories, getAllIdeaStatuses } from '@/lib/ideas';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { GrainEffect } from '@/components/GrainEffect';
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default function IdeasPage() {
-    const ideas = getSortedIdeasData();
+    const ideas = getSortedIdeas();
     const categories = getAllIdeaCategories();
     const statuses = getAllIdeaStatuses();
 

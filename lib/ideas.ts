@@ -1,62 +1,23 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import { getAllContent, getUniqueFrontmatterValues } from './content';
 
-const ideasDirectory = path.join(process.cwd(), 'content/ideas');
-
-export type IdeaData = {
-  slug: string;
+export type IdeaFrontmatter = {
   title: string;
   category: string;
   status: string;
   description: string;
-  [key: string]: any;
 };
 
-export function getSortedIdeasData(): IdeaData[] {
-  const fileNames = fs.readdirSync(ideasDirectory);
-  const allIdeasData = fileNames
-    .filter((fileName) => fileName.endsWith('.mdx'))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.mdx$/, '');
-      const fullPath = path.join(ideasDirectory, fileName);
-      const fileContents = fs.readFileSync(fullPath, 'utf8');
-      const { data } = matter(fileContents);
+const CONTENT_TYPE = 'ideas';
 
-      return {
-        slug,
-        ...(data as {
-          title: string;
-          category: string;
-          status: string;
-          description: string;
-        }),
-      };
-    });
+export const getSortedIdeas = () => {
+  const allIdeas = getAllContent<IdeaFrontmatter>(CONTENT_TYPE);
+  return allIdeas.sort((a, b) => a.frontmatter.title.localeCompare(b.frontmatter.title));
+};
 
-  return allIdeasData.sort((a, b) => a.title.localeCompare(b.title));
-}
+export const getAllIdeaCategories = () => {
+  return ['All Categories', ...getUniqueFrontmatterValues(CONTENT_TYPE, 'category')];
+};
 
-export function getAllIdeaCategories(): string[] {
-    const ideas = getSortedIdeasData();
-    const allCategories = ideas.reduce((acc, idea) => {
-        if (idea.category) {
-            acc.add(idea.category);
-        }
-        return acc;
-    }, new Set<string>());
-
-    return ['All Categories', ...Array.from(allCategories)];
-}
-
-export function getAllIdeaStatuses(): string[] {
-    const ideas = getSortedIdeasData();
-    const allStatuses = ideas.reduce((acc, idea) => {
-        if (idea.status) {
-            acc.add(idea.status);
-        }
-        return acc;
-    }, new Set<string>());
-
-    return ['All Statuses', ...Array.from(allStatuses)];
-}
+export const getAllIdeaStatuses = () => {
+  return ['All Statuses', ...getUniqueFrontmatterValues(CONTENT_TYPE, 'status')];
+};

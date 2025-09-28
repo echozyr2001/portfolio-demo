@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import type { GadgetData } from '@/lib/gadgets';
+import type { GadgetFrontmatter } from '@/lib/gadgets';
+import { Content } from '@/lib/content';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ExternalLink } from 'lucide-react';
 
 interface GadgetsClientPageProps {
-    gadgets: GadgetData[];
+    gadgets: Content<GadgetFrontmatter>[];
     categories: string[];
 }
 
@@ -18,7 +19,7 @@ export function GadgetsClientPage({ gadgets, categories }: GadgetsClientPageProp
     if (filter === 'All') {
       return gadgets;
     }
-    return gadgets.filter((g) => g.category === filter);
+    return gadgets.filter((g) => g.frontmatter.category === filter);
   }, [gadgets, filter]);
 
   return (
@@ -46,18 +47,18 @@ export function GadgetsClientPage({ gadgets, categories }: GadgetsClientPageProp
             <Card key={gadget.slug} className="bg-white shadow-md flex flex-col">
               <CardHeader>
                 <CardTitle className="text-xl font-bold text-[#2C2A25]">
-                  {gadget.title}
+                  {gadget.frontmatter.title}
                 </CardTitle>
                 <CardDescription className="text-sm text-gray-500 pt-1">
-                  {gadget.category}
+                  {gadget.frontmatter.category}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-grow flex flex-col">
                 <p className="text-base text-gray-700 flex-grow">
-                  {gadget.notes}
+                  {gadget.frontmatter.notes}
                 </p>
                 <a
-                  href={gadget.url}
+                  href={gadget.frontmatter.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-4"

@@ -8,32 +8,32 @@ import { GrainEffect } from '@/components/GrainEffect';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Calendar, ArrowLeft } from 'lucide-react';
-import { getAllWeeklySlugs, getWeeklyData } from '@/lib/weeklies';
+import { getAllWeeklySlugs, getWeeklyBySlug } from '@/lib/weeklies';
 import { mdxComponents } from '@/lib/mdx-components';
 
 interface WeeklyPageProps {
-  params: Promise<{ slug: string; }>;
+  params: { slug: string; };
 }
 
 export async function generateMetadata({ params }: WeeklyPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const { frontmatter } = await getWeeklyData(slug);
+  const weekly = await getWeeklyBySlug(slug);
 
-  if (!frontmatter) {
+  if (!weekly) {
     return {
       title: 'Weekly Report Not Found',
     };
   }
 
   return {
-    title: `${frontmatter.title} | Weeklies`,
-    description: frontmatter.excerpt,
+    title: `${weekly.frontmatter.title} | Weeklies`,
+    description: weekly.frontmatter.excerpt,
   };
 }
 
 export async function generateStaticParams() {
   const slugs = getAllWeeklySlugs();
-  return slugs;
+  return slugs.map((slug) => ({ slug }));
 }
 
 const formatDate = (dateString: string) => {
@@ -46,11 +46,13 @@ const formatDate = (dateString: string) => {
 
 export default async function WeeklyPage({ params }: WeeklyPageProps) {
   const { slug } = await params;
-  const { frontmatter, content } = await getWeeklyData(slug);
+  const weekly = await getWeeklyBySlug(slug);
 
-  if (!content) {
+  if (!weekly) {
     notFound();
   }
+
+  const { frontmatter, content } = weekly;
 
   return (
     <div className="min-h-screen bg-[#D9D5D2] flex flex-col">

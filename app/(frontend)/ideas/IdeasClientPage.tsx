@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import type { IdeaData } from '@/lib/ideas';
+import type { IdeaFrontmatter } from '@/lib/ideas';
+import { Content } from '@/lib/content';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -14,7 +15,7 @@ import {
 
 
 interface IdeasClientPageProps {
-    ideas: IdeaData[];
+    ideas: Content<IdeaFrontmatter>[];
     categories: string[];
     statuses: string[];
 }
@@ -25,8 +26,8 @@ export function IdeasClientPage({ ideas, categories, statuses }: IdeasClientPage
 
   const filteredIdeas = useMemo(() => {
     return ideas.filter(idea => {
-        const categoryMatch = categoryFilter === 'All Categories' || idea.category === categoryFilter;
-        const statusMatch = statusFilter === 'All Statuses' || idea.status === statusFilter;
+        const categoryMatch = categoryFilter === 'All Categories' || idea.frontmatter.category === categoryFilter;
+        const statusMatch = statusFilter === 'All Statuses' || idea.frontmatter.status === statusFilter;
         return categoryMatch && statusMatch;
     });
   }, [ideas, categoryFilter, statusFilter]);
@@ -78,19 +79,19 @@ export function IdeasClientPage({ ideas, categories, statuses }: IdeasClientPage
               <CardHeader>
                 <div className="flex justify-between items-start">
                     <CardTitle className="text-xl font-bold text-[#2C2A25] pr-4">
-                        {idea.title}
+                        {idea.frontmatter.title}
                     </CardTitle>
-                    <Badge className={`flex-shrink-0 ${getStatusColor(idea.status)}`}>
-                        {idea.status}
+                    <Badge className={`flex-shrink-0 ${getStatusColor(idea.frontmatter.status)}`}>
+                        {idea.frontmatter.status}
                     </Badge>
                 </div>
                 <CardDescription className="text-sm text-gray-500 pt-1">
-                  {idea.category}
+                  {idea.frontmatter.category}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
                 <p className="text-base text-gray-700">
-                  {idea.description}
+                  {idea.frontmatter.description}
                 </p>
               </CardContent>
             </Card>

@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getSortedGadgetsData, getAllGadgetCategories } from '@/lib/gadgets';
+import { getSortedGadgets, getAllGadgetCategories } from '@/lib/gadgets';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { GrainEffect } from '@/components/GrainEffect';
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default function GadgetsPage() {
-    const gadgets = getSortedGadgetsData();
+    const gadgets = getSortedGadgets();
     const categories = getAllGadgetCategories();
 
     return (

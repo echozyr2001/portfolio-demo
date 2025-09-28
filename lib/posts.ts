@@ -1,64 +1,25 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import { getAllContent, getContentBySlug } from './content';
 
-const postsDirectory = path.join(process.cwd(), 'content/blog');
-
-export type PostData = {
-  slug: string;
+export type PostFrontmatter = {
   title: string;
   date: string;
   excerpt: string;
   featuredImage?: string;
   tags?: string[];
-  [key: string]: any;
 };
 
-export function getSortedPostsData(): PostData[] {
-  const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames
-    .filter((fileName) => fileName.endsWith('.mdx'))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.mdx$/, '');
-      const fullPath = path.join(postsDirectory, fileName);
-      const fileContents = fs.readFileSync(fullPath, 'utf8');
-      const matterResult = matter(fileContents);
+const CONTENT_TYPE = 'blog';
 
-      return {
-        slug,
-        ...(matterResult.data as {
-          title: string;
-          date: string;
-          excerpt: string;
-          featuredImage?: string;
-          tags?: string[];
-        }),
-      };
-    });
+export const getSortedPosts = () => {
+  const allPosts = getAllContent<PostFrontmatter>(CONTENT_TYPE);
+  return allPosts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
+};
 
-  return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
-}
+export const getPostBySlug = (slug: string) => {
+  return getContentBySlug<PostFrontmatter>(CONTENT_TYPE, slug);
+};
 
-export function getAllPostSlugs() {
-  const fileNames = fs.readdirSync(postsDirectory);
-  return fileNames
-    .filter((fileName) => fileName.endsWith('.mdx'))
-    .map((fileName) => ({
-      params: {
-        slug: fileName.replace(/\.mdx$/, ''),
-      },
-    }));
-}
-
-export async function getPostData(slug: string) {
-  const fullPath = path.join(postsDirectory, `${slug}.mdx`);
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
-
-  const { data, content } = matter(fileContents);
-
-  return {
-    slug,
-    frontmatter: data,
-    content,
-  };
-}
+export const getAllPostSlugs = () => {
+  const allPosts = getAllContent(CONTENT_TYPE);
+  return allPosts.map((post) => post.slug);
+};

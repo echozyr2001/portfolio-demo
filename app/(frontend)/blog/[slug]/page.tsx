@@ -11,24 +11,25 @@ import { Footer } from '@/components/Footer';
 import { GrainEffect } from '@/components/GrainEffect';
 import { ShareButtons } from '@/components/blog/ShareButtons';
 import { Calendar, Clock, ArrowLeft } from 'lucide-react';
-import { getAllPostSlugs, getPostData } from '@/lib/posts';
+import { getAllPostSlugs, getPostBySlug } from '@/lib/posts';
 import { mdxComponents } from '@/lib/mdx-components';
 import readingTime from 'reading-time';
 
 interface BlogPostPageProps {
-  params: Promise<{ slug: string; }>;
+  params: { slug: string; };
 }
 
 // Generate metadata for the page
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const { frontmatter } = await getPostData(slug);
+  const { slug } = params;
+  const post = await getPostBySlug(slug);
 
-  if (!frontmatter) {
+  if (!post) {
     return {
       title: 'Post Not Found',
     };
   }
+  const { frontmatter } = post;
 
   return {
     title: frontmatter.title,
@@ -60,7 +61,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 // Generate static paths for all posts
 export async function generateStaticParams() {
   const slugs = getAllPostSlugs();
-  return slugs;
+  return slugs.map(slug => ({ slug }));
 }
 
 const formatDate = (dateString: string) => {
@@ -72,12 +73,14 @@ const formatDate = (dateString: string) => {
 };
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = await params;
-  const { frontmatter, content } = await getPostData(slug);
+  const { slug } = params;
+  const post = await getPostBySlug(slug);
 
-  if (!content) {
+  if (!post) {
     notFound();
   }
+
+  const { frontmatter, content } = post;
 
   const stats = readingTime(content);
 

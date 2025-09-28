@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getSortedWeekliesData } from '@/lib/weeklies';
+import { getSortedWeeklies } from '@/lib/weeklies';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { GrainEffect } from '@/components/GrainEffect';
@@ -22,7 +22,7 @@ const formatDate = (dateString: string) => {
 };
 
 export default function WeekliesPage() {
-  const weeklies = getSortedWeekliesData();
+  const weeklies = getSortedWeeklies();
 
   return (
     <div className="min-h-screen bg-[#D9D5D2] flex flex-col">

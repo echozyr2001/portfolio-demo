@@ -75,6 +75,8 @@ export function Header() {
     { name: "Skills", href: "#skills" },
     { name: "Projects", href: "/projects" },
     { name: "Blog", href: "/blog" },
+    { name: "Ideas", href: "/ideas" },
+    { name: "Weeklies", href: "/weeklies" },
     { name: "Contact", href: "#contact" },
   ];
 

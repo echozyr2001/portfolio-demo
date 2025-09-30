@@ -11,6 +11,11 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export function Header() {
   const { scrollY } = useScroll();
@@ -74,9 +79,11 @@ export function Header() {
     { name: "About", href: "#about" },
     { name: "Skills", href: "#skills" },
     { name: "Projects", href: "/projects" },
-    { name: "Blog", href: "/blog" },
-    { name: "Ideas", href: "/ideas" },
-    { name: "Weeklies", href: "/weeklies" },
+    { name: "Blog", href: "#", children: [
+      { name: "Blog", href: "/blog" },
+      { name: "Ideas", href: "/ideas" },
+      { name: "Weeklies", href: "/weeklies" },
+    ] },
     { name: "Contact", href: "#contact" },
   ];
 
@@ -131,17 +138,47 @@ export function Header() {
                   <ul className="space-y-2">
                     {navItems.map((item, index) => (
                       <li key={index}>
-                        <Link
-                          href={item.href}
-                          className="block px-4 py-2 text-lg text-[#2C2A25] hover:bg-gray-100 rounded-lg transition-colors"
-                          onClick={() =>
-                            document.dispatchEvent(
-                              new KeyboardEvent("keydown", { key: "Escape" })
-                            )
-                          }
-                        >
-                          {item.name}
-                        </Link>
+                        {item.children ? (
+                          <>
+                            <div
+                              className="block px-4 py-2 text-lg text-[#2C2A25] hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+                              onClick={() => {
+                                // This can be expanded to toggle visibility of children
+                              }}
+                            >
+                              {item.name}
+                            </div>
+                            <ul className="ml-4 space-y-1">
+                              {item.children.map((child, childIndex) => (
+                                <li key={childIndex}>
+                                  <Link
+                                    href={child.href}
+                                    className="block px-4 py-2 text-base text-[#2C2A25] hover:bg-gray-100 rounded-lg transition-colors"
+                                    onClick={() =>
+                                      document.dispatchEvent(
+                                        new KeyboardEvent("keydown", { key: "Escape" })
+                                      )
+                                    }
+                                  >
+                                    {child.name}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        ) : (
+                          <Link
+                            href={item.href}
+                            className="block px-4 py-2 text-lg text-[#2C2A25] hover:bg-gray-100 rounded-lg transition-colors"
+                            onClick={() =>
+                              document.dispatchEvent(
+                                new KeyboardEvent("keydown", { key: "Escape" })
+                              )
+                            }
+                          >
+                            {item.name}
+                          </Link>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -181,6 +218,7 @@ export function Header() {
           </motion.div>
 
           {/* 导航菜单 - 始终居中，不受左侧元素影响 */}
+          {/* 导航菜单 - 始终居中，不受左侧元素影响 */}
           <div className="w-full flex justify-center">
             <ul className="flex items-center gap-6 text-sm mx-10">
               {navItems.map((item, index) => (
@@ -192,70 +230,99 @@ export function Header() {
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Link href={item.href} className="px-2 py-1 block relative">
-                    <span className="relative inline-flex overflow-hidden">
-                      <motion.div
-                        className="transform-gpu font-normal"
-                        variants={itemVariants}
-                        initial="initial"
-                        animate={isHovered === index ? "hover" : "initial"}
-                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                      >
-                        {item.name}
-                      </motion.div>
+                  {item.children ? (
+                    <Popover>
+                      <PopoverTrigger className="px-2 py-1 block relative cursor-pointer">
+                        <span className="relative inline-flex overflow-hidden">
+                          <motion.div
+                            className="transform-gpu font-normal"
+                            variants={itemVariants}
+                            initial="initial"
+                            animate={isHovered === index ? "hover" : "initial"}
+                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                          >
+                            {item.name}
+                          </motion.div>
 
-                      <motion.div
-                        className="absolute transform-gpu font-medium"
-                        variants={secondaryItemVariants}
-                        initial="initial"
-                        animate={isHovered === index ? "hover" : "initial"}
-                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                      >
-                        {item.name}
-                      </motion.div>
-                    </span>
+                          <motion.div
+                            className="absolute transform-gpu font-medium"
+                            variants={secondaryItemVariants}
+                            initial="initial"
+                            animate={isHovered === index ? "hover" : "initial"}
+                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                          >
+                            {item.name}
+                          </motion.div>
+                        </span>
+                        <AnimatePresence>
+                          {isHovered === index && (
+                            <motion.span
+                              className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-[#A2ABB1] to-[#8A9AA3] rounded-full"
+                              initial={{ scaleX: 0, originX: 0 }}
+                              animate={{ scaleX: 1 }}
+                              exit={{ scaleX: 0, originX: 1 }}
+                              transition={{ duration: 0.3 }}
+                            />
+                          )}
+                        </AnimatePresence>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-40 p-0">
+                        <ul className="flex flex-col">
+                          {item.children.map((child, childIndex) => (
+                            <li key={childIndex}>
+                              <Link
+                                href={child.href}
+                                className="block px-4 py-2 text-sm text-[#2C2A25] hover:bg-gray-100 transition-colors"
+                              >
+                                {child.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </PopoverContent>
+                    </Popover>
+                  ) : (
+                    <Link href={item.href} className="px-2 py-1 block relative">
+                      <span className="relative inline-flex overflow-hidden">
+                        <motion.div
+                          className="transform-gpu font-normal"
+                          variants={itemVariants}
+                          initial="initial"
+                          animate={isHovered === index ? "hover" : "initial"}
+                          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                          {item.name}
+                        </motion.div>
 
-                    {/* 添加下划线动画 */}
-                    <AnimatePresence>
-                      {isHovered === index && (
-                        <motion.span
-                          className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-[#A2ABB1] to-[#8A9AA3] rounded-full"
-                          initial={{ scaleX: 0, originX: 0 }}
-                          animate={{ scaleX: 1 }}
-                          exit={{ scaleX: 0, originX: 1 }}
-                          transition={{ duration: 0.3 }}
-                        />
-                      )}
-                    </AnimatePresence>
-                  </Link>
+                        <motion.div
+                          className="absolute transform-gpu font-medium"
+                          variants={secondaryItemVariants}
+                          initial="initial"
+                          animate={isHovered === index ? "hover" : "initial"}
+                          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                          {item.name}
+                        </motion.div>
+                      </span>
+
+                      {/* 添加下划线动画 */}
+                      <AnimatePresence>
+                        {isHovered === index && (
+                          <motion.span
+                            className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-[#A2ABB1] to-[#8A9AA3] rounded-full"
+                            initial={{ scaleX: 0, originX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            exit={{ scaleX: 0, originX: 1 }}
+                            transition={{ duration: 0.3 }}
+                          />
+                        )}
+                      </AnimatePresence>
+                    </Link>
+                  )}
                 </motion.li>
               ))}
             </ul>
           </div>
-
-          {/* 右侧区域 - 使用绝对定位固定在右侧
-          <motion.div
-            className="absolute right-6 w-12 h-8 items-center justify-center flex"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-          >
-            <motion.div
-              className="w-8 h-8 rounded-full bg-[#A2ABB1] flex items-center justify-center"
-              whileHover={{ scale: 1.1, backgroundColor: "#8A9AA3" }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="16" height="16" rx="3" fill="white" />
-              </svg>
-            </motion.div>
-          </motion.div> */}
         </motion.nav>
       </header>
     </>

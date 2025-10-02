@@ -21,6 +21,9 @@ export function Header() {
   const { scrollY } = useScroll();
   const [isHovered, setIsHovered] = useState<number | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [openMobileSubmenu, setOpenMobileSubmenu] = useState<number | null>(
+    null
+  );
 
   // 在客户端挂载后设置isMounted为true，避免SSR水合不匹配
   useEffect(() => {
@@ -79,11 +82,15 @@ export function Header() {
     { name: "About", href: "#about" },
     { name: "Skills", href: "#skills" },
     { name: "Projects", href: "/projects" },
-    { name: "Writings", href: "#", children: [
-      { name: "Blog", href: "/blog" },
-      { name: "Ideas", href: "/ideas" },
-      { name: "Weeklies", href: "/weeklies" },
-    ] },
+    {
+      name: "Writings",
+      href: "#",
+      children: [
+        { name: "Blog", href: "/blog" },
+        { name: "Ideas", href: "/ideas" },
+        { name: "Weeklies", href: "/weeklies" },
+      ],
+    },
     { name: "Contact", href: "#contact" },
   ];
 
@@ -141,30 +148,54 @@ export function Header() {
                         {item.children ? (
                           <>
                             <div
-                              className="block px-4 py-2 text-lg text-[#2C2A25] hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
-                              onClick={() => {
-                                // This can be expanded to toggle visibility of children
-                              }}
+                              className="flex items-center justify-between px-4 py-2 text-lg text-[#2C2A25] hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+                              onClick={() =>
+                                setOpenMobileSubmenu(
+                                  openMobileSubmenu === index ? null : index
+                                )
+                              }
                             >
                               {item.name}
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className={`!size-5 transition-transform ${
+                                  openMobileSubmenu === index
+                                    ? "rotate-180"
+                                    : ""
+                                }`}
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                                />
+                              </svg>
                             </div>
-                            <ul className="ml-4 space-y-1">
-                              {item.children.map((child, childIndex) => (
-                                <li key={childIndex}>
-                                  <Link
-                                    href={child.href}
-                                    className="block px-4 py-2 text-base text-[#2C2A25] hover:bg-gray-100 rounded-lg transition-colors"
-                                    onClick={() =>
-                                      document.dispatchEvent(
-                                        new KeyboardEvent("keydown", { key: "Escape" })
-                                      )
-                                    }
-                                  >
-                                    {child.name}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
+                            {openMobileSubmenu === index && (
+                              <ul className="ml-4 space-y-1 pt-2">
+                                {item.children.map((child, childIndex) => (
+                                  <li key={childIndex}>
+                                    <Link
+                                      href={child.href}
+                                      className="block px-4 py-2 text-base text-[#2C2A25] hover:bg-gray-100 rounded-lg transition-colors"
+                                      onClick={() =>
+                                        document.dispatchEvent(
+                                          new KeyboardEvent("keydown", {
+                                            key: "Escape",
+                                          })
+                                        )
+                                      }
+                                    >
+                                      {child.name}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
                           </>
                         ) : (
                           <Link
@@ -239,7 +270,10 @@ export function Header() {
                             variants={itemVariants}
                             initial="initial"
                             animate={isHovered === index ? "hover" : "initial"}
-                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                            transition={{
+                              duration: 1,
+                              ease: [0.22, 1, 0.36, 1],
+                            }}
                           >
                             {item.name}
                           </motion.div>
@@ -249,7 +283,10 @@ export function Header() {
                             variants={secondaryItemVariants}
                             initial="initial"
                             animate={isHovered === index ? "hover" : "initial"}
-                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                            transition={{
+                              duration: 1,
+                              ease: [0.22, 1, 0.36, 1],
+                            }}
                           >
                             {item.name}
                           </motion.div>

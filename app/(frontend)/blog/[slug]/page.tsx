@@ -1,32 +1,34 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { GrainEffect } from '@/components/GrainEffect';
-import { ShareButtons } from '@/components/blog/ShareButtons';
-import { Calendar, Clock, ArrowLeft } from 'lucide-react';
-import { getAllPostSlugs, getPostBySlug } from '@/lib/posts';
-import { mdxComponents } from '@/lib/mdx-components';
-import readingTime from 'reading-time';
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { GrainEffect } from "@/components/GrainEffect";
+import { ShareButtons } from "@/components/blog/ShareButtons";
+import { Calendar, Clock, ArrowLeft } from "lucide-react";
+import { getAllPostSlugs, getPostBySlug } from "@/lib/posts";
+import { mdxComponents } from "@/lib/mdx-components";
+import readingTime from "reading-time";
 
 interface BlogPostPageProps {
-  params: { slug: string; };
+  params: { slug: string };
 }
 
 // Generate metadata for the page
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const { slug } = params;
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params;
   const post = await getPostBySlug(slug);
 
   if (!post) {
     return {
-      title: 'Post Not Found',
+      title: "Post Not Found",
     };
   }
   const { frontmatter } = post;
@@ -37,9 +39,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     openGraph: {
       title: frontmatter.title,
       description: frontmatter.excerpt,
-      type: 'article',
+      type: "article",
       publishedTime: frontmatter.date,
-      authors: ['Echo'], // Replace with your name
+      authors: ["Echo"], // Replace with your name
       images: frontmatter.featuredImage
         ? [
             {
@@ -50,7 +52,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
         : [],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: frontmatter.title,
       description: frontmatter.excerpt,
       images: frontmatter.featuredImage ? [frontmatter.featuredImage] : [],
@@ -61,19 +63,19 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 // Generate static paths for all posts
 export async function generateStaticParams() {
   const slugs = getAllPostSlugs();
-  return slugs.map(slug => ({ slug }));
+  return slugs.map((slug) => ({ slug }));
 }
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  return new Date(dateString).toLocaleDateString("zh-CN", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 };
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const post = await getPostBySlug(slug);
 
   if (!post) {

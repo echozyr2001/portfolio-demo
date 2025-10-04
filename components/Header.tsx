@@ -231,102 +231,46 @@ export function Header() {
             backgroundColor: backgroundColorStyle,
             boxShadow: shadowStyle,
           }}
-          className="flex items-center px-6 py-1 gap-1 p-0.5 border rounded-full bg-white/10 relative min-w-[600px] max-w-[1400px]"
+          className="flex items-center justify-between px-6 py-1 gap-1 p-0.5 border rounded-full bg-white/10 min-w-[600px] max-w-[1400px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          {/* Logo - 使用绝对定位固定在左侧 */}
+          {/* Logo */}
           <motion.div
-            className="absolute left-6 w-12 h-8 items-center justify-center flex"
+            className="w-12 h-8 items-center justify-center flex"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
             <Link href="/">
               <Logo />
-              {/* IB */}
             </Link>
           </motion.div>
 
-          {/* 导航菜单 - 始终居中，不受左侧元素影响 */}
-          {/* 导航菜单 - 始终居中，不受左侧元素影响 */}
-          <div className="w-full flex justify-center">
-            <ul className="flex items-center gap-6 text-sm mx-10">
-              {navItems.map((item, index) => (
-                <motion.li
-                  key={index}
-                  className="group relative"
-                  onHoverStart={() => setIsHovered(index)}
-                  onHoverEnd={() => setIsHovered(null)}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  {item.children ? (
-                    <Popover>
-                      <PopoverTrigger className="px-2 py-1 block relative cursor-pointer">
-                        <span className="relative inline-flex overflow-hidden">
-                          <motion.div
-                            className="transform-gpu font-normal"
-                            variants={itemVariants}
-                            initial="initial"
-                            animate={isHovered === index ? "hover" : "initial"}
-                            transition={{
-                              duration: 1,
-                              ease: [0.22, 1, 0.36, 1],
-                            }}
-                          >
-                            {item.name}
-                          </motion.div>
-
-                          <motion.div
-                            className="absolute transform-gpu font-medium"
-                            variants={secondaryItemVariants}
-                            initial="initial"
-                            animate={isHovered === index ? "hover" : "initial"}
-                            transition={{
-                              duration: 1,
-                              ease: [0.22, 1, 0.36, 1],
-                            }}
-                          >
-                            {item.name}
-                          </motion.div>
-                        </span>
-                        <AnimatePresence>
-                          {isHovered === index && (
-                            <motion.span
-                              className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-[#A2ABB1] to-[#8A9AA3] rounded-full"
-                              initial={{ scaleX: 0, originX: 0 }}
-                              animate={{ scaleX: 1 }}
-                              exit={{ scaleX: 0, originX: 1 }}
-                              transition={{ duration: 0.3 }}
-                            />
-                          )}
-                        </AnimatePresence>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-40 p-0">
-                        <ul className="flex flex-col">
-                          {item.children.map((child, childIndex) => (
-                            <li key={childIndex}>
-                              <Link
-                                href={child.href}
-                                className="block px-4 py-2 text-sm text-[#2C2A25] hover:bg-gray-100 transition-colors"
-                              >
-                                {child.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </PopoverContent>
-                    </Popover>
-                  ) : (
-                    <Link href={item.href} className="px-2 py-1 block relative">
+          {/* 导航菜单 */}
+          <ul className="flex items-center gap-6 text-sm">
+            {navItems.map((item, index) => (
+              <motion.li
+                key={index}
+                className="group relative"
+                onHoverStart={() => setIsHovered(index)}
+                onHoverEnd={() => setIsHovered(null)}
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                {item.children ? (
+                  <Popover>
+                    <PopoverTrigger className="px-2 py-1 block relative cursor-pointer">
                       <span className="relative inline-flex overflow-hidden">
                         <motion.div
                           className="transform-gpu font-normal"
                           variants={itemVariants}
                           initial="initial"
                           animate={isHovered === index ? "hover" : "initial"}
-                          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                          transition={{
+                            duration: 1,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
                         >
                           {item.name}
                         </motion.div>
@@ -336,13 +280,14 @@ export function Header() {
                           variants={secondaryItemVariants}
                           initial="initial"
                           animate={isHovered === index ? "hover" : "initial"}
-                          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                          transition={{
+                            duration: 1,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
                         >
                           {item.name}
                         </motion.div>
                       </span>
-
-                      {/* 添加下划线动画 */}
                       <AnimatePresence>
                         {isHovered === index && (
                           <motion.span
@@ -354,12 +299,64 @@ export function Header() {
                           />
                         )}
                       </AnimatePresence>
-                    </Link>
-                  )}
-                </motion.li>
-              ))}
-            </ul>
-          </div>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-40 p-0">
+                      <ul className="flex flex-col">
+                        {item.children.map((child, childIndex) => (
+                          <li key={childIndex}>
+                            <Link
+                              href={child.href}
+                              className="block px-4 py-2 text-sm text-[#2C2A25] hover:bg-gray-100 transition-colors"
+                            >
+                              {child.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </PopoverContent>
+                  </Popover>
+                ) : (
+                  <Link href={item.href} className="px-2 py-1 block relative">
+                    <span className="relative inline-flex overflow-hidden">
+                      <motion.div
+                        className="transform-gpu font-normal"
+                        variants={itemVariants}
+                        initial="initial"
+                        animate={isHovered === index ? "hover" : "initial"}
+                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        {item.name}
+                      </motion.div>
+
+                      <motion.div
+                        className="absolute transform-gpu font-medium"
+                        variants={secondaryItemVariants}
+                        initial="initial"
+                        animate={isHovered === index ? "hover" : "initial"}
+                        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        {item.name}
+                      </motion.div>
+                    </span>
+
+                    {/* 添加下划线动画 */}
+                    <AnimatePresence>
+                      {isHovered === index && (
+                        <motion.span
+                          className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-[#A2ABB1] to-[#8A9AA3] rounded-full"
+                          initial={{ scaleX: 0, originX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          exit={{ scaleX: 0, originX: 1 }}
+                          transition={{ duration: 0.3 }}
+                        />
+                      )}
+                    </AnimatePresence>
+                  </Link>
+                )}
+              </motion.li>
+            ))}
+          </ul>
+          <div className="w-12 h-8" />
         </motion.nav>
       </header>
     </>

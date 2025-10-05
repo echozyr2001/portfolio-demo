@@ -60,15 +60,15 @@ export default function WeekliesPage() {
                   <CardHeader>
                     <CardTitle className="text-2xl font-bold text-[#2C2A25] hover:text-[#A2ABB1] transition-colors">
                       <Link href={`/weeklies/${weekly.slug}`}>
-                        {weekly.title}
+                        {weekly.frontmatter.title}
                       </Link>
                     </CardTitle>
                     <div className="flex items-center gap-2 text-sm text-gray-500 pt-2">
                       <Calendar className="h-4 w-4" />
-                      <span>{formatDate(weekly.date)}</span>
+                      <span>{formatDate(weekly.frontmatter.date)}</span>
                     </div>
                     <CardDescription className="pt-4 text-base">
-                      {weekly.excerpt}
+                      {weekly.frontmatter.excerpt}
                     </CardDescription>
                   </CardHeader>
                   <div className="p-6 pt-0">

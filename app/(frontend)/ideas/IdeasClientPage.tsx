@@ -1,49 +1,62 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import type { IdeaFrontmatter } from '@/lib/ideas';
-import { Content } from '@/lib/content';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { useState, useMemo } from "react";
+import type { IdeaFrontmatter } from "@/lib/ideas";
+import { Content } from "@/lib/content";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-
+} from "@/components/ui/select";
 
 interface IdeasClientPageProps {
-    ideas: Content<IdeaFrontmatter>[];
-    categories: string[];
-    statuses: string[];
+  ideas: Content<IdeaFrontmatter>[];
+  categories: string[];
+  statuses: string[];
 }
 
-export function IdeasClientPage({ ideas, categories, statuses }: IdeasClientPageProps) {
-  const [categoryFilter, setCategoryFilter] = useState('All Categories');
-  const [statusFilter, setStatusFilter] = useState('All Statuses');
+export function IdeasClientPage({
+  ideas,
+  categories,
+  statuses,
+}: IdeasClientPageProps) {
+  const [categoryFilter, setCategoryFilter] = useState("All Categories");
+  const [statusFilter, setStatusFilter] = useState("All Statuses");
 
   const filteredIdeas = useMemo(() => {
-    return ideas.filter(idea => {
-        const categoryMatch = categoryFilter === 'All Categories' || idea.frontmatter.category === categoryFilter;
-        const statusMatch = statusFilter === 'All Statuses' || idea.frontmatter.status === statusFilter;
-        return categoryMatch && statusMatch;
+    return ideas.filter((idea) => {
+      const categoryMatch =
+        categoryFilter === "All Categories" ||
+        idea.frontmatter.category === categoryFilter;
+      const statusMatch =
+        statusFilter === "All Statuses" ||
+        idea.frontmatter.status === statusFilter;
+      return categoryMatch && statusMatch;
     });
   }, [ideas, categoryFilter, statusFilter]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'New':
-        return 'bg-blue-100 text-blue-800';
-      case 'In Progress':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'Completed':
-        return 'bg-green-100 text-green-800';
-      case 'Archived':
-        return 'bg-gray-100 text-gray-800';
+      case "New":
+        return "bg-blue-100 text-blue-800";
+      case "In Progress":
+        return "bg-yellow-100 text-yellow-800";
+      case "Completed":
+        return "bg-green-100 text-green-800";
+      case "Archived":
+        return "bg-gray-100 text-gray-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -51,24 +64,28 @@ export function IdeasClientPage({ ideas, categories, statuses }: IdeasClientPage
     <>
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="w-full md:w-[180px]">
-                <SelectValue placeholder="Filter by category" />
-            </SelectTrigger>
-            <SelectContent>
-                {categories.map(category => (
-                    <SelectItem key={category} value={category}>{category}</SelectItem>
-                ))}
-            </SelectContent>
+          <SelectTrigger className="w-full md:w-[180px]">
+            <SelectValue placeholder="Filter by category" />
+          </SelectTrigger>
+          <SelectContent>
+            {categories.map((category) => (
+              <SelectItem key={category} value={category}>
+                {category}
+              </SelectItem>
+            ))}
+          </SelectContent>
         </Select>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-full md:w-[180px]">
-                <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent>
-                {statuses.map(status => (
-                    <SelectItem key={status} value={status}>{status}</SelectItem>
-                ))}
-            </SelectContent>
+          <SelectTrigger className="w-full md:w-[180px]">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            {statuses.map((status) => (
+              <SelectItem key={status} value={status}>
+                {status}
+              </SelectItem>
+            ))}
+          </SelectContent>
         </Select>
       </div>
 
@@ -78,12 +95,16 @@ export function IdeasClientPage({ ideas, categories, statuses }: IdeasClientPage
             <Card key={idea.slug} className="bg-white shadow-md flex flex-col">
               <CardHeader>
                 <div className="flex justify-between items-start">
-                    <CardTitle className="text-xl font-bold text-[#2C2A25] pr-4">
-                        {idea.frontmatter.title}
-                    </CardTitle>
-                    <Badge className={`flex-shrink-0 ${getStatusColor(idea.frontmatter.status)}`}>
-                        {idea.frontmatter.status}
-                    </Badge>
+                  <CardTitle className="text-xl font-bold text-[#2C2A25] pr-4">
+                    {idea.frontmatter.title}
+                  </CardTitle>
+                  <Badge
+                    className={`flex-shrink-0 ${getStatusColor(
+                      idea.frontmatter.status
+                    )}`}
+                  >
+                    {idea.frontmatter.status}
+                  </Badge>
                 </div>
                 <CardDescription className="text-sm text-gray-500 pt-1">
                   {idea.frontmatter.category}

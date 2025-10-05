@@ -1,23 +1,28 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
-import { getSortedWeeklies } from '@/lib/weeklies';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { GrainEffect } from '@/components/GrainEffect';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Calendar } from 'lucide-react';
+import { Metadata } from "next";
+import Link from "next/link";
+import { getSortedWeeklies } from "@/lib/weeklies";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { GrainEffect } from "@/components/GrainEffect";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Calendar } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: 'Weeklies | Portfolio',
-  description: 'My weekly reports on learnings, progress, and thoughts.',
+  title: "Weeklies | Portfolio",
+  description: "My weekly reports on learnings, progress, and thoughts.",
 };
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  return new Date(dateString).toLocaleDateString("zh-CN", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 };
 
@@ -40,14 +45,18 @@ export default function WeekliesPage() {
               Weeklies
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl">
-              A regular log of my journey. What I'm learning, building, and thinking about each week.
+              A regular log of my journey. What I'm learning, building, and
+              thinking about each week.
             </p>
           </div>
 
           <div className="space-y-8">
             {weeklies.length > 0 ? (
               weeklies.map((weekly) => (
-                <Card key={weekly.slug} className="bg-white shadow-md hover:shadow-lg transition-shadow">
+                <Card
+                  key={weekly.slug}
+                  className="bg-white shadow-md hover:shadow-lg transition-shadow"
+                >
                   <CardHeader>
                     <CardTitle className="text-2xl font-bold text-[#2C2A25] hover:text-[#A2ABB1] transition-colors">
                       <Link href={`/weeklies/${weekly.slug}`}>

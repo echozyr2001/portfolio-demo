@@ -1,22 +1,31 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import type { GadgetFrontmatter } from '@/lib/gadgets';
-import { Content } from '@/lib/content';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ExternalLink } from 'lucide-react';
+import { useState, useMemo } from "react";
+import type { GadgetFrontmatter } from "@/lib/gadgets";
+import { Content } from "@/lib/content";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ExternalLink } from "lucide-react";
 
 interface GadgetsClientPageProps {
-    gadgets: Content<GadgetFrontmatter>[];
-    categories: string[];
+  gadgets: Content<GadgetFrontmatter>[];
+  categories: string[];
 }
 
-export function GadgetsClientPage({ gadgets, categories }: GadgetsClientPageProps) {
-  const [filter, setFilter] = useState('All');
+export function GadgetsClientPage({
+  gadgets,
+  categories,
+}: GadgetsClientPageProps) {
+  const [filter, setFilter] = useState("All");
 
   const filteredGadgets = useMemo(() => {
-    if (filter === 'All') {
+    if (filter === "All") {
       return gadgets;
     }
     return gadgets.filter((g) => g.frontmatter.category === filter);
@@ -28,7 +37,7 @@ export function GadgetsClientPage({ gadgets, categories }: GadgetsClientPageProp
         {categories.map((category) => (
           <Button
             key={category}
-            variant={filter === category ? 'default' : 'outline'}
+            variant={filter === category ? "default" : "outline"}
             onClick={() => setFilter(category)}
             className={
               filter === category
@@ -44,7 +53,10 @@ export function GadgetsClientPage({ gadgets, categories }: GadgetsClientPageProp
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredGadgets.length > 0 ? (
           filteredGadgets.map((gadget) => (
-            <Card key={gadget.slug} className="bg-white shadow-md flex flex-col">
+            <Card
+              key={gadget.slug}
+              className="bg-white shadow-md flex flex-col"
+            >
               <CardHeader>
                 <CardTitle className="text-xl font-bold text-[#2C2A25]">
                   {gadget.frontmatter.title}

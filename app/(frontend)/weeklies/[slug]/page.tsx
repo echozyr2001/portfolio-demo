@@ -1,27 +1,29 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { GrainEffect } from '@/components/GrainEffect';
-import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
-import { Calendar, ArrowLeft } from 'lucide-react';
-import { getAllWeeklySlugs, getWeeklyBySlug } from '@/lib/weeklies';
-import { mdxComponents } from '@/lib/mdx-components';
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { GrainEffect } from "@/components/GrainEffect";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Calendar, ArrowLeft } from "lucide-react";
+import { getAllWeeklySlugs, getWeeklyBySlug } from "@/lib/weeklies";
+import { mdxComponents } from "@/lib/mdx-components";
 
 interface WeeklyPageProps {
-  params: { slug: string; };
+  params: { slug: string };
 }
 
-export async function generateMetadata({ params }: WeeklyPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: WeeklyPageProps): Promise<Metadata> {
   const { slug } = await params;
   const weekly = await getWeeklyBySlug(slug);
 
   if (!weekly) {
     return {
-      title: 'Weekly Report Not Found',
+      title: "Weekly Report Not Found",
     };
   }
 
@@ -37,10 +39,10 @@ export async function generateStaticParams() {
 }
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  return new Date(dateString).toLocaleDateString("zh-CN", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 };
 

@@ -1,30 +1,32 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { GrainEffect } from '@/components/GrainEffect';
-import { ProjectGallery } from '@/components/projects/ProjectGallery';
-import { ArrowLeft, ExternalLink, Github, Star, Calendar } from 'lucide-react';
-import { getAllProjectSlugs, getProjectData } from '@/lib/projects';
-import { mdxComponents } from '@/lib/mdx-components';
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { GrainEffect } from "@/components/GrainEffect";
+import { ProjectGallery } from "@/components/projects/ProjectGallery";
+import { ArrowLeft, ExternalLink, Github, Star, Calendar } from "lucide-react";
+import { getAllProjectSlugs, getProjectData } from "@/lib/projects";
+import { mdxComponents } from "@/lib/mdx-components";
 
 interface ProjectPageProps {
-  params: Promise<{ slug: string; }>;
+  params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
   const { frontmatter } = await getProjectData(slug);
 
   if (!frontmatter) {
     return {
-      title: 'Project Not Found',
+      title: "Project Not Found",
     };
   }
 
@@ -34,7 +36,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     openGraph: {
       title: frontmatter.title,
       description: frontmatter.shortDescription,
-      type: 'website',
+      type: "website",
       images: frontmatter.featuredImage
         ? [
             {
@@ -45,7 +47,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
         : [],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: frontmatter.title,
       description: frontmatter.shortDescription,
       images: frontmatter.featuredImage ? [frontmatter.featuredImage] : [],
@@ -59,10 +61,10 @@ export async function generateStaticParams() {
 }
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  return new Date(dateString).toLocaleDateString("zh-CN", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 };
 
@@ -122,18 +124,25 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   <span>Created {formatDate(frontmatter.date)}</span>
                 </div>
               )}
-              {frontmatter.technologies && frontmatter.technologies.length > 0 && (
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium">Technologies:</span>
-                  <div className="flex flex-wrap gap-1">
-                    {frontmatter.technologies.map((tech: string, index: number) => (
-                      <Badge key={index} variant="outline" className="text-xs">
-                        {tech}
-                      </Badge>
-                    ))}
+              {frontmatter.technologies &&
+                frontmatter.technologies.length > 0 && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium">Technologies:</span>
+                    <div className="flex flex-wrap gap-1">
+                      {frontmatter.technologies.map(
+                        (tech: string, index: number) => (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="text-xs"
+                          >
+                            {tech}
+                          </Badge>
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
 
             <div className="flex flex-wrap gap-4 mb-8">
@@ -191,7 +200,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <>
               <Separator className="my-12" />
               <ProjectGallery images={frontmatter.images} />
-            </> 
+            </>
           )}
 
           <Separator className="my-12" />

@@ -1,4 +1,4 @@
-import { getAllContent, getContentBySlug } from './content';
+import { getAllContent, getContentBySlug, type Content } from "./content";
 
 export type PostFrontmatter = {
   title: string;
@@ -8,11 +8,17 @@ export type PostFrontmatter = {
   tags?: string[];
 };
 
-const CONTENT_TYPE = 'blog';
+export type PostData = Content<PostFrontmatter>;
+
+const CONTENT_TYPE = "blog";
 
 export const getSortedPosts = () => {
   const allPosts = getAllContent<PostFrontmatter>(CONTENT_TYPE);
-  return allPosts.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
+  return allPosts.sort(
+    (a, b) =>
+      new Date(b.frontmatter.date).getTime() -
+      new Date(a.frontmatter.date).getTime()
+  );
 };
 
 export const getPostBySlug = (slug: string) => {

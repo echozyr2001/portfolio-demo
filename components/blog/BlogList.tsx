@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Calendar } from 'lucide-react';
-import type { PostData } from '@/lib/posts';
+import Link from "next/link";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Calendar } from "lucide-react";
+import type { PostData } from "@/lib/posts";
 
 interface BlogListProps {
   posts: PostData[];
 }
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  return new Date(dateString).toLocaleDateString("zh-CN", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 };
 
@@ -65,46 +65,54 @@ export function BlogList({ posts }: BlogListProps) {
 }
 
 function FeaturedPostCard({ post }: { post: PostData }) {
+  const { frontmatter, slug } = post;
+
   return (
     <Card className="overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
       <div className="md:flex">
-        {post.featuredImage && (
+        {frontmatter.featuredImage && (
           <div className="md:w-1/2 relative aspect-video md:aspect-auto">
             <Image
-              src={post.featuredImage}
-              alt={post.title}
+              src={frontmatter.featuredImage}
+              alt={frontmatter.title}
               fill
               className="object-cover"
             />
           </div>
         )}
-        <div className={`${post.featuredImage ? 'md:w-1/2' : 'w-full'} p-8`}>
+        <div
+          className={`${frontmatter.featuredImage ? "md:w-1/2" : "w-full"} p-8`}
+        >
           <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
             <div className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
-              {formatDate(post.date)}
+              {formatDate(frontmatter.date)}
             </div>
           </div>
 
           <h3 className="text-2xl font-bold text-[#2C2A25] mb-4 hover:text-[#A2ABB1] transition-colors">
-            <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+            <Link href={`/blog/${slug}`}>{frontmatter.title}</Link>
           </h3>
 
-          {post.excerpt && (
-            <p className="text-gray-600 mb-6 line-clamp-3">{post.excerpt}</p>
+          {frontmatter.excerpt && (
+            <p className="text-gray-600 mb-6 line-clamp-3">
+              {frontmatter.excerpt}
+            </p>
           )}
 
-          {post.tags && post.tags.length > 0 && (
+          {frontmatter.tags && frontmatter.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-6">
-              {post.tags.slice(0, 3).map((tag, index) => (
-                <Badge key={index} variant="outline" className="text-xs">
-                  {tag}
-                </Badge>
-              ))}
+              {frontmatter.tags
+                .slice(0, 3)
+                .map((tag: string, index: number) => (
+                  <Badge key={index} variant="outline" className="text-xs">
+                    {tag}
+                  </Badge>
+                ))}
             </div>
           )}
 
-          <Link href={`/blog/${post.slug}`}>
+          <Link href={`/blog/${slug}`}>
             <Button
               variant="outline"
               className="rounded-full border-[#A2ABB1] text-[#A2ABB1] hover:bg-[#A2ABB1] hover:text-white"
@@ -120,13 +128,15 @@ function FeaturedPostCard({ post }: { post: PostData }) {
 }
 
 function BlogPostCard({ post }: { post: PostData }) {
+  const { frontmatter, slug } = post;
+
   return (
     <Card className="overflow-hidden bg-white shadow-md hover:shadow-lg transition-shadow duration-300 group">
-      {post.featuredImage && (
+      {frontmatter.featuredImage && (
         <div className="relative aspect-video overflow-hidden">
           <Image
-            src={post.featuredImage}
-            alt={post.title}
+            src={frontmatter.featuredImage}
+            alt={frontmatter.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
@@ -137,38 +147,38 @@ function BlogPostCard({ post }: { post: PostData }) {
         <div className="flex items-center gap-4 text-sm text-gray-500 mb-2">
           <div className="flex items-center gap-1">
             <Calendar className="h-3 w-3" />
-            {formatDate(post.date)}
+            {formatDate(frontmatter.date)}
           </div>
         </div>
 
         <h3 className="text-xl font-semibold text-[#2C2A25] group-hover:text-[#A2ABB1] transition-colors line-clamp-2">
-          <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+          <Link href={`/blog/${slug}`}>{frontmatter.title}</Link>
         </h3>
       </CardHeader>
 
       <CardContent className="pt-0">
-        {post.excerpt && (
+        {frontmatter.excerpt && (
           <p className="text-gray-600 mb-4 line-clamp-3 text-sm">
-            {post.excerpt}
+            {frontmatter.excerpt}
           </p>
         )}
 
-        {post.tags && post.tags.length > 0 && (
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-4">
-            {post.tags.slice(0, 2).map((tag, index) => (
+            {frontmatter.tags.slice(0, 2).map((tag: string, index: number) => (
               <Badge key={index} variant="outline" className="text-xs">
                 {tag}
               </Badge>
             ))}
-            {post.tags.length > 2 && (
+            {frontmatter.tags.length > 2 && (
               <Badge variant="outline" className="text-xs">
-                +{post.tags.length - 2}
+                +{frontmatter.tags.length - 2}
               </Badge>
             )}
           </div>
         )}
 
-        <Link href={`/blog/${post.slug}`}>
+        <Link href={`/blog/${slug}`}>
           <Button
             variant="ghost"
             size="sm"

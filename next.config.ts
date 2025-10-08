@@ -1,28 +1,16 @@
-import type { NextConfig } from 'next';
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  transpilePackages: ['three'],
+  transpilePackages: ["three"],
   experimental: {
     mdxRs: true,
   },
-  webpack: (config, { isServer }) => {
-    // Monaco Editor support and Node.js modules fallback
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        path: false,
-        crypto: false,
-        child_process: false,
-        os: false,
-        util: false,
-        stream: false,
-        buffer: false,
-      };
-    }
-    
-    return config;
+  turbopack: {
+    // 如果需要配置路径别名，可以在这里添加
+    // resolveAlias: {
+    //   '@': './src',
+    // },
   },
 };
 

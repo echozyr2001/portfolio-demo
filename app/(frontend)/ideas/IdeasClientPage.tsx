@@ -64,8 +64,10 @@ export function IdeasClientPage({
     <>
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-          <SelectTrigger className="w-full md:w-[180px]">
-            <SelectValue placeholder="Filter by category" />
+          <SelectTrigger className="w-full md:w-[200px] bg-white text-[#2C2A25]">
+            <SelectValue placeholder="Filter by category">
+              {categoryFilter}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             {categories.map((category) => (
@@ -76,8 +78,10 @@ export function IdeasClientPage({
           </SelectContent>
         </Select>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-full md:w-[180px]">
-            <SelectValue placeholder="Filter by status" />
+          <SelectTrigger className="w-full md:w-[200px] bg-white text-[#2C2A25]">
+            <SelectValue placeholder="Filter by status">
+              {statusFilter}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             {statuses.map((status) => (

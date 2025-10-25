@@ -12,6 +12,13 @@ const nextConfig: NextConfig = {
     //   '@': './src',
     // },
   },
+  images: {
+    localPatterns: [
+      {
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
